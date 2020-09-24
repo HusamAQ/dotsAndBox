@@ -24,9 +24,8 @@ public class scoreBox extends JLabel {
         System.out.println("AVGX: "+avgX+" AVGY: "+avgY);
     }
     public void setText(){
-        System.out.println("GOOOOOO");
-        this.setBounds(avgX-25, avgY-25, 50, 50);
-        this.setFont(new Font("TimesRoman",Font.BOLD,50));
+        this.setBounds(avgX-15, avgY-30, 50, 50);
+        this.setFont(new Font("TimesRoman",Font.BOLD,30));
         if(player1Turn){
             this.setForeground(Color.RED);
             this.setText(Integer.toString(player1Score+1));
