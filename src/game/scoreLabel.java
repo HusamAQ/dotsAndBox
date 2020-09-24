@@ -17,7 +17,7 @@ public class scoreLabel extends JLabel {
         if(num==1) {
             this.setText(Integer.toString(player1Score));
             this.setForeground(Color.RED);
-            this.setBounds(Paths.FRAME_WIDTH / 4, 20, 100, 100);
+            this.setBounds(Paths.FRAME_WIDTH / 4, 20, 50, 50);
 
         }else{
             this.setText(Integer.toString(player2Score));
