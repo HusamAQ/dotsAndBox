@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
-public class Vertex extends JLabel {
+public class Vertex {
     int id;
     Vertex leftVertex=null;
     Vertex rightVertex=null;
@@ -14,16 +14,6 @@ public class Vertex extends JLabel {
     Vertex downVertex=null;
     int height;
     int width;
-    public Vertex(Vertex left, Vertex right, Vertex up, Vertex down){
-        setBounds(width-15,height-15,30,30);
-        setForeground(Color.BLACK);
-        setBackground(Color.BLACK);
-        setOpaque(true);
-        leftVertex=left;
-        rightVertex=right;
-        upVertex=up;
-        downVertex=down;
-    }
     public Vertex(int id){
         this.id=id;
     }
@@ -48,9 +38,6 @@ public class Vertex extends JLabel {
         width=50+(id%Gwidth)*widthM;
         height=100+(id/Gwidth)*heightM;
     }
- //   public void createCircle(){
- //       circle=new Ellipse2D.Double(width-10,height-10,20,20);
-   // }
 
 
     public String toString(){
