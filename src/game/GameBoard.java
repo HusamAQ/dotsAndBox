@@ -7,14 +7,14 @@ import javax.swing.*;
 import javax.swing.plaf.LayerUI;
 import java.awt.*;
 
-public class GameBoard {
+public class GameBoard{
     JFrame frame;
     Graph graph;
     paintBoard panel;
     public GameBoard(){
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        graph = new Graph(4,4);
+        graph = new Graph(2,3,frame);
         graph.createGraph();
         panel = new paintBoard(graph);
         LayerUI<JComponent> layerUI = new dotDrawer(graph);

@@ -11,8 +11,9 @@ import static game.Graph.*;
 public class scoreBox extends JLabel {
     int avgX;
     int avgY;
+    boolean activated;
     public scoreBox(ArrayList<Vertex> box){
-        System.out.println("BOX: "+ box.get(0).id +"; X: "+box.get(0).width+" Y: "+box.get(0).height+" BOX: "+ box.get(1).id +"; X: "+box.get(1).width+" Y: "+box.get(1).height+" BOX: "+ box.get(2).id +"; X: "+box.get(2).width+" Y: "+box.get(2).height+" BOX: "+ box.get(3).id +"; X: "+box.get(3).width+" Y: "+box.get(3).height);
+        activated=false;
         avgX=0;
         avgY=0;
         for(Vertex v:box){
@@ -21,9 +22,9 @@ public class scoreBox extends JLabel {
         }
         avgX=avgX/4;
         avgY=avgY/4;
-        System.out.println("AVGX: "+avgX+" AVGY: "+avgY);
     }
     public void setText(){
+        activated=true;
         this.setBounds(avgX-15, avgY-30, 50, 50);
         this.setFont(new Font("TimesRoman",Font.BOLD,30));
         if(player1Turn){

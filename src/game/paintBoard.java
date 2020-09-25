@@ -3,11 +3,8 @@ package game;
 import graphics.Paths;
 
 import javax.swing.*;
-import javax.swing.plaf.LayerUI;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.geom.Ellipse2D;
+
 
 import static game.Graph.*;
 

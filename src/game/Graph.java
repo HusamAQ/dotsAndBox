@@ -1,5 +1,6 @@
 package game;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,11 +18,17 @@ public class Graph {
     static int player1Score = 0;
     static int player2Score = 0;
     static ArrayList<scoreBox> counterBoxes;
-    public Graph(int h, int w){
+    static gameOver screen;
+    JFrame frame;
+    public Graph(int h, int w, JFrame screen){
         height=h;
         width=w;
+        frame=screen;
     }
     public void createGraph(){
+        player1Score=0;
+        player2Score=0;
+        screen = new gameOver(frame);
         counterBoxes= new ArrayList<>();
         score1=new scoreLabel(1);
         score2=new scoreLabel(2);
@@ -54,9 +61,6 @@ public class Graph {
             }
         }
         for (Vertex a:vertexList) {
-            System.out.println(a);
-        }
-        for (Vertex a:vertexList) {
             if(a.leftVertex!=null){
                 matrix[a.id][a.leftVertex.id]=1;
             }
@@ -70,7 +74,6 @@ public class Graph {
                 matrix[a.id][a.downVertex.id]=1;
             }
         }
-        System.out.println(Arrays.deepToString(matrix));
         edgeList= new ArrayList<>();
         int[][] matrixCopy = matrix;
         for(int r=0;r<matrix.length;r++){
@@ -80,9 +83,6 @@ public class Graph {
                     matrixCopy[q][r]=3;
                 }
             }
-        }
-        for(Edge ed:edgeList){
-            System.out.println(ed);
         }
         for(int r=0;r<height;r++){
             for(int c=0;c<width;c++){

@@ -54,12 +54,13 @@ public class ELine extends JLabel {
                             if (player1Turn) {
                                 player1Score++;
                                 Graph.score1.setScore();
-                                System.out.println("Player 1: " + player1Score);
                             } else {
                                 player2Score++;
                                 Graph.score2.setScore();
-                                System.out.println("Player 2: " + player2Score);
                             }
+                        }
+                        if(checkFinished()){
+                            screen.toggle();
                         }
                     } else {
                         if (player1Turn) {
@@ -71,6 +72,14 @@ public class ELine extends JLabel {
                 }
             }
         });
+    }
+    public boolean checkFinished(){
+        for(scoreBox box:counterBoxes){
+            if(!box.activated){
+                return false;
+            }
+        }
+        return true;
     }
     public void checkMatching(ArrayList<Vertex> box){
         int avgX=0;

@@ -39,7 +39,6 @@ public class Vertex {
         height=100+(id/Gwidth)*heightM;
     }
 
-
     public String toString(){
         String toReturn = "ID: "+id;
         if(rightVertex!=null){
