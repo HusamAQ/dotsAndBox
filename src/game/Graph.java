@@ -12,6 +12,8 @@ public class Graph {
     List<Edge> edgeList;
     int height;
     int width;
+    static int gamesWon1=0;
+    static int gamesWon2=0;
     static scoreLabel score1;
     static scoreLabel score2;
     static boolean player1Turn = true;
