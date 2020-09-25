@@ -4,6 +4,7 @@ import graphics.Paths;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 
 import static game.Graph.*;
@@ -14,9 +15,10 @@ public class paintBoard extends JPanel {
         graph=gr;
         this.setLayout(null);
         this.setBackground(Color.WHITE);
-
+        availableLines= new ArrayList<>();
         for(int w=0;w<graph.edgeList.size();w++){
             graph.edgeList.get(w).createLine();
+            availableLines.add(graph.edgeList.get(w).line);
             this.add(graph.edgeList.get(w).line);
         }
         this.add(Graph.score1);

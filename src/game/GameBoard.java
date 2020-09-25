@@ -5,7 +5,9 @@ import graphics.Paths;
 
 import javax.swing.*;
 import javax.swing.plaf.LayerUI;
-import java.awt.*;
+
+import static game.Graph.activateRandom;
+import static game.Graph.randBot;
 
 public class GameBoard{
     JFrame frame;
@@ -14,7 +16,7 @@ public class GameBoard{
     public GameBoard(){
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        graph = new Graph(3,3,frame);
+        graph = new Graph(3,4,frame);
         graph.createGraph();
         panel = new paintBoard(graph);
         LayerUI<JComponent> layerUI = new dotDrawer(graph);
@@ -23,5 +25,13 @@ public class GameBoard{
         frame.setResizable(false);
         frame.add(jlayer);
         frame.setVisible(true);
+        if(activateRandom){
+            if(graph.randBotPlayer1){
+                randBot.placeRandomEdge();
+                if(graph.player1Turn){
+                    graph.player1Turn=false;
+                }
+            }
+        }
     }
 }

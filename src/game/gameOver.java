@@ -69,12 +69,17 @@ public class gameOver{
                 next.setVisible(false);
             }
         });
+        JLabel score = new JLabel();
+        score.setFont(new Font("TimesRoman",Font.PLAIN,(int)(Math.sqrt(Paths.FRAME_HEIGHT*Paths.FRAME_WIDTH)/20)));
+        score.setForeground(Color.WHITE);
+        score.setText("The score was " + player1Score+" : "+player2Score);
         panel.add(text);
         panel.add(otherText);
         panel.add(wonCounter);
         panel.add(playAgain);
+        panel.add(score);
         next.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        next.setSize(Paths.FRAME_WIDTH,Paths.FRAME_HEIGHT/2);
+        next.setSize(Paths.FRAME_WIDTH,Paths.FRAME_HEIGHT);
         next.setResizable(false);
         next.add(panel);
         next.setVisible(true);

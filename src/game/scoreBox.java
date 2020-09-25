@@ -12,10 +12,12 @@ public class scoreBox extends JLabel {
     int avgX;
     int avgY;
     boolean activated;
+    public ArrayList<Vertex> vertices;
     public scoreBox(ArrayList<Vertex> box){
         activated=false;
         avgX=0;
         avgY=0;
+        vertices=box;
         for(Vertex v:box){
             avgX+=v.width;
             avgY+=v.height;

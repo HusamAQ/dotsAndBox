@@ -5,15 +5,16 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static game.Graph.*;
 
 
 public class ELine extends JLabel {
-    boolean activated = false;
+    public boolean activated = false;
     int startX;
     int startY;
-    ArrayList<Vertex> vertices;
+    public ArrayList<Vertex> vertices;
     public ELine(int w,int h,int x,int y,ArrayList<Vertex> v){
         vertices=v;
         startX=x;
@@ -22,6 +23,7 @@ public class ELine extends JLabel {
         setBounds(x,y,w,h);
         setOpaque(true);
         addMouseListener(new MouseAdapter() {
+
             @Override
             public void mouseEntered(MouseEvent e){
                 if(!activated) {
@@ -43,6 +45,11 @@ public class ELine extends JLabel {
             public void mousePressed(MouseEvent e) {
                 if(!activated) {
                     activated=true;
+                    for(int p=availableLines.size()-1;p>=0;p--){
+                        if(availableLines.get(p).vertices.get(0).id==vertices.get(0).id&&availableLines.get(p).vertices.get(1).id==vertices.get(1).id){
+                            availableLines.remove(p);
+                        }
+                    }
                     setBackground(Color.BLACK);
                     repaint();
                     Graph.matrix[vertices.get(0).id][vertices.get(1).id] = 2;
@@ -62,11 +69,20 @@ public class ELine extends JLabel {
                         if(checkFinished()){
                             screen.toggle();
                         }
+                        if(activateRandom&&randBotPlayer1==player1Turn){
+                            randBot.placeRandomEdge();
+                        }
                     } else {
                         if (player1Turn) {
                             player1Turn = false;
+                            if(!randBotPlayer1&&activateRandom){
+                                randBot.placeRandomEdge();
+                            }
                         } else {
                             player1Turn = true;
+                            if(randBotPlayer1&&activateRandom){
+                                randBot.placeRandomEdge();
+                            }
                         }
                     }
                 }

@@ -1,26 +1,28 @@
 package game;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Graph {
-    static int[][] matrix;
-    List<Vertex> vertexList;
-    List<Edge> edgeList;
+    public static randomBot randBot = new randomBot();
+    public static boolean randBotPlayer1 = true;
+    public static boolean activateRandom = true;
+    public static int[][] matrix;
+    public static List<Vertex> vertexList;
+    public static List<Edge> edgeList;
+    public static List<ELine> availableLines;
     int height;
     int width;
     static int gamesWon1=0;
     static int gamesWon2=0;
-    static scoreLabel score1;
-    static scoreLabel score2;
-    static boolean player1Turn = true;
-    static int player1Score = 0;
-    static int player2Score = 0;
-    static ArrayList<scoreBox> counterBoxes;
-    static gameOver screen;
+    public static scoreLabel score1;
+    public static scoreLabel score2;
+    public static boolean player1Turn = true;
+    public static int player1Score = 0;
+    public static int player2Score = 0;
+    public static ArrayList<scoreBox> counterBoxes;
+    public static gameOver screen;
     JFrame frame;
     public Graph(int h, int w, JFrame screen){
         height=h;
@@ -86,6 +88,7 @@ public class Graph {
                 }
             }
         }
+
         for(int r=0;r<height;r++){
             for(int c=0;c<width;c++){
                 if(r<height-1&&c<width-1) {
@@ -93,8 +96,7 @@ public class Graph {
                     box.add(vertexList.get(counter));
                     box.add(vertexList.get(counter + 1));
                     box.add(vertexList.get(counter + width));
-                    box.add(vertexList.get(counter + width
-                            + 1));
+                    box.add(vertexList.get(counter + width + 1));
                     counterBoxes.add(new scoreBox(box));
                 }
                 counter++;

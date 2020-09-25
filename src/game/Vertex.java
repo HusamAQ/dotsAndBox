@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
 public class Vertex {
-    int id;
+    public int id;
     Vertex leftVertex=null;
     Vertex rightVertex=null;
     Vertex upVertex=null;
