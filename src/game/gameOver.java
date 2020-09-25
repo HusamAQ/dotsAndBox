@@ -24,13 +24,13 @@ public class gameOver{
         next= new JFrame();
         panel = new JPanel(new BorderLayout());
         panel.setBounds(0, 0,Paths.FRAME_WIDTH,Paths.FRAME_HEIGHT);
-        panel.setBackground(Color.BLACK);
+        panel.setBackground(Color.DARK_GRAY);
         panel.setOpaque(true);
         JLabel text = new JLabel();
         text.setText("GAME OVER");
-        text.setFont(new Font("TimesRoman",Font.BOLD,100));
+        text.setFont(new Font("TimesRoman",Font.BOLD, (int)(Math.sqrt(Paths.FRAME_HEIGHT*Paths.FRAME_WIDTH)/8)));
         JLabel otherText = new JLabel();
-        otherText.setFont(new Font("TimesRoman",Font.PLAIN,70));
+        otherText.setFont(new Font("TimesRoman",Font.PLAIN,(int)(Math.sqrt(Paths.FRAME_HEIGHT*Paths.FRAME_WIDTH)/10)));
         if(player1Score>player2Score){
             text.setForeground(Color.RED);
             otherText.setForeground(Color.RED);
@@ -58,7 +58,7 @@ public class gameOver{
         panel.add(otherText,BorderLayout.CENTER);
         panel.add(playAgain,BorderLayout.SOUTH);
         next.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        next.setSize(Paths.FRAME_WIDTH,(int)(Paths.FRAME_HEIGHT/1.5));
+        next.setSize(Paths.FRAME_WIDTH,Paths.FRAME_HEIGHT);
         next.setResizable(false);
         next.add(panel);
         next.setVisible(true);

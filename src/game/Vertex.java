@@ -33,7 +33,7 @@ public class Vertex {
         this.downVertex = downVertex;
     }
     public void setPosition(int Gwidth, int Gheight){
-        int widthM=(Paths.FRAME_WIDTH-150)/(Gwidth-1);
+        int widthM=(Paths.FRAME_WIDTH-100)/(Gwidth-1);
         int heightM=(Paths.FRAME_HEIGHT-150)/(Gheight-1);
         width=50+(id%Gwidth)*widthM;
         height=100+(id/Gwidth)*heightM;

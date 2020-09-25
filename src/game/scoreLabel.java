@@ -3,6 +3,8 @@ package game;
 import graphics.Paths;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
 
 import java.awt.*;
 
@@ -12,8 +14,12 @@ import static game.Graph.player2Score;
 public class scoreLabel extends JLabel {
     int num;
     public scoreLabel(int num){
+        setBorder(BorderFactory.createStrokeBorder(new BasicStroke(5.0f)));
+        setBackground(Color.LIGHT_GRAY);
+        setOpaque(true);
         this.num=num;
         this.setFont(new Font("TimesRoman",Font.PLAIN,30));
+        setHorizontalAlignment(SwingConstants.CENTER);
         if(num==1) {
             this.setText(Integer.toString(player1Score));
             this.setForeground(Color.RED);
