@@ -16,7 +16,7 @@ public class GameBoard{
     public GameBoard(){
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        graph = new Graph(3,4,frame);
+        graph = new Graph(8,5,frame);
         graph.createGraph();
         panel = new paintBoard(graph);
         LayerUI<JComponent> layerUI = new dotDrawer(graph);

@@ -6,19 +6,19 @@ import java.util.List;
 
 public class Graph {
     public static randomBot randBot = new randomBot();
-    public static boolean randBotPlayer1 = true;
+    public static boolean randBotPlayer1 = false;
     public static boolean activateRandom = true;
     public static int[][] matrix;
     public static List<Vertex> vertexList;
     public static List<Edge> edgeList;
-    public static List<ELine> availableLines;
-    int height;
-    int width;
+    public static ArrayList<ELine> availableLines;
+    public static int height;
+    public static int width;
     static int gamesWon1=0;
     static int gamesWon2=0;
     public static scoreLabel score1;
     public static scoreLabel score2;
-    public static boolean player1Turn = true;
+    public static boolean player1Turn;
     public static int player1Score = 0;
     public static int player2Score = 0;
     public static ArrayList<scoreBox> counterBoxes;
@@ -30,6 +30,7 @@ public class Graph {
         frame=screen;
     }
     public void createGraph(){
+        player1Turn=true;
         player1Score=0;
         player2Score=0;
         screen = new gameOver(frame);
@@ -79,11 +80,18 @@ public class Graph {
             }
         }
         edgeList= new ArrayList<>();
-        int[][] matrixCopy = matrix;
+        availableLines = new ArrayList<>();
+        int[][] matrixCopy = new int[matrix.length][matrix[0].length];
         for(int r=0;r<matrix.length;r++){
             for(int q=0;q<matrix[0].length;q++){
+                if(matrixCopy[r][q]!=3) {
+                    matrixCopy[r][q] = matrix[r][q];
+                }
                 if(matrixCopy[r][q]==1){
-                    edgeList.add(new Edge(vertexList.get(r), vertexList.get(q)));
+                    Edge ne = new Edge(vertexList.get(r), vertexList.get(q));
+                    ne.createLine();
+                    availableLines.add(ne.line);
+                    edgeList.add(ne);
                     matrixCopy[q][r]=3;
                 }
             }

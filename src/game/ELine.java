@@ -15,8 +15,14 @@ public class ELine extends JLabel {
     int startX;
     int startY;
     public ArrayList<Vertex> vertices;
+    boolean horizontal;
     public ELine(int w,int h,int x,int y,ArrayList<Vertex> v){
         vertices=v;
+        if(vertices.get(1).id-vertices.get(0).id==1){
+            horizontal=true;
+        }else{
+            horizontal=false;
+        }
         startX=x;
         startY=y;
         setBackground(Color.WHITE);
@@ -114,7 +120,7 @@ public class ELine extends JLabel {
     }
     public ArrayList<ArrayList<Vertex>> checkBox(){
         ArrayList<ArrayList<Vertex>> listOfBoxes = new ArrayList<>();
-        if(vertices.get(1).id-vertices.get(0).id==1){
+        if(horizontal){
             if(vertices.get(0).upVertex!=null){
                 if(Graph.matrix[vertices.get(0).id][vertices.get(0).upVertex.id]==2&&Graph.matrix[vertices.get(1).id][vertices.get(1).upVertex.id]==2&&Graph.matrix[vertices.get(0).upVertex.id][vertices.get(1).upVertex.id]==2){
                     ArrayList<Vertex> box = new ArrayList<>();

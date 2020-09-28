@@ -7,6 +7,7 @@ import game.scoreBox;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static game.Graph.*;
 
@@ -15,10 +16,12 @@ public class randomBot {
     public randomBot(){}
     public void placeRandomEdge() {
         boolean stop=false;
-        int chosen = (int)(Math.random()*availableLines.size());
+        int chosen;
         int c=checkForBox();
         if(c!=-1){
             chosen=c;
+        }else{
+            chosen= checkFor3s(availableLines);
         }
         availableLines.get(chosen).activated=true;
         availableLines.get(chosen).setBackground(Color.BLACK);
@@ -94,5 +97,46 @@ public class randomBot {
         }
         System.out.println("ERROR");
         return -1;
+    }
+    public int checkFor3s(ArrayList<ELine> avail){
+        ArrayList<Integer> av = new ArrayList<>();
+        for(int q=0;q<avail.size();q++){
+            ELine edge = avail.get(q);
+            boolean noBox=true;
+            if(!edge.horizontal){
+                int leftBox=0;
+                int rightBox=0;
+                if(edge.vertices.get(0).rightVertex!=null){
+                    rightBox = matrix[edge.vertices.get(0).id][edge.vertices.get(0).id+1]+matrix[edge.vertices.get(0).id+1][edge.vertices.get(1).id+1]+matrix[edge.vertices.get(1).id][edge.vertices.get(1).id+1];
+                }
+                if(edge.vertices.get(0).leftVertex!=null){
+                    leftBox=matrix[edge.vertices.get(0).id][edge.vertices.get(0).id-1]+matrix[edge.vertices.get(0).id-1][edge.vertices.get(1).id-1]+matrix[edge.vertices.get(1).id][edge.vertices.get(1).id-1];
+                }
+                if(leftBox==5||rightBox==5){
+                    noBox=false;
+                }
+            }else{
+                int downBox=0;
+                int upBox=0;
+                if(edge.vertices.get(0).downVertex!=null){
+                    downBox=matrix[edge.vertices.get(0).id][edge.vertices.get(0).id+ width]+matrix[edge.vertices.get(0).id+width][edge.vertices.get(1).id+width]+matrix[edge.vertices.get(1).id][edge.vertices.get(1).id+width];
+                }
+                if(edge.vertices.get(0).upVertex!=null){
+                    upBox=matrix[edge.vertices.get(0).id][edge.vertices.get(0).id-width]+matrix[edge.vertices.get(0).id-width][edge.vertices.get(1).id-width]+matrix[edge.vertices.get(1).id][edge.vertices.get(1).id-width];
+                }
+                if(upBox==5||downBox==5){
+                    noBox=false;
+                }
+            }
+            if(noBox){
+                av.add(q);
+            }
+        }
+        if(av.size()>0){
+            int ret = av.get((int)(Math.random()*av.size()));
+            return ret;
+        }else{
+            return (int)(Math.random()*avail.size());
+        }
     }
 }
