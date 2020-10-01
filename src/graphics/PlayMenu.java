@@ -1,8 +1,14 @@
 package graphics;
 
 import javax.swing.*;
+import javax.swing.text.NumberFormatter;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 public class PlayMenu implements Menu{
 	private static Menu instance=null;
@@ -11,10 +17,12 @@ public class PlayMenu implements Menu{
 	private JButton back,play,human,bot,size1,size2,size3,custom;
 	private JTextField player1name, player2name;
 	private JFormattedTextField boardW, boardH;
+	private JCheckBox initials;
 	
 	private MenuBasic base;
 	
 	private boolean botActive=false;
+	private boolean showInitials=false;
 	private int size=1;
 
 
@@ -43,6 +51,7 @@ public class PlayMenu implements Menu{
 		this.playMenuPanel.add(player2name);
 		this.playMenuPanel.add(boardW);
 		this.playMenuPanel.add(boardH);
+		this.playMenuPanel.add(initials);
 	}
 	@Override
 	public JPanel getPanel() {
@@ -86,6 +95,12 @@ public class PlayMenu implements Menu{
 		
 		player1name.setLocation(178,202);
 		player2name.setLocation(178,255);
+		
+		initials= new JCheckBox();
+		initials.setSize(30, 30);
+		initials.setLocation(178,302);
+		initials.setOpaque(false);
+		initials.addItemListener(new ItemListener() {public void itemStateChanged(ItemEvent e) {showInitials=!showInitials;}});
 	}
 
 	private void setUpBoard(){
@@ -94,21 +109,24 @@ public class PlayMenu implements Menu{
 		size3=Button(Paths.BUTTON_SIZE3);
 		custom=Button(Paths.BUTTON_CUSTOM);
 		
-		size1.setLocation(164,329);
-		size2.setLocation(323,329);
-		size3.setLocation(475,329);
-		custom.setLocation(164,379);
+		size1.setLocation(164,339);
+		size2.setLocation(323,339);
+		size3.setLocation(475,339);
+		custom.setLocation(164,389);
 		
-		boardW= new JFormattedTextField("5");
-		boardH= new JFormattedTextField("5");
+		boardW= new JFormattedTextField(new NumberFormatter(new DecimalFormat("##")));
+		boardH= new JFormattedTextField(new NumberFormatter(new DecimalFormat("##")));
+		boardW.setValue(5);
+		boardH.setValue(5);
 		
-		boardW.setLocation(365, 390);
+		boardW.setLocation(365, 400);
 		boardW.setSize(40, 40);
 		boardW.setEditable(false);
 		
-		boardH.setLocation(440, 390);
+		boardH.setLocation(440, 400);
 		boardH.setSize(40, 40);
 		boardH.setEditable(false);
+		
 		
 		
 		size1.addActionListener(new ActionListener(){ public void actionPerformed(ActionEvent e){setActiveSize(1);}});

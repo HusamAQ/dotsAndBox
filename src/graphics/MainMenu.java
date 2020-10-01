@@ -19,7 +19,7 @@ public class MainMenu implements Menu{
 		this.MainMenuPanel=new Background(Paths.BACKGROUND_MAIN);
 		this.MainMenuPanel.setLayout(null);
 		setUpImageButtons();
-		System.out.println("Done");
+//		System.out.println("Done");
 	}
 	
 	public void setUpActionListeners(MenuBasic base,Menu playM, Menu rulesM, Menu creditsM) {
