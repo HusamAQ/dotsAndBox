@@ -11,10 +11,16 @@ import static game.Graph.*;
 
 
 public class ELine extends JLabel {
+    // The graphical display of the edges
+
+    // Whether the line has been clicked or not
     public boolean activated = false;
+    // the bottom left x and y coordinates of the line
     int startX;
     int startY;
+    // the vertices
     public ArrayList<Vertex> vertices;
+    // whether it's horizontal
     boolean horizontal;
     public ELine(int w,int h,int x,int y,ArrayList<Vertex> v){
         vertices=v;
@@ -25,11 +31,13 @@ public class ELine extends JLabel {
         }
         startX=x;
         startY=y;
+        // the line starts off invisible, e.g White
         setBackground(Color.WHITE);
         setBounds(x,y,w,h);
         setOpaque(true);
+        // the mouseListener
         addMouseListener(new MouseAdapter() {
-
+            // when the player hovers over a line it displays it in their colour
             @Override
             public void mouseEntered(MouseEvent e){
                 if(!activated) {
@@ -46,24 +54,31 @@ public class ELine extends JLabel {
                     setBackground(Color.WHITE);
                 }
             }
-
+            // when clicked
             @Override
             public void mousePressed(MouseEvent e) {
+                //  if the line has not been activated before
                 if(!activated) {
                     activated=true;
+                    // remove the ELine from availableLines
                     for(int p=availableLines.size()-1;p>=0;p--){
                         if(availableLines.get(p).vertices.get(0).id==vertices.get(0).id&&availableLines.get(p).vertices.get(1).id==vertices.get(1).id){
                             availableLines.remove(p);
                         }
                     }
+                    // make it black
                     setBackground(Color.BLACK);
                     repaint();
+                    // set the adjacency matrix to 2, 2==is a line, 1==is a possible line
                     Graph.matrix[vertices.get(0).id][vertices.get(1).id] = 2;
                     Graph.matrix[vertices.get(1).id][vertices.get(0).id] = 2;
+                    // gets an arrayList of each box the ELine creates. The box is an arrayList of 4 vertices.
                     ArrayList<ArrayList<Vertex>> boxes = checkBox();
                     if (boxes != null) {
                         for (ArrayList<Vertex> box : boxes) {
+                            // looks through the counterBoxes arrayList and sets the matching one visible.
                             checkMatching(box);
+                            // updates the score board
                             if (player1Turn) {
                                 player1Score++;
                                 Graph.score1.setScore();
@@ -72,13 +87,16 @@ public class ELine extends JLabel {
                                 Graph.score2.setScore();
                             }
                         }
+                        // if every counterBox has been activated, the game is over
                         if(checkFinished()){
                             screen.toggle();
                         }
+                        // if it's the random box's turn and it creates a box, it will have another turn.
                         if(activateRandom&&randBotPlayer1==player1Turn){
                             randBot.placeRandomEdge();
                         }
                     } else {
+                        // switches turn. If randomBot is active switches to their turn.
                         if (player1Turn) {
                             player1Turn = false;
                             if(!randBotPlayer1&&activateRandom){
@@ -95,6 +113,7 @@ public class ELine extends JLabel {
             }
         });
     }
+    // if every scoreBox is active, the game is over
     public boolean checkFinished(){
         for(scoreBox box:counterBoxes){
             if(!box.activated){
@@ -103,6 +122,7 @@ public class ELine extends JLabel {
         }
         return true;
     }
+    // checks to find the matching box in counterBoxes through their average x and y coordinates, then displays it.
     public void checkMatching(ArrayList<Vertex> box){
         int avgX=0;
         int avgY=0;
@@ -118,6 +138,7 @@ public class ELine extends JLabel {
             }
         }
     }
+    // checks whether an edge creates a box, through the adjacency matrix
     public ArrayList<ArrayList<Vertex>> checkBox(){
         ArrayList<ArrayList<Vertex>> listOfBoxes = new ArrayList<>();
         if(horizontal){
@@ -163,6 +184,7 @@ public class ELine extends JLabel {
                 }
             }
         }
+        // if it creates no boxes, return null.
         if(listOfBoxes.isEmpty()){
             return null;
         }

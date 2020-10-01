@@ -5,23 +5,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Graph {
+    // Overarching game class
+
     public static randomBot randBot = new randomBot();
+    // chooses whether randBot will be player 1 or 2
     public static boolean randBotPlayer1 = false;
+    // chooses whether randBot is active
     public static boolean activateRandom = true;
+    // Adjacency matrix
     public static int[][] matrix;
+    // List of dots
     public static List<Vertex> vertexList;
+    // List of edges
     public static List<Edge> edgeList;
+    // List of lines (edges) that haven't been activated yet
     public static ArrayList<ELine> availableLines;
+    // Height and width of the dots
     public static int height;
     public static int width;
+    // tracking how many games each player has won
     static int gamesWon1=0;
     static int gamesWon2=0;
+    // The JLabels for displaying the score
     public static scoreLabel score1;
     public static scoreLabel score2;
+    // tracking whether it's player 1's turn or not
     public static boolean player1Turn;
+    // tracking the score in a game
     public static int player1Score = 0;
     public static int player2Score = 0;
+    // All of the boxes, so if a box is completed this displays, can be either initials or the score counter
     public static ArrayList<scoreBox> counterBoxes;
+    // Game over screen
     public static gameOver screen;
     JFrame frame;
     public Graph(int h, int w, JFrame screen){
@@ -29,6 +44,7 @@ public class Graph {
         width=w;
         frame=screen;
     }
+    // Sets up the game
     public void createGraph(){
         player1Turn=true;
         player1Score=0;
@@ -37,15 +53,17 @@ public class Graph {
         counterBoxes= new ArrayList<>();
         score1=new scoreLabel(1);
         score2=new scoreLabel(2);
-
         vertexList= new ArrayList<>();
+        // Creates every vertex and sets it's ID and position
         for(int w=0;w<height*width;w++){
             vertexList.add(new Vertex(w));
             vertexList.get(w).setPosition(width, height);
         }
         int counter =0;
+        // Creates adjacency matrix
         matrix= new int[vertexList.size()][vertexList.size()];
         int id=0;
+        // sets the adjacent vertices for each vertex
         for(int l=0;l<height;l++){
             for(int e=0;e<width;e++){
                 Vertex temp = vertexList.get(id);
@@ -65,6 +83,7 @@ public class Graph {
                 id++;
             }
         }
+        // sets all of the available edges in the adjacency matrix to 1
         for (Vertex a:vertexList) {
             if(a.leftVertex!=null){
                 matrix[a.id][a.leftVertex.id]=1;
@@ -81,9 +100,12 @@ public class Graph {
         }
         edgeList= new ArrayList<>();
         availableLines = new ArrayList<>();
+        // creates a copy of the matrix to create the list of edges
         int[][] matrixCopy = new int[matrix.length][matrix[0].length];
         for(int r=0;r<matrix.length;r++){
             for(int q=0;q<matrix[0].length;q++){
+                // If a space in the matrix == 1, then it creates and edge and adds it to the edge list, it then sets it so the inverse isn't added
+                // e.g it adds the edge 0--1 but not 1--0
                 if(matrixCopy[r][q]!=3) {
                     matrixCopy[r][q] = matrix[r][q];
                 }
@@ -96,7 +118,7 @@ public class Graph {
                 }
             }
         }
-
+        // creates each available box and adds it to the counterBoxes list. This is for displaying what pops up when you complete a box
         for(int r=0;r<height;r++){
             for(int c=0;c<width;c++){
                 if(r<height-1&&c<width-1) {
@@ -113,13 +135,19 @@ public class Graph {
     }
 
     public class Edge {
+        // overall edge class
+
+        // the vertices in the edge
         ArrayList<Vertex> vertices;
+        // The graphical display of the edge and the actionListener is stored in ELine
         ELine line;
+        // Whether the edge is horizontal or vertical
         boolean horizontal;
         public Edge(Vertex one, Vertex two){
             vertices=new ArrayList<>();
             vertices.add(one);
             vertices.add(two);
+            // if the second vertex id - the first vertex id == 1 then it's horizontal. E.g 3-2=1 but 6-3!=1
             if(two.id-one.id==1){
                 horizontal=true;
             }
@@ -127,6 +155,7 @@ public class Graph {
                 horizontal=false;
             }
         }
+        // Creates the ELine
         public void createLine(){
             if(horizontal){
                 int wid=vertices.get(1).width-vertices.get(0).width;

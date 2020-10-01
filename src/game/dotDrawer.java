@@ -5,6 +5,7 @@ import javax.swing.plaf.LayerUI;
 import java.awt.*;
 
 public class dotDrawer extends LayerUI<JComponent> {
+    // Layers the dots over the JPanel/JLabels
     Graph graph;
     public dotDrawer(Graph g){
         graph=g;

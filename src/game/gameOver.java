@@ -11,13 +11,16 @@ import java.awt.event.ActionListener;
 import static game.Graph.*;
 
 public class gameOver{
+    // JFrame for the current game, so it can close it down
     JFrame frame;
+    // game over screen.
     JFrame next;
     JPanel panel;
 
     public gameOver(JFrame frame){
         this.frame=frame;
     }
+    // turns it on
     public void toggle(){
         frame.setVisible(false);
         next= new JFrame();
@@ -62,6 +65,7 @@ public class gameOver{
             }
         }
         JButton playAgain = new JButton("Play again?");
+        // creates the next game
         playAgain.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
