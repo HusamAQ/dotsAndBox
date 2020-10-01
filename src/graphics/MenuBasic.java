@@ -19,6 +19,7 @@ public class MenuBasic {
 		this.frame=new JFrame();
 		frame.setTitle("Dots & Boxes");
 		frame.setSize(Paths.FRAME_WIDTH, Paths.FRAME_HEIGHT);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		panel=main.getPanel();
 		frame.add(panel);
