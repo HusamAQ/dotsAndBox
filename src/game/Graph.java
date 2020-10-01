@@ -6,38 +6,41 @@ import java.util.List;
 
 public class Graph {
     // Overarching game class
-
-    public static randomBot randBot = new randomBot();
+    static randomBot randBot = new randomBot();
     // chooses whether randBot will be player 1 or 2
     public static boolean randBotPlayer1 = false;
     // chooses whether randBot is active
     public static boolean activateRandom = true;
     // Adjacency matrix
-    public static int[][] matrix;
+    static int[][] matrix;
     // List of dots
-    public static List<Vertex> vertexList;
+    static List<Vertex> vertexList;
     // List of edges
-    public static List<Edge> edgeList;
+    static List<Edge> edgeList;
     // List of lines (edges) that haven't been activated yet
-    public static ArrayList<ELine> availableLines;
+    static ArrayList<ELine> availableLines;
     // Height and width of the dots
-    public static int height;
-    public static int width;
+    static int height;
+    static int width;
     // tracking how many games each player has won
     static int gamesWon1=0;
     static int gamesWon2=0;
     // The JLabels for displaying the score
-    public static scoreLabel score1;
-    public static scoreLabel score2;
+    static scoreLabel score1;
+    static scoreLabel score2;
     // tracking whether it's player 1's turn or not
-    public static boolean player1Turn;
+    static boolean player1Turn;
     // tracking the score in a game
-    public static int player1Score = 0;
-    public static int player2Score = 0;
+    static int player1Score = 0;
+    static int player2Score = 0;
     // All of the boxes, so if a box is completed this displays, can be either initials or the score counter
-    public static ArrayList<scoreBox> counterBoxes;
+    static ArrayList<scoreBox> counterBoxes;
     // Game over screen
-    public static gameOver screen;
+    static gameOver screen;
+    // initials or score counter in ScoreBox
+    static String player1Name = "Gerald";
+    static String player2Name = "Alex";
+    static boolean initials = true;
     JFrame frame;
     public Graph(int h, int w, JFrame screen){
         height=h;

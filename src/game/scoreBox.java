@@ -35,10 +35,26 @@ public class scoreBox extends JLabel {
         this.setFont(new Font("TimesRoman",Font.BOLD,30));
         if(player1Turn){
             this.setForeground(Color.RED);
-            this.setText(Integer.toString(player1Score+1));
+            if(initials){
+                if(activateRandom&&randBotPlayer1){
+                    setText("B");
+                }else {
+                    setText(Character.toString(player1Name.charAt(0)));
+                }
+            }else {
+                this.setText(Integer.toString(player1Score + 1));
+            }
         }else{
             this.setForeground(Color.BLUE);
-            this.setText(Integer.toString(player2Score+1));
+            if(initials){
+                if(activateRandom&&!randBotPlayer1){
+                    setText("B");
+                }else {
+                    setText(Character.toString(player2Name.charAt(0)));
+                }
+            }else {
+                this.setText(Integer.toString(player2Score + 1));
+            }
         }
     }
 }
