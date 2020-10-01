@@ -13,12 +13,12 @@ import static game.Graph.*;
 
 
 public class randomBot {
-    // places edges randomly except will always complete and box and won't set up boxes for the other player
+    // places edges randomly except will always complete a box and won't set up boxes for the other player
     public randomBot(){}
     // places the edge
     public void placeRandomEdge() {
         boolean stop=false;
-        // chosen is edge it will choose to place's index in available lines
+        // chosen is the edge it will choose to place's index in available lines
         int chosen;
         // checks to see if it can create a box
         int c=checkForBox();
