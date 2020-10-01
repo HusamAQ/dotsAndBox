@@ -18,7 +18,7 @@ public class randomBot {
     // places the edge
     public void placeRandomEdge() {
         boolean stop=false;
-        // chosen is the edge it will choose to place's index in available lines
+        // chosen is the index in availableLines of the edge it will choose to place
         int chosen;
         // checks to see if it can create a box
         int c=checkForBox();
