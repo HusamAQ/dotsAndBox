@@ -25,6 +25,7 @@ public interface Paths {
 	public static final String BUTTON_SIZE1="C:\\Users\\husam\\OneDrive\\Documents\\GitHub\\dotsAndBox\\resources\\SizeButton1.png";
 	public static final String BUTTON_SIZE2="C:\\Users\\husam\\OneDrive\\Documents\\GitHub\\dotsAndBox\\resources\\SizeButton2.png";
 	public static final String BUTTON_SIZE3="C:\\Users\\husam\\OneDrive\\Documents\\GitHub\\dotsAndBox\\resources\\SizeButton3.png";
+	public static final String BUTTON_CUSTOM="C:\\Users\\husam\\OneDrive\\Documents\\GitHub\\dotsAndBox\\resources\\CustomButton.png";
 	
 	public static final String BUTTON_HUMAN_SELECTED="C:\\Users\\husam\\OneDrive\\Documents\\GitHub\\dotsAndBox\\resources\\SHumanButton.png";
 	public static final String BUTTON_BOT_SELECTED="C:\\Users\\husam\\OneDrive\\Documents\\GitHub\\dotsAndBox\\resources\\SBotButton.png";
@@ -32,6 +33,7 @@ public interface Paths {
 	public static final String BUTTON_SIZE1_SELECTED="C:\\Users\\husam\\OneDrive\\Documents\\GitHub\\dotsAndBox\\resources\\SSizeButton1.png";
 	public static final String BUTTON_SIZE2_SELECTED="C:\\Users\\husam\\OneDrive\\Documents\\GitHub\\dotsAndBox\\resources\\SSizeButton2.png";
 	public static final String BUTTON_SIZE3_SELECTED="C:\\Users\\husam\\OneDrive\\Documents\\GitHub\\dotsAndBox\\resources\\SSizeButton3.png";
+	public static final String BUTTON_CUSTOM_SELECTED="C:\\Users\\husam\\OneDrive\\Documents\\GitHub\\dotsAndBox\\resources\\SCustomButton.png";
 	
 	public static final int FRAME_WIDTH=655;
 	public static final int FRAME_HEIGHT=679;
