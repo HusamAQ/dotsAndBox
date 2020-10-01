@@ -92,7 +92,7 @@ public class PlayMenu implements Menu{
 		
 		player1name.setSize(Paths.BUTTONS_WIDTH_PLAY,30);
 		player2name.setSize(Paths.BUTTONS_WIDTH_PLAY,30);
-		
+
 		player1name.setLocation(178,202);
 		player2name.setLocation(178,255);
 		
@@ -114,8 +114,8 @@ public class PlayMenu implements Menu{
 		size3.setLocation(475,339);
 		custom.setLocation(164,389);
 		
-		boardW= new JFormattedTextField(new NumberFormatter(new DecimalFormat("##")));
-		boardH= new JFormattedTextField(new NumberFormatter(new DecimalFormat("##")));
+		boardW= new JFormattedTextField(new NumberFormatter(new DecimalFormat("##;")));
+		boardH= new JFormattedTextField(new NumberFormatter(new DecimalFormat("##;")));
 		boardW.setValue(5);
 		boardH.setValue(5);
 		
