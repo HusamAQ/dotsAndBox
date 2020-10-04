@@ -88,17 +88,17 @@ public class Graph {
         }
         // sets all of the available edges in the adjacency matrix to 1
         for (Vertex a:vertexList) {
-            if(a.leftVertex!=null){
-                matrix[a.id][a.leftVertex.id]=1;
+            if(a.getLeftVertex()!=null){
+                matrix[a.getID()][a.getLeftVertex().getID()]=1;
             }
-            if(a.rightVertex!=null){
-                matrix[a.id][a.rightVertex.id]=1;
+            if(a.getRightVertex()!=null){
+                matrix[a.getID()][a.getRightVertex().getID()]=1;
             }
-            if(a.upVertex!=null){
-                matrix[a.id][a.upVertex.id]=1;
+            if(a.getUpVertex()!=null){
+                matrix[a.getID()][a.getUpVertex().getID()]=1;
             }
-            if(a.downVertex!=null){
-                matrix[a.id][a.downVertex.id]=1;
+            if(a.getDownVertex()!=null){
+                matrix[a.getID()][a.getDownVertex().getID()]=1;
             }
         }
         edgeList= new ArrayList<>();
@@ -151,7 +151,7 @@ public class Graph {
             vertices.add(one);
             vertices.add(two);
             // if the second vertex id - the first vertex id == 1 then it's horizontal. E.g 3-2=1 but 6-3!=1
-            if(two.id-one.id==1){
+            if(two.getID()-one.getID()==1){
                 horizontal=true;
             }
             else{
@@ -161,18 +161,18 @@ public class Graph {
         // Creates the ELine
         public void createLine(){
             if(horizontal){
-                int wid=vertices.get(1).width-vertices.get(0).width;
+                int wid=vertices.get(1).getWidth()-vertices.get(0).getWidth();
                 int hei=8;
-                line = new ELine(wid,hei,vertices.get(0).width,vertices.get(0).height-8,vertices);
+                line = new ELine(wid,hei,vertices.get(0).getWidth(),vertices.get(0).getHeight()-8,vertices);
             }
             else{
-                int hei=vertices.get(1).height-vertices.get(0).height;
+                int hei=vertices.get(1).getHeight()-vertices.get(0).getHeight();
                 int wid=8;
-                line = new ELine(wid,hei,vertices.get(0).width-8,vertices.get(0).height,vertices);
+                line = new ELine(wid,hei,vertices.get(0).getWidth()-8,vertices.get(0).getHeight(),vertices);
             }
         }
         public String toString(){
-            return vertices.get(0).id + " -- "+ vertices.get(1).id+". ";
+            return vertices.get(0).getID() + " -- "+ vertices.get(1).getID()+". ";
         }
     }
 }

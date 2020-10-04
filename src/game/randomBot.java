@@ -34,8 +34,8 @@ public class randomBot {
         availableLines.get(chosen).activated=true;
         availableLines.get(chosen).setBackground(Color.BLACK);
         availableLines.get(chosen).repaint();
-        Graph.matrix[availableLines.get(chosen).vertices.get(0).id][availableLines.get(chosen).vertices.get(1).id] = 2;
-        Graph.matrix[availableLines.get(chosen).vertices.get(1).id][availableLines.get(chosen).vertices.get(0).id] = 2;
+        Graph.matrix[availableLines.get(chosen).vertices.get(0).getID()][availableLines.get(chosen).vertices.get(1).getID()] = 2;
+        Graph.matrix[availableLines.get(chosen).vertices.get(1).getID()][availableLines.get(chosen).vertices.get(0).getID()] = 2;
         ArrayList<ArrayList<Vertex>> boxes = availableLines.get(chosen).checkBox();
         if (boxes != null) {
             for (ArrayList<Vertex> box : boxes) {
@@ -79,25 +79,25 @@ public class randomBot {
     public int checkForBox(){
         // for each box in counterBoxes
         for(scoreBox box: counterBoxes){
-            int a = matrix[box.vertices.get(0).id][box.vertices.get(1).id];
-            int b = matrix[box.vertices.get(0).id][box.vertices.get(2).id];
-            int c = matrix[box.vertices.get(1).id][box.vertices.get(3).id];
-            int d = matrix[box.vertices.get(2).id][box.vertices.get(3).id];
+            int a = matrix[box.vertices.get(0).getID()][box.vertices.get(1).getID()];
+            int b = matrix[box.vertices.get(0).getID()][box.vertices.get(2).getID()];
+            int c = matrix[box.vertices.get(1).getID()][box.vertices.get(3).getID()];
+            int d = matrix[box.vertices.get(2).getID()][box.vertices.get(3).getID()];
             // if each int adds up to 7, there must be 3 lines in a box. A line = 1 when available and = 2 when placed.
             // as 3 completed lines is 3*2=6, +1 for the remaining line == 7
             if(a+b+c+d==7){
                 // checks to see which line is the available one, e.g == 1
                 if(a==1){
-                    return findMatch(box.vertices.get(0).id,box.vertices.get(1).id);
+                    return findMatch(box.vertices.get(0).getID(),box.vertices.get(1).getID());
                 }
                 if(b==1){
-                    return findMatch(box.vertices.get(0).id,box.vertices.get(2).id);
+                    return findMatch(box.vertices.get(0).getID(),box.vertices.get(2).getID());
                 }
                 if(c==1){
-                    return findMatch(box.vertices.get(1).id,box.vertices.get(3).id);
+                    return findMatch(box.vertices.get(1).getID(),box.vertices.get(3).getID());
                 }
                 if(d==1){
-                    return findMatch(box.vertices.get(2).id,box.vertices.get(3).id);
+                    return findMatch(box.vertices.get(2).getID(),box.vertices.get(3).getID());
                 }
             }
         }
@@ -107,17 +107,17 @@ public class randomBot {
     // e.g you input 5 and 4, it returns the index of the edge 4--5.
     public int findMatch(int a, int b){
         for(int p=availableLines.size()-1;p>=0;p--){
-            if(availableLines.get(p).vertices.get(0).id==a&&availableLines.get(p).vertices.get(1).id==b){
+            if(availableLines.get(p).vertices.get(0).getID()==a&&availableLines.get(p).vertices.get(1).getID()==b){
                 return p;
             }
         }
         for(int p=availableLines.size()-1;p>=0;p--){
-            if(availableLines.get(p).vertices.get(0).id==b&&availableLines.get(p).vertices.get(1).id==a){
+            if(availableLines.get(p).vertices.get(0).getID()==b&&availableLines.get(p).vertices.get(1).getID()==a){
                 return p;
             }
         }
         for(ELine l: availableLines){
-            System.out.println(l.vertices.get(0).id+" -- "+l.vertices.get(1).id);
+            System.out.println(l.vertices.get(0).getID()+" -- "+l.vertices.get(1).getID());
         }
         return -1;
     }
@@ -132,11 +132,11 @@ public class randomBot {
             if(!edge.horizontal){
                 int leftBox=0;
                 int rightBox=0;
-                if(edge.vertices.get(0).rightVertex!=null){
-                    rightBox = matrix[edge.vertices.get(0).id][edge.vertices.get(0).id+1]+matrix[edge.vertices.get(0).id+1][edge.vertices.get(1).id+1]+matrix[edge.vertices.get(1).id][edge.vertices.get(1).id+1];
+                if(edge.vertices.get(0).getRightVertex()!=null){
+                    rightBox = matrix[edge.vertices.get(0).getID()][edge.vertices.get(0).getID()+1]+matrix[edge.vertices.get(0).getID()+1][edge.vertices.get(1).getID()+1]+matrix[edge.vertices.get(1).getID()][edge.vertices.get(1).getID()+1];
                 }
-                if(edge.vertices.get(0).leftVertex!=null){
-                    leftBox=matrix[edge.vertices.get(0).id][edge.vertices.get(0).id-1]+matrix[edge.vertices.get(0).id-1][edge.vertices.get(1).id-1]+matrix[edge.vertices.get(1).id][edge.vertices.get(1).id-1];
+                if(edge.vertices.get(0).getLeftVertex()!=null){
+                    leftBox=matrix[edge.vertices.get(0).getID()][edge.vertices.get(0).getID()-1]+matrix[edge.vertices.get(0).getID()-1][edge.vertices.get(1).getID()-1]+matrix[edge.vertices.get(1).getID()][edge.vertices.get(1).getID()-1];
                 }
                 // it adds up the int value of each edge in each box in the adjacency matrix
                 // if it == 5, then placing another edge there will set up a box for the other player
@@ -150,11 +150,11 @@ public class randomBot {
                 // does the same but for horizontal edges
                 int downBox=0;
                 int upBox=0;
-                if(edge.vertices.get(0).downVertex!=null){
-                    downBox=matrix[edge.vertices.get(0).id][edge.vertices.get(0).id+ width]+matrix[edge.vertices.get(0).id+width][edge.vertices.get(1).id+width]+matrix[edge.vertices.get(1).id][edge.vertices.get(1).id+width];
+                if(edge.vertices.get(0).getDownVertex()!=null){
+                    downBox=matrix[edge.vertices.get(0).getID()][edge.vertices.get(0).getID()+ width]+matrix[edge.vertices.get(0).getID()+width][edge.vertices.get(1).getID()+width]+matrix[edge.vertices.get(1).getID()][edge.vertices.get(1).getID()+width];
                 }
-                if(edge.vertices.get(0).upVertex!=null){
-                    upBox=matrix[edge.vertices.get(0).id][edge.vertices.get(0).id-width]+matrix[edge.vertices.get(0).id-width][edge.vertices.get(1).id-width]+matrix[edge.vertices.get(1).id][edge.vertices.get(1).id-width];
+                if(edge.vertices.get(0).getUpVertex()!=null){
+                    upBox=matrix[edge.vertices.get(0).getID()][edge.vertices.get(0).getID()-width]+matrix[edge.vertices.get(0).getID()-width][edge.vertices.get(1).getID()-width]+matrix[edge.vertices.get(1).getID()][edge.vertices.get(1).getID()-width];
                 }
                 if(upBox==5||downBox==5){
                     noBox=false;

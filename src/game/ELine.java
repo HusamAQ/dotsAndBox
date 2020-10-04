@@ -24,7 +24,7 @@ public class ELine extends JLabel {
     boolean horizontal;
     public ELine(int w,int h,int x,int y,ArrayList<Vertex> v){
         vertices=v;
-        if(vertices.get(1).id-vertices.get(0).id==1){
+        if(vertices.get(1).getID()-vertices.get(0).getID()==1){
             horizontal=true;
         }else{
             horizontal=false;
@@ -62,7 +62,7 @@ public class ELine extends JLabel {
                     activated=true;
                     // remove the ELine from availableLines
                     for(int p=availableLines.size()-1;p>=0;p--){
-                        if(availableLines.get(p).vertices.get(0).id==vertices.get(0).id&&availableLines.get(p).vertices.get(1).id==vertices.get(1).id){
+                        if(availableLines.get(p).vertices.get(0).getID()==vertices.get(0).getID()&&availableLines.get(p).vertices.get(1).getID()==vertices.get(1).getID()){
                             availableLines.remove(p);
                         }
                     }
@@ -70,8 +70,8 @@ public class ELine extends JLabel {
                     setBackground(Color.BLACK);
                     repaint();
                     // set the adjacency matrix to 2, 2==is a line, 1==is a possible line
-                    Graph.matrix[vertices.get(0).id][vertices.get(1).id] = 2;
-                    Graph.matrix[vertices.get(1).id][vertices.get(0).id] = 2;
+                    Graph.matrix[vertices.get(0).getID()][vertices.get(1).getID()] = 2;
+                    Graph.matrix[vertices.get(1).getID()][vertices.get(0).getID()] = 2;
                     // gets an arrayList of each box the ELine creates. The box is an arrayList of 4 vertices.
                     ArrayList<ArrayList<Vertex>> boxes = checkBox();
                     if (boxes != null) {
@@ -127,8 +127,8 @@ public class ELine extends JLabel {
         int avgX=0;
         int avgY=0;
         for(Vertex v:box){
-            avgX+=v.width;
-            avgY+=v.height;
+            avgX+=v.getWidth();
+            avgY+=v.getHeight();
         }
         avgX=avgX/4;
         avgY=avgY/4;
@@ -142,44 +142,44 @@ public class ELine extends JLabel {
     public ArrayList<ArrayList<Vertex>> checkBox(){
         ArrayList<ArrayList<Vertex>> listOfBoxes = new ArrayList<>();
         if(horizontal){
-            if(vertices.get(0).upVertex!=null){
-                if(Graph.matrix[vertices.get(0).id][vertices.get(0).upVertex.id]==2&&Graph.matrix[vertices.get(1).id][vertices.get(1).upVertex.id]==2&&Graph.matrix[vertices.get(0).upVertex.id][vertices.get(1).upVertex.id]==2){
+            if(vertices.get(0).getUpVertex()!=null){
+                if(Graph.matrix[vertices.get(0).getID()][vertices.get(0).getUpVertex().getID()]==2&&Graph.matrix[vertices.get(1).getID()][vertices.get(1).getUpVertex().getID()]==2&&Graph.matrix[vertices.get(0).getUpVertex().getID()][vertices.get(1).getUpVertex().getID()]==2){
                     ArrayList<Vertex> box = new ArrayList<>();
                     box.add(vertices.get(0));
                     box.add(vertices.get(1));
-                    box.add(vertices.get(0).upVertex);
-                    box.add(vertices.get(1).upVertex);
+                    box.add(vertices.get(0).getUpVertex());
+                    box.add(vertices.get(1).getUpVertex());
                     listOfBoxes.add(box);
                 }
             }
-            if(vertices.get(0).downVertex!=null){
-                if(Graph.matrix[vertices.get(0).id][vertices.get(0).downVertex.id]==2&&Graph.matrix[vertices.get(1).id][vertices.get(1).downVertex.id]==2&&Graph.matrix[vertices.get(0).downVertex.id][vertices.get(1).downVertex.id]==2){
+            if(vertices.get(0).getDownVertex()!=null){
+                if(Graph.matrix[vertices.get(0).getID()][vertices.get(0).getDownVertex().getID()]==2&&Graph.matrix[vertices.get(1).getID()][vertices.get(1).getDownVertex().getID()]==2&&Graph.matrix[vertices.get(0).getDownVertex().getID()][vertices.get(1).getDownVertex().getID()]==2){
                     ArrayList<Vertex> box2 = new ArrayList<>();
                     box2.add(vertices.get(0));
                     box2.add(vertices.get(1));
-                    box2.add(vertices.get(0).downVertex);
-                    box2.add(vertices.get(1).downVertex);
+                    box2.add(vertices.get(0).getDownVertex());
+                    box2.add(vertices.get(1).getDownVertex());
                     listOfBoxes.add(box2);
                 }
             }
         }else{
-            if(vertices.get(0).rightVertex!=null){
-                if(Graph.matrix[vertices.get(0).id][vertices.get(0).rightVertex.id]==2&&Graph.matrix[vertices.get(1).id][vertices.get(1).rightVertex.id]==2&&Graph.matrix[vertices.get(0).rightVertex.id][vertices.get(1).rightVertex.id]==2){
+            if(vertices.get(0).getRightVertex()!=null){
+                if(Graph.matrix[vertices.get(0).getID()][vertices.get(0).getRightVertex().getID()]==2&&Graph.matrix[vertices.get(1).getID()][vertices.get(1).getRightVertex().getID()]==2&&Graph.matrix[vertices.get(0).getRightVertex().getID()][vertices.get(1).getRightVertex().getID()]==2){
                     ArrayList<Vertex> box3 = new ArrayList<>();
                     box3.add(vertices.get(0));
                     box3.add(vertices.get(1));
-                    box3.add(vertices.get(0).rightVertex);
-                    box3.add(vertices.get(1).rightVertex);
+                    box3.add(vertices.get(0).getRightVertex());
+                    box3.add(vertices.get(1).getRightVertex());
                     listOfBoxes.add(box3);
                 }
             }
-            if(vertices.get(0).leftVertex!=null){
-                if(Graph.matrix[vertices.get(0).id][vertices.get(0).leftVertex.id]==2&&Graph.matrix[vertices.get(1).id][vertices.get(1).leftVertex.id]==2&&Graph.matrix[vertices.get(0).leftVertex.id][vertices.get(1).leftVertex.id]==2){
+            if(vertices.get(0).getLeftVertex()!=null){
+                if(Graph.matrix[vertices.get(0).getID()][vertices.get(0).getLeftVertex().getID()]==2&&Graph.matrix[vertices.get(1).getID()][vertices.get(1).getLeftVertex().getID()]==2&&Graph.matrix[vertices.get(0).getLeftVertex().getID()][vertices.get(1).getLeftVertex().getID()]==2){
                     ArrayList<Vertex> box4 = new ArrayList<>();
                     box4.add(vertices.get(0));
                     box4.add(vertices.get(1));
-                    box4.add(vertices.get(0).leftVertex);
-                    box4.add(vertices.get(1).leftVertex);
+                    box4.add(vertices.get(0).getLeftVertex());
+                    box4.add(vertices.get(1).getLeftVertex());
                     listOfBoxes.add(box4);
                 }
             }

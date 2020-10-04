@@ -14,17 +14,23 @@ public class Vertex {
     // 0 1 2
     // 3 4 5
     // 6 7 8
-    public int id;
+    private int id;
     // the vertices that it can create an edge with
-    Vertex leftVertex=null;
-    Vertex rightVertex=null;
-    Vertex upVertex=null;
-    Vertex downVertex=null;
-    int height;
-    int width;
+    private Vertex leftVertex, rightVertex, upVertex, downVertex;
+    private int height, width;
+    
     public Vertex(int id){
         this.id=id;
     }
+    
+    public void setID(int id) {
+    	this.id=id;
+    }
+    
+    public int getID() {
+    	return this.id;
+    }
+    
     public void setLeftVertex(Vertex leftVertex) {
         this.leftVertex = leftVertex;
     }
@@ -40,12 +46,45 @@ public class Vertex {
     public void setDownVertex(Vertex downVertex) {
         this.downVertex = downVertex;
     }
+    
+    public Vertex getLeftVertex() {
+    	return leftVertex;
+    }
+
+    public Vertex getRightVertex() {
+    	return rightVertex;
+    }
+
+    public Vertex getUpVertex() {
+    	return upVertex;
+    }
+
+    public Vertex getDownVertex() {
+        return downVertex;
+    }
+    
     // sets the position of the dots
     public void setPosition(int Gwidth, int Gheight){
         int widthM=(Paths.FRAME_WIDTH-100)/(Gwidth-1);
         int heightM=(Paths.FRAME_HEIGHT-150)/(Gheight-1);
         width=50+(id%Gwidth)*widthM;
         height=100+(id/Gwidth)*heightM;
+    }
+    
+    public void setHeight(int h) {
+    	height=h;
+    }
+    
+    public void setWidth(int w) {
+    	width=w;
+    }
+    
+    public int getHeight() {
+    	return height;
+    }
+    
+    public int getWidth() {
+    	return width;
     }
 
     public String toString(){

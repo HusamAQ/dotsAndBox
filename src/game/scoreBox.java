@@ -22,8 +22,8 @@ public class scoreBox extends JLabel {
         avgY=0;
         vertices=box;
         for(Vertex v:box){
-            avgX+=v.width;
-            avgY+=v.height;
+            avgX+=v.getWidth();
+            avgY+=v.getHeight();
         }
         avgX=avgX/4;
         avgY=avgY/4;
