@@ -10,10 +10,10 @@ import java.awt.event.ActionListener;
 
 public class gameOver{
     // JFrame for the current game, so it can close it down
-    JFrame frame;
+    private JFrame frame;
     // game over screen.
-    JFrame next;
-    JPanel panel;
+    private JFrame next;
+    private JPanel panel;
 
     public gameOver(JFrame frame){
         this.frame=frame;
