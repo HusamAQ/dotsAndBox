@@ -79,25 +79,25 @@ public class randomBot {
     public int checkForBox(){
         // for each box in counterBoxes
         for(scoreBox box: counterBoxes){
-            int a = matrix[box.vertices.get(0).getID()][box.vertices.get(1).getID()];
-            int b = matrix[box.vertices.get(0).getID()][box.vertices.get(2).getID()];
-            int c = matrix[box.vertices.get(1).getID()][box.vertices.get(3).getID()];
-            int d = matrix[box.vertices.get(2).getID()][box.vertices.get(3).getID()];
+            int a = matrix[box.getVertices().get(0).getID()][box.getVertices().get(1).getID()];
+            int b = matrix[box.getVertices().get(0).getID()][box.getVertices().get(2).getID()];
+            int c = matrix[box.getVertices().get(1).getID()][box.getVertices().get(3).getID()];
+            int d = matrix[box.getVertices().get(2).getID()][box.getVertices().get(3).getID()];
             // if each int adds up to 7, there must be 3 lines in a box. A line = 1 when available and = 2 when placed.
             // as 3 completed lines is 3*2=6, +1 for the remaining line == 7
             if(a+b+c+d==7){
                 // checks to see which line is the available one, e.g == 1
                 if(a==1){
-                    return findMatch(box.vertices.get(0).getID(),box.vertices.get(1).getID());
+                    return findMatch(box.getVertices().get(0).getID(),box.getVertices().get(1).getID());
                 }
                 if(b==1){
-                    return findMatch(box.vertices.get(0).getID(),box.vertices.get(2).getID());
+                    return findMatch(box.getVertices().get(0).getID(),box.getVertices().get(2).getID());
                 }
                 if(c==1){
-                    return findMatch(box.vertices.get(1).getID(),box.vertices.get(3).getID());
+                    return findMatch(box.getVertices().get(1).getID(),box.getVertices().get(3).getID());
                 }
                 if(d==1){
-                    return findMatch(box.vertices.get(2).getID(),box.vertices.get(3).getID());
+                    return findMatch(box.getVertices().get(2).getID(),box.getVertices().get(3).getID());
                 }
             }
         }

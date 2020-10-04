@@ -116,7 +116,7 @@ public class ELine extends JLabel {
     // if every scoreBox is active, the game is over
     public boolean checkFinished(){
         for(scoreBox box:counterBoxes){
-            if(!box.activated){
+            if(!box.getActivated()){
                 return false;
             }
         }
@@ -133,7 +133,7 @@ public class ELine extends JLabel {
         avgX=avgX/4;
         avgY=avgY/4;
         for(scoreBox sc: counterBoxes){
-            if(sc.avgX==avgX&&sc.avgY==avgY){
+            if(sc.getAvgX()==avgX&&sc.getAvgY()==avgY){
                 sc.setText();
             }
         }
