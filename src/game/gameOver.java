@@ -3,12 +3,10 @@ package game;
 import graphics.Paths;
 
 import javax.swing.*;
-import javax.swing.plaf.LayerUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static game.Graph.*;
 
 public class gameOver{
     // JFrame for the current game, so it can close it down
@@ -35,28 +33,28 @@ public class gameOver{
         otherText.setFont(new Font("TimesRoman",Font.PLAIN,(int)(Math.sqrt(Paths.FRAME_HEIGHT*Paths.FRAME_WIDTH)/10)));
         JLabel wonCounter = new JLabel();
         wonCounter.setFont(new Font("TimesRoman",Font.PLAIN,(int)(Math.sqrt(Paths.FRAME_HEIGHT*Paths.FRAME_WIDTH)/20)));
-        if(player1Score>player2Score){
+        if(Graph.getPlayer1Score()>Graph.getPlayer2Score()){
             text.setForeground(Color.RED);
             otherText.setForeground(Color.RED);
             otherText.setText("Player 1 wins");
-            gamesWon1++;
+            Graph.setGamesWon1(Graph.getGamesWon1()+1);
             wonCounter.setForeground(Color.RED);
-            if(gamesWon1>1) {
-                wonCounter.setText("They have won " + gamesWon1 + " times. "+'\n');
+            if(Graph.getGamesWon1()>1) {
+                wonCounter.setText("They have won " + Graph.getGamesWon1() + " times. "+'\n');
             }else{
-                wonCounter.setText("They have won " + gamesWon1 + " time. "+'\n');
+                wonCounter.setText("They have won " + Graph.getGamesWon1() + " time. "+'\n');
             }
         }else{
-            if(player2Score>player1Score) {
+            if(Graph.getPlayer2Score()>Graph.getPlayer1Score()) {
                 text.setForeground(Color.BLUE);
                 otherText.setForeground(Color.BLUE);
                 otherText.setText("Player 2 wins");
-                gamesWon2++;
+                Graph.setGamesWon2(Graph.getGamesWon2()+1);
                 wonCounter.setForeground(Color.BLUE);
-                if(gamesWon2>1) {
-                    wonCounter.setText("They have won " + gamesWon2 + " times. "+'\n');
+                if(Graph.getGamesWon2()>1) {
+                    wonCounter.setText("They have won " + Graph.getGamesWon2() + " times. "+'\n');
                 }else{
-                    wonCounter.setText("They have won " + gamesWon2 + " time. "+'\n');
+                    wonCounter.setText("They have won " + Graph.getGamesWon2() + " time. "+'\n');
                 }
             }else{
                 text.setForeground(Color.WHITE);
@@ -76,7 +74,7 @@ public class gameOver{
         JLabel score = new JLabel();
         score.setFont(new Font("TimesRoman",Font.PLAIN,(int)(Math.sqrt(Paths.FRAME_HEIGHT*Paths.FRAME_WIDTH)/20)));
         score.setForeground(Color.WHITE);
-        score.setText("The score was " + player1Score+" : "+player2Score);
+        score.setText("The score was " + Graph.getPlayer1Score()+" : "+Graph.getPlayer2Score());
         panel.add(text);
         panel.add(otherText);
         panel.add(wonCounter);

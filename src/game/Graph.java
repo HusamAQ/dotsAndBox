@@ -6,42 +6,78 @@ import java.util.List;
 
 public class Graph {
     // Overarching game class
-    static randomBot randBot = new randomBot();
+	private static randomBot randBot = new randomBot();
+	public  static randomBot getRandomBot() {return randBot;}
     // chooses whether randBot will be player 1 or 2
-    public static boolean randBotPlayer1 = false;
-    // chooses whether randBot is active
-    public static boolean activateRandom = true;
-    // Adjacency matrix
-    static int[][] matrix;
+	private static boolean randBotPlayer1 = false;
+	public  static boolean getRandBotPlayer1() {return randBotPlayer1;}
+	// chooses whether randBot is active
+	private static boolean activateRandom = true;
+	public  static boolean getActivateRandom() {return activateRandom;}
+	// Adjacency matrix
+    private static int[][] matrix;
+	public  static int[][] getMatrix(){return matrix;}
     // List of dots
-    static List<Vertex> vertexList;
+    private static List<Vertex> vertexList;
+	public  static List<Vertex> getVertexList(){return vertexList;}
     // List of edges
-    static List<Edge> edgeList;
+    private static List<Edge> edgeList;
+	public  static List<Edge> getEdgeList(){return edgeList;}
     // List of lines (edges) that haven't been activated yet
-    static ArrayList<ELine> availableLines;
+    private static ArrayList<ELine> availableLines;
+	public  static ArrayList<ELine> getAvailableLines(){return availableLines;}
     // Height and width of the dots
-    static int height;
-    static int width;
+    private static int height;
+    private static int width;
+    public  static int getHeight(){return height;}
+    public  static int getWidth(){return width;}
     // tracking how many games each player has won
-    static int gamesWon1=0;
-    static int gamesWon2=0;
+    private static int gamesWon1=0;
+    private static int gamesWon2=0;
+    public  static int getGamesWon1(){return gamesWon1;}
+    public  static int getGamesWon2(){return gamesWon2;}
+    
+    public  static void setGamesWon1(int x){gamesWon1=x;}
+    public  static void setGamesWon2(int x){gamesWon2=x;}
     // The JLabels for displaying the score
-    static scoreLabel score1;
-    static scoreLabel score2;
+    private  static scoreLabel score1;
+    private static scoreLabel score2;
+    public  static scoreLabel getScore1(){return score1;}
+    public  static scoreLabel getScore2(){return score2;}
     // tracking whether it's player 1's turn or not
-    static boolean player1Turn;
+    private static boolean player1Turn;
+    public  static boolean getPlayer1Turn() {
+    	return player1Turn;
+    }
+    
+    public static void setPlayer1Turn(boolean b) {player1Turn =b;}
     // tracking the score in a game
-    static int player1Score = 0;
-    static int player2Score = 0;
+    private static int player1Score = 0;
+    private static int player2Score = 0;
+    public  static int getPlayer1Score(){return player1Score;}
+    public  static int getPlayer2Score(){return player2Score;}
+    
+    public  static void setPlayer1Score(int s){player1Score=s;}
+    public  static void setPlayer2Score(int s){player2Score=s;}
     // All of the boxes, so if a box is completed this displays, can be either initials or the score counter
-    static ArrayList<scoreBox> counterBoxes;
+    private static ArrayList<scoreBox> counterBoxes;
+    public  static ArrayList<scoreBox> getCounterBoxes(){return counterBoxes;}
+    
     // Game over screen
-    static gameOver screen;
+    private static gameOver screen;
+    public  static gameOver getScreen(){return screen;}
+    
     // initials or score counter in ScoreBox
-    static String player1Name = "Gerald";
-    static String player2Name = "Alex";
-    static boolean initials = true;
-    JFrame frame;
+    private static String player1Name = "Gerald";
+    private static String player2Name = "Alex";
+    private static boolean initials = true;
+    
+    public  static String getPlayer1Name(){return player1Name;}
+    public  static String getPlayer2Name(){return player2Name;}
+    public  static boolean getInitials(){return initials;}
+    
+    private JFrame frame;
+    
     public Graph(int h, int w, JFrame screen){
         height=h;
         width=w;
@@ -141,9 +177,9 @@ public class Graph {
         // overall edge class
 
         // the vertices in the edge
-        ArrayList<Vertex> vertices;
+        private ArrayList<Vertex> vertices;
         // The graphical display of the edge and the actionListener is stored in ELine
-        ELine line;
+        private ELine line;
         // Whether the edge is horizontal or vertical
         boolean horizontal;
         public Edge(Vertex one, Vertex two){
@@ -158,6 +194,23 @@ public class Graph {
                 horizontal=false;
             }
         }
+        
+        public ArrayList<Vertex> getVertices(){
+        	return this.vertices;
+        }
+        
+        public ELine getEline() {
+        	return this.line;
+        }
+        
+        public void setVertices(ArrayList<Vertex> v){
+        	this.vertices=v;
+        }
+        
+        public void setEline(ELine l) {
+        	this.line=l;
+        }
+        
         // Creates the ELine
         public void createLine(){
             if(horizontal){

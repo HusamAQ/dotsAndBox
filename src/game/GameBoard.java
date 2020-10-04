@@ -6,9 +6,6 @@ import graphics.Paths;
 import javax.swing.*;
 import javax.swing.plaf.LayerUI;
 
-import static game.Graph.activateRandom;
-import static game.Graph.randBot;
-
 public class GameBoard{
     // Overall launcher for the game
     JFrame frame;
@@ -30,11 +27,11 @@ public class GameBoard{
         frame.add(jlayer);
         frame.setVisible(true);
         // activate randomBot
-        if(activateRandom){
-            if(graph.randBotPlayer1){
-                randBot.placeRandomEdge();
-                if(graph.player1Turn){
-                    graph.player1Turn=false;
+        if(Graph.getActivateRandom()){
+            if(Graph.getRandBotPlayer1()){
+                Graph.getRandomBot().placeRandomEdge();
+                if(Graph.getPlayer1Turn()){
+                    Graph.setPlayer1Turn(false);;
                 }
             }
         }

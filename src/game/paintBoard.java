@@ -17,14 +17,14 @@ public class paintBoard extends JPanel {
         this.setLayout(null);
         this.setBackground(Color.WHITE);
         // adds the edges to the JPanel
-        for(int w=0;w<graph.edgeList.size();w++){
-            this.add(graph.edgeList.get(w).line);
+        for(int w=0;w<Graph.getEdgeList().size();w++){
+            this.add(Graph.getEdgeList().get(w).getEline());
         }
         // adds the scoreLabels to the JPanel
-        this.add(Graph.score1);
-        this.add(Graph.score2);
+        this.add(Graph.getScore1());
+        this.add(Graph.getScore2());
         // adds the counter boxes to the JPanel
-        for(scoreBox box: counterBoxes){
+        for(scoreBox box: Graph.getCounterBoxes()){
             this.add(box);
         }
     }

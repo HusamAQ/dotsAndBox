@@ -14,8 +14,8 @@ public class dotDrawer extends LayerUI<JComponent> {
     public void paint(Graphics g, JComponent c){
         super.paint(g,c);
         Graphics2D g2 = (Graphics2D) g.create();
-        for(int h=0;h<graph.vertexList.size();h++) {
-            g2.fillOval(graph.vertexList.get(h).getWidth()-15,graph.vertexList.get(h).getHeight()-15,20,20);
+        for(int h=0;h<Graph.getVertexList().size();h++) {
+            g2.fillOval(Graph.getVertexList().get(h).getWidth()-15,Graph.getVertexList().get(h).getHeight()-15,20,20);
         }
     }
 }

@@ -41,7 +41,7 @@ public class ELine extends JLabel {
             @Override
             public void mouseEntered(MouseEvent e){
                 if(!activated) {
-                    if (player1Turn) {
+                    if (Graph.getPlayer1Turn()) {
                         setBackground(Color.RED);
                     } else {
                         setBackground(Color.BLUE);
@@ -61,17 +61,17 @@ public class ELine extends JLabel {
                 if(!activated) {
                     activated=true;
                     // remove the ELine from availableLines
-                    for(int p=availableLines.size()-1;p>=0;p--){
-                        if(availableLines.get(p).vertices.get(0).getID()==vertices.get(0).getID()&&availableLines.get(p).vertices.get(1).getID()==vertices.get(1).getID()){
-                            availableLines.remove(p);
+                    for(int p=Graph.getAvailableLines().size()-1;p>=0;p--){
+                        if(Graph.getAvailableLines().get(p).vertices.get(0).getID()==vertices.get(0).getID()&&Graph.getAvailableLines().get(p).vertices.get(1).getID()==vertices.get(1).getID()){
+                        	Graph.getAvailableLines().remove(p);
                         }
                     }
                     // make it black
                     setBackground(Color.BLACK);
                     repaint();
                     // set the adjacency matrix to 2, 2==is a line, 1==is a possible line
-                    Graph.matrix[vertices.get(0).getID()][vertices.get(1).getID()] = 2;
-                    Graph.matrix[vertices.get(1).getID()][vertices.get(0).getID()] = 2;
+                    Graph.getMatrix()[vertices.get(0).getID()][vertices.get(1).getID()] = 2;
+                    Graph.getMatrix()[vertices.get(1).getID()][vertices.get(0).getID()] = 2;
                     // gets an arrayList of each box the ELine creates. The box is an arrayList of 4 vertices.
                     ArrayList<ArrayList<Vertex>> boxes = checkBox();
                     if (boxes != null) {
@@ -79,33 +79,33 @@ public class ELine extends JLabel {
                             // looks through the counterBoxes arrayList and sets the matching one visible.
                             checkMatching(box);
                             // updates the score board
-                            if (player1Turn) {
-                                player1Score++;
-                                Graph.score1.setScore();
+                            if (Graph.getPlayer1Turn()) {
+                                Graph.setPlayer1Score(Graph.getPlayer1Score()+1);
+                                Graph.getScore1().setScore();
                             } else {
-                                player2Score++;
-                                Graph.score2.setScore();
+                            	Graph.setPlayer2Score(Graph.getPlayer2Score()+1);
+                                Graph.getScore2().setScore();
                             }
                         }
                         // if every counterBox has been activated, the game is over
                         if(checkFinished()){
-                            screen.toggle();
+                            Graph.getScreen().toggle();
                         }
                         // if it's the random box's turn and it creates a box, it will have another turn.
-                        if(activateRandom&&randBotPlayer1==player1Turn){
-                            randBot.placeRandomEdge();
+                        if(Graph.getActivateRandom()&&Graph.getRandBotPlayer1()==Graph.getPlayer1Turn()){
+                        	Graph.getRandomBot().placeRandomEdge();
                         }
                     } else {
                         // switches turn. If randomBot is active switches to their turn.
-                        if (player1Turn) {
-                            player1Turn = false;
-                            if(!randBotPlayer1&&activateRandom){
-                                randBot.placeRandomEdge();
+                        if (Graph.getPlayer1Turn()) {
+                        	Graph.setPlayer1Turn(false) ;
+                            if(!Graph.getRandBotPlayer1()&&Graph.getActivateRandom()){
+                            	Graph.getRandomBot().placeRandomEdge();
                             }
                         } else {
-                            player1Turn = true;
-                            if(randBotPlayer1&&activateRandom){
-                                randBot.placeRandomEdge();
+                        	Graph.setPlayer1Turn(true);
+                            if(Graph.getRandBotPlayer1()&&Graph.getActivateRandom()){
+                                Graph.getRandomBot().placeRandomEdge();
                             }
                         }
                     }
@@ -115,7 +115,7 @@ public class ELine extends JLabel {
     }
     // if every scoreBox is active, the game is over
     public boolean checkFinished(){
-        for(scoreBox box:counterBoxes){
+        for(scoreBox box: Graph.getCounterBoxes()){
             if(!box.getActivated()){
                 return false;
             }
@@ -132,7 +132,7 @@ public class ELine extends JLabel {
         }
         avgX=avgX/4;
         avgY=avgY/4;
-        for(scoreBox sc: counterBoxes){
+        for(scoreBox sc: Graph.getCounterBoxes()){
             if(sc.getAvgX()==avgX&&sc.getAvgY()==avgY){
                 sc.setText();
             }
@@ -143,7 +143,7 @@ public class ELine extends JLabel {
         ArrayList<ArrayList<Vertex>> listOfBoxes = new ArrayList<>();
         if(horizontal){
             if(vertices.get(0).getUpVertex()!=null){
-                if(Graph.matrix[vertices.get(0).getID()][vertices.get(0).getUpVertex().getID()]==2&&Graph.matrix[vertices.get(1).getID()][vertices.get(1).getUpVertex().getID()]==2&&Graph.matrix[vertices.get(0).getUpVertex().getID()][vertices.get(1).getUpVertex().getID()]==2){
+                if(Graph.getMatrix()[vertices.get(0).getID()][vertices.get(0).getUpVertex().getID()]==2&&Graph.getMatrix()[vertices.get(1).getID()][vertices.get(1).getUpVertex().getID()]==2&&Graph.getMatrix()[vertices.get(0).getUpVertex().getID()][vertices.get(1).getUpVertex().getID()]==2){
                     ArrayList<Vertex> box = new ArrayList<>();
                     box.add(vertices.get(0));
                     box.add(vertices.get(1));
@@ -153,7 +153,7 @@ public class ELine extends JLabel {
                 }
             }
             if(vertices.get(0).getDownVertex()!=null){
-                if(Graph.matrix[vertices.get(0).getID()][vertices.get(0).getDownVertex().getID()]==2&&Graph.matrix[vertices.get(1).getID()][vertices.get(1).getDownVertex().getID()]==2&&Graph.matrix[vertices.get(0).getDownVertex().getID()][vertices.get(1).getDownVertex().getID()]==2){
+                if(Graph.getMatrix()[vertices.get(0).getID()][vertices.get(0).getDownVertex().getID()]==2&&Graph.getMatrix()[vertices.get(1).getID()][vertices.get(1).getDownVertex().getID()]==2&&Graph.getMatrix()[vertices.get(0).getDownVertex().getID()][vertices.get(1).getDownVertex().getID()]==2){
                     ArrayList<Vertex> box2 = new ArrayList<>();
                     box2.add(vertices.get(0));
                     box2.add(vertices.get(1));
@@ -164,7 +164,7 @@ public class ELine extends JLabel {
             }
         }else{
             if(vertices.get(0).getRightVertex()!=null){
-                if(Graph.matrix[vertices.get(0).getID()][vertices.get(0).getRightVertex().getID()]==2&&Graph.matrix[vertices.get(1).getID()][vertices.get(1).getRightVertex().getID()]==2&&Graph.matrix[vertices.get(0).getRightVertex().getID()][vertices.get(1).getRightVertex().getID()]==2){
+                if(Graph.getMatrix()[vertices.get(0).getID()][vertices.get(0).getRightVertex().getID()]==2&&Graph.getMatrix()[vertices.get(1).getID()][vertices.get(1).getRightVertex().getID()]==2&&Graph.getMatrix()[vertices.get(0).getRightVertex().getID()][vertices.get(1).getRightVertex().getID()]==2){
                     ArrayList<Vertex> box3 = new ArrayList<>();
                     box3.add(vertices.get(0));
                     box3.add(vertices.get(1));
@@ -174,7 +174,7 @@ public class ELine extends JLabel {
                 }
             }
             if(vertices.get(0).getLeftVertex()!=null){
-                if(Graph.matrix[vertices.get(0).getID()][vertices.get(0).getLeftVertex().getID()]==2&&Graph.matrix[vertices.get(1).getID()][vertices.get(1).getLeftVertex().getID()]==2&&Graph.matrix[vertices.get(0).getLeftVertex().getID()][vertices.get(1).getLeftVertex().getID()]==2){
+                if(Graph.getMatrix()[vertices.get(0).getID()][vertices.get(0).getLeftVertex().getID()]==2&&Graph.getMatrix()[vertices.get(1).getID()][vertices.get(1).getLeftVertex().getID()]==2&&Graph.getMatrix()[vertices.get(0).getLeftVertex().getID()][vertices.get(1).getLeftVertex().getID()]==2){
                     ArrayList<Vertex> box4 = new ArrayList<>();
                     box4.add(vertices.get(0));
                     box4.add(vertices.get(1));
