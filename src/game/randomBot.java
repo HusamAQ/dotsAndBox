@@ -27,7 +27,7 @@ public class randomBot {
             chosen= checkFor3s(Graph.getAvailableLines());
         }
         // effectively mirrors the actionListener in ELine.
-        Graph.getAvailableLines().get(chosen).activated=true;
+        Graph.getAvailableLines().get(chosen).setActivated(true);
         Graph.getAvailableLines().get(chosen).setBackground(Color.BLACK);
         Graph.getAvailableLines().get(chosen).repaint();
         Graph.getMatrix()[Graph.getAvailableLines().get(chosen).vertices.get(0).getID()][Graph.getAvailableLines().get(chosen).vertices.get(1).getID()] = 2;
@@ -125,7 +125,7 @@ public class randomBot {
             ELine edge = avail.get(q);
             boolean noBox=true;
             // if the edge is vertical, it can only have a box to the right and left of it.
-            if(!edge.horizontal){
+            if(!edge.getHorizontal()){
                 int leftBox=0;
                 int rightBox=0;
                 if(edge.vertices.get(0).getRightVertex()!=null){

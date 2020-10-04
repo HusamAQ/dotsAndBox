@@ -8,11 +8,11 @@ import javax.swing.plaf.LayerUI;
 
 public class GameBoard{
     // Overall launcher for the game
-    JFrame frame;
+    private JFrame frame;
     // Graph is the background of the game
-    Graph graph;
+    private Graph graph;
     // paintBoard is the JPanel for the edges, score counter and score boxes
-    paintBoard panel;
+    private paintBoard panel;
     public GameBoard(){
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

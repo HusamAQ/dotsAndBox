@@ -14,14 +14,14 @@ public class ELine extends JLabel {
     // The graphical display of the edges
 
     // Whether the line has been clicked or not
-    public boolean activated = false;
+	private boolean activated = false;
     // the bottom left x and y coordinates of the line
-    int startX;
-    int startY;
+	private int startX;
+	private int startY;
     // the vertices
     public ArrayList<Vertex> vertices;
     // whether it's horizontal
-    boolean horizontal;
+    private boolean horizontal;
     public ELine(int w,int h,int x,int y,ArrayList<Vertex> v){
         vertices=v;
         if(vertices.get(1).getID()-vertices.get(0).getID()==1){
@@ -190,4 +190,12 @@ public class ELine extends JLabel {
         }
         return listOfBoxes;
     }
-}
+
+    public void setActivated(boolean b) {
+    	activated=b;
+    }
+    
+    public boolean getHorizontal() {
+    	return horizontal;
+    }
+    }

@@ -11,7 +11,7 @@ import static game.Graph.*;
 
 public class paintBoard extends JPanel {
     // Base JPanel
-    Graph graph;
+    private Graph graph;
     public paintBoard(Graph gr){
         graph=gr;
         this.setLayout(null);
