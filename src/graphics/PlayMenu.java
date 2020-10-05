@@ -27,6 +27,7 @@ public class PlayMenu implements Menu{
 	private boolean botActive=false;
 	private boolean showInitials=false;
 	private boolean customSize=false;
+	private boolean sizeChosen=false;
 	private int size=1;
 
 
@@ -68,6 +69,10 @@ public class PlayMenu implements Menu{
 			if(customSize){
 				Graph.setWidth(Integer.parseInt(boardW.getText()));
 				Graph.setHeight(Integer.parseInt(boardH.getText()));
+			}
+			if(!sizeChosen){
+				Graph.setWidth(3);
+				Graph.setHeight(3);
 			}
 			new GameBoard();
 			Graph.setPlayer1Name(player1name.getText());
@@ -162,24 +167,28 @@ public class PlayMenu implements Menu{
 		switch (size){
 		case 1:
 			setIcon(size1, Paths.BUTTON_SIZE1);
+			sizeChosen=true;
 			customSize=false;
 			Graph.setHeight(3);
 			Graph.setWidth(3);
 			break;
 		case 2:
 			setIcon(size2, Paths.BUTTON_SIZE2);
+			sizeChosen=true;
 			customSize=false;
 			Graph.setHeight(4);
 			Graph.setWidth(4);
 			break;
 		case 3:
 			setIcon(size3, Paths.BUTTON_SIZE3);
+			sizeChosen=true;
 			customSize=false;
 			Graph.setHeight(5);
 			Graph.setWidth(5);
 			break;
 		case 4:
 			setIcon(custom, Paths.BUTTON_CUSTOM);
+			sizeChosen=true;
 			customSize=true;
 			boardW.setEditable(false);
 			boardH.setEditable(false);
@@ -189,12 +198,21 @@ public class PlayMenu implements Menu{
 		switch (s){
 		case 1:
 			setIcon(size1, Paths.BUTTON_SIZE1_SELECTED);
+			customSize=false;
+			Graph.setHeight(3);
+			Graph.setWidth(3);
 			break;
 		case 2:
 			setIcon(size2, Paths.BUTTON_SIZE2_SELECTED);
+			customSize=false;
+			Graph.setHeight(4);
+			Graph.setWidth(4);
 			break;
 		case 3:
 			setIcon(size3, Paths.BUTTON_SIZE3_SELECTED);
+			customSize=false;
+			Graph.setHeight(5);
+			Graph.setWidth(5);
 			break;
 		case 4:
 			setIcon(custom, Paths.BUTTON_CUSTOM_SELECTED);
