@@ -6,6 +6,7 @@ import game.Graph;
 import javax.swing.*;
 import javax.swing.text.NumberFormatter;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -45,22 +46,26 @@ public class PlayMenu implements Menu{
 		setUpPlay();
 		setUpPlayer();
 		setUpBoard();
-		this.playMenuPanel.add(play);
-		this.playMenuPanel.add(human);
-		this.playMenuPanel.add(bot);
-		this.playMenuPanel.add(size1);
-		this.playMenuPanel.add(size2);
-		this.playMenuPanel.add(size3);
-		this.playMenuPanel.add(custom);
-		this.playMenuPanel.add(player1name);
-		this.playMenuPanel.add(player2name);
-		this.playMenuPanel.add(boardW);
-		this.playMenuPanel.add(boardH);
-		this.playMenuPanel.add(initials);
+		add(play);
+		add(human);
+		add(bot);
+		add(size1);
+		add(size2);
+		add(size3);
+		add(custom);
+		add(player1name);
+		add(player2name);
+		add(boardW);
+		add(boardH);
+		add(initials);
 	}
 	@Override
 	public JPanel getPanel() {
 		return this.playMenuPanel;
+	}
+	
+	private void add(Component obj) {
+		this.playMenuPanel.add(obj);
 	}
 	private void setUpPlay(){
 		play = Button(Paths.BUTTON_START);
@@ -78,7 +83,7 @@ public class PlayMenu implements Menu{
 			Graph.setPlayer1Name(player1name.getText());
 			Graph.setPlayer2Name(player2name.getText());
 			Graph.setActivateRandom(botActive);
-			System.out.println(customSize);
+//			System.out.println(customSize);
 		}});
 	}
 
