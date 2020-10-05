@@ -2,6 +2,7 @@ package game;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Graph {
@@ -12,10 +13,11 @@ public class Graph {
 	private static boolean randBotPlayer1 = false;
 	public  static boolean getRandBotPlayer1() {return randBotPlayer1;}
 	// chooses whether randBot is active
-	private static boolean activateRandom = true;
-	public  static boolean getActivateRandom() {return activateRandom;}
+	private static boolean activateRandom;
+    public static void setActivateRandom(boolean activateRandom) { Graph.activateRandom = activateRandom; }
+    public  static boolean getActivateRandom() {return activateRandom;}
 	// Adjacency matrix
-    private static int[][] matrix;
+    static int[][] matrix;
 	public  static int[][] getMatrix(){return matrix;}
     // List of dots
     private static List<Vertex> vertexList;
@@ -29,8 +31,10 @@ public class Graph {
     // Height and width of the dots
     private static int height;
     private static int width;
-    public  static int getHeight(){return height;}
-    public  static int getWidth(){return width;}
+    public static int getHeight(){return height;}
+    public static int getWidth(){return width;}
+    public static void setHeight(int height) { Graph.height = height; }
+    public static void setWidth(int width) { Graph.width = width; }
     // tracking how many games each player has won
     private static int gamesWon1=0;
     private static int gamesWon2=0;
@@ -69,8 +73,17 @@ public class Graph {
     
     // initials or score counter in ScoreBox
     private static String player1Name = "Gerald";
+    public static void setPlayer1Name(String s){
+        player1Name=s;
+    }
     private static String player2Name = "Alex";
-    private static boolean initials = true;
+    public static void setPlayer2Name(String s){
+        player2Name=s;
+    }
+    private static boolean initials;
+    public static void setInitials(boolean s){
+        initials=s;
+    }
     
     public  static String getPlayer1Name(){return player1Name;}
     public  static String getPlayer2Name(){return player2Name;}

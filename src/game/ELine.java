@@ -70,8 +70,8 @@ public class ELine extends JLabel {
                     setBackground(Color.BLACK);
                     repaint();
                     // set the adjacency matrix to 2, 2==is a line, 1==is a possible line
-                    Graph.getMatrix()[vertices.get(0).getID()][vertices.get(1).getID()] = 2;
-                    Graph.getMatrix()[vertices.get(1).getID()][vertices.get(0).getID()] = 2;
+                    Graph.matrix[vertices.get(0).getID()][vertices.get(1).getID()] = 2;
+                    Graph.matrix[vertices.get(1).getID()][vertices.get(0).getID()] = 2;
                     // gets an arrayList of each box the ELine creates. The box is an arrayList of 4 vertices.
                     ArrayList<ArrayList<Vertex>> boxes = checkBox();
                     if (boxes != null) {

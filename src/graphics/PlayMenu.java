@@ -1,5 +1,8 @@
 package graphics;
 
+import game.GameBoard;
+import game.Graph;
+
 import javax.swing.*;
 import javax.swing.text.NumberFormatter;
 
@@ -23,6 +26,7 @@ public class PlayMenu implements Menu{
 	
 	private boolean botActive=false;
 	private boolean showInitials=false;
+	private boolean customSize=false;
 	private int size=1;
 
 
@@ -61,8 +65,15 @@ public class PlayMenu implements Menu{
 		play = Button(Paths.BUTTON_START);
 		play.setLocation(475,573);
 		play.addActionListener(new ActionListener(){ public void actionPerformed(ActionEvent e){
-			GameMenu game= new GameMenu(base,player1name.getText(),player2name.getText());
-			base.setVisiblePanel(game.getPanel());
+			if(customSize){
+				Graph.setWidth(Integer.parseInt(boardW.getText()));
+				Graph.setHeight(Integer.parseInt(boardH.getText()));
+			}
+			new GameBoard();
+			Graph.setPlayer1Name(player1name.getText());
+			Graph.setPlayer2Name(player2name.getText());
+			Graph.setActivateRandom(botActive);
+			System.out.println(customSize);
 		}});
 	}
 
@@ -100,7 +111,8 @@ public class PlayMenu implements Menu{
 		initials.setSize(30, 30);
 		initials.setLocation(178,302);
 		initials.setOpaque(false);
-		initials.addItemListener(new ItemListener() {public void itemStateChanged(ItemEvent e) {showInitials=!showInitials;}});
+		initials.addItemListener(new ItemListener() {public void itemStateChanged(ItemEvent e) {showInitials=!showInitials;
+		Graph.setInitials(showInitials);}});
 	}
 
 	private void setUpBoard(){
@@ -150,15 +162,25 @@ public class PlayMenu implements Menu{
 		switch (size){
 		case 1:
 			setIcon(size1, Paths.BUTTON_SIZE1);
+			customSize=false;
+			Graph.setHeight(3);
+			Graph.setWidth(3);
 			break;
 		case 2:
 			setIcon(size2, Paths.BUTTON_SIZE2);
+			customSize=false;
+			Graph.setHeight(4);
+			Graph.setWidth(4);
 			break;
 		case 3:
 			setIcon(size3, Paths.BUTTON_SIZE3);
+			customSize=false;
+			Graph.setHeight(5);
+			Graph.setWidth(5);
 			break;
 		case 4:
 			setIcon(custom, Paths.BUTTON_CUSTOM);
+			customSize=true;
 			boardW.setEditable(false);
 			boardH.setEditable(false);
 			break;
@@ -176,6 +198,7 @@ public class PlayMenu implements Menu{
 			break;
 		case 4:
 			setIcon(custom, Paths.BUTTON_CUSTOM_SELECTED);
+			customSize=true;
 			boardW.setEditable(true);
 			boardH.setEditable(true);
 			break;

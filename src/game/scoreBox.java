@@ -66,22 +66,15 @@ public class scoreBox extends JLabel {
         if(Graph.getPlayer1Turn()){
             this.setForeground(Color.RED);
             if(Graph.getInitials()){
-                if(Graph.getActivateRandom()&&Graph.getRandBotPlayer1()){
-                    setText("B");
-                }else {
-                    setText(Character.toString(Graph.getPlayer1Name().charAt(0)));
-                }
+                setText(Character.toString(Graph.getPlayer1Name().charAt(0)));
+
             }else {
                 this.setText(Integer.toString(Graph.getPlayer1Score() + 1));
             }
         }else{
             this.setForeground(Color.BLUE);
             if(Graph.getInitials()){
-                if(Graph.getActivateRandom()&&!Graph.getRandBotPlayer1()){
-                    setText("B");
-                }else {
-                    setText(Character.toString(Graph.getPlayer2Name().charAt(0)));
-                }
+                setText(Character.toString(Graph.getPlayer2Name().charAt(0)));
             }else {
                 this.setText(Integer.toString(Graph.getPlayer2Score() + 1));
             }

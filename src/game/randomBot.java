@@ -30,8 +30,8 @@ public class randomBot {
         Graph.getAvailableLines().get(chosen).setActivated(true);
         Graph.getAvailableLines().get(chosen).setBackground(Color.BLACK);
         Graph.getAvailableLines().get(chosen).repaint();
-        Graph.getMatrix()[Graph.getAvailableLines().get(chosen).vertices.get(0).getID()][Graph.getAvailableLines().get(chosen).vertices.get(1).getID()] = 2;
-        Graph.getMatrix()[Graph.getAvailableLines().get(chosen).vertices.get(1).getID()][Graph.getAvailableLines().get(chosen).vertices.get(0).getID()] = 2;
+        Graph.matrix[Graph.getAvailableLines().get(chosen).vertices.get(0).getID()][Graph.getAvailableLines().get(chosen).vertices.get(1).getID()] = 2;
+        Graph.matrix[Graph.getAvailableLines().get(chosen).vertices.get(1).getID()][Graph.getAvailableLines().get(chosen).vertices.get(0).getID()] = 2;
         ArrayList<ArrayList<Vertex>> boxes = Graph.getAvailableLines().get(chosen).checkBox();
         if (boxes != null) {
             for (ArrayList<Vertex> box : boxes) {
