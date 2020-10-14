@@ -207,21 +207,9 @@ public class Graph {
                 horizontal=false;
             }
         }
-        
-        public ArrayList<Vertex> getVertices(){
-        	return this.vertices;
-        }
-        
+
         public ELine getEline() {
         	return this.line;
-        }
-        
-        public void setVertices(ArrayList<Vertex> v){
-        	this.vertices=v;
-        }
-        
-        public void setEline(ELine l) {
-        	this.line=l;
         }
         
         // Creates the ELine

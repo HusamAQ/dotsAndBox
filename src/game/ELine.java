@@ -15,9 +15,6 @@ public class ELine extends JLabel {
 
     // Whether the line has been clicked or not
 	private boolean activated = false;
-    // the bottom left x and y coordinates of the line
-	private int startX;
-	private int startY;
     // the vertices
     public ArrayList<Vertex> vertices;
     // whether it's horizontal
@@ -29,10 +26,9 @@ public class ELine extends JLabel {
         }else{
             horizontal=false;
         }
-        startX=x;
-        startY=y;
         // the line starts off invisible, e.g White
         setBackground(Color.WHITE);
+        // x and y is the the bottom left x and y coordinates of the line
         setBounds(x,y,w,h);
         setOpaque(true);
         // the mouseListener

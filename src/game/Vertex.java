@@ -23,10 +23,6 @@ public class Vertex {
         this.id=id;
     }
     
-    public void setID(int id) {
-    	this.id=id;
-    }
-    
     public int getID() {
     	return this.id;
     }
@@ -69,14 +65,6 @@ public class Vertex {
         int heightM=(Paths.FRAME_HEIGHT-150)/(Gheight-1);
         width=50+(id%Gwidth)*widthM;
         height=100+(id/Gwidth)*heightM;
-    }
-    
-    public void setHeight(int h) {
-    	height=h;
-    }
-    
-    public void setWidth(int w) {
-    	width=w;
     }
     
     public int getHeight() {

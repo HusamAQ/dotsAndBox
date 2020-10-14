@@ -38,22 +38,10 @@ public class scoreBox extends JLabel {
     	return avgY;
     }
     
-    public void setAvgX(int x) {
-    	avgX=x;
-    }
-    
-    public void setAvgY(int y) {
-    	avgY=y;
-    }
-    
     public boolean getActivated() {
     	return activated;
     }
-    
-    public void setActivated(boolean ac) {
-    	activated=ac;
-    }
-    
+
     public ArrayList<Vertex> getVertices(){
     	return this.vertices;
     }
