@@ -6,10 +6,7 @@ import java.awt.*;
 
 public class dotDrawer extends LayerUI<JComponent> {
     // Layers the dots over the JPanel/JLabels
-	private Graph graph;
-    public dotDrawer(Graph g){
-        graph=g;
-    }
+    public dotDrawer(){ }
     @Override
     public void paint(Graphics g, JComponent c){
         super.paint(g,c);

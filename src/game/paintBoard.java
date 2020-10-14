@@ -11,9 +11,7 @@ import static game.Graph.*;
 
 public class paintBoard extends JPanel {
     // Base JPanel
-    private Graph graph;
-    public paintBoard(Graph gr){
-        graph=gr;
+    public paintBoard(){
         this.setLayout(null);
         this.setBackground(Color.WHITE);
         // adds the edges to the JPanel

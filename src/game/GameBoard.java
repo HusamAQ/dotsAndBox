@@ -18,9 +18,9 @@ public class GameBoard{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         graph = new Graph(Graph.getHeight(),Graph.getWidth(),frame);
         graph.createGraph();
-        panel = new paintBoard(graph);
+        panel = new paintBoard();
         // dotDrawer draws the dots over the edges, I used layerUI because it draws over JLabels.
-        LayerUI<JComponent> layerUI = new dotDrawer(graph);
+        LayerUI<JComponent> layerUI = new dotDrawer();
         JLayer<JComponent> jlayer = new JLayer<JComponent>(panel,layerUI);
         frame.setSize(Paths.FRAME_WIDTH,Paths.FRAME_HEIGHT);
         frame.setResizable(false);
@@ -41,9 +41,9 @@ public class GameBoard{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         graph = new Graph(h,w,frame);
         graph.createGraph();
-        panel = new paintBoard(graph);
+        panel = new paintBoard();
         // dotDrawer draws the dots over the edges, I used layerUI because it draws over JLabels.
-        LayerUI<JComponent> layerUI = new dotDrawer(graph);
+        LayerUI<JComponent> layerUI = new dotDrawer();
         JLayer<JComponent> jlayer = new JLayer<JComponent>(panel,layerUI);
         frame.setSize(Paths.FRAME_WIDTH,Paths.FRAME_HEIGHT);
         frame.setResizable(false);
