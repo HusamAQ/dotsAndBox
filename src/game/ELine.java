@@ -5,9 +5,6 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Objects;
-
-import static game.Graph.*;
 
 
 public class ELine extends JLabel {
@@ -89,7 +86,7 @@ public class ELine extends JLabel {
                             Graph.getScreen().toggle();
                         }
                     } else {
-                        // switches turn. If randomBot is active switches to their turn.
+                        // switches turn. If RandomBot is active switches to their turn.
                         if (Graph.getPlayer1Turn()) {
                         	Graph.setPlayer1Turn(false) ;
                             if(!Graph.getRandBotPlayer1()&&Graph.getActivateRandom()){
@@ -106,16 +103,16 @@ public class ELine extends JLabel {
             }
         });
     }
-    // if every scoreBox is active, the game is over
+    // if every ScoreBox is active, the game is over
     public boolean checkFinished(){
-        for(scoreBox box: Graph.getCounterBoxes()){
+        for(ScoreBox box: Graph.getCounterBoxes()){
             if(!box.getActivated()){
                 return false;
             }
         }
         return true;
     }
-    // gets an arrayList of 4 vertices and finds the matching scoreBox in counterBoxes through their average x and y coordinates, then displays it.
+    // gets an arrayList of 4 vertices and finds the matching ScoreBox in counterBoxes through their average x and y coordinates, then displays it.
     // for when a box is completed
     // it uses average x and y coordinates because then no matter the order of the arrayList, if they have the same average x and y then they are the same box.
     public void checkMatching(ArrayList<Vertex> box){
@@ -127,7 +124,7 @@ public class ELine extends JLabel {
         }
         avgX=avgX/4;
         avgY=avgY/4;
-        for(scoreBox sc: Graph.getCounterBoxes()){
+        for(ScoreBox sc: Graph.getCounterBoxes()){
             if(sc.getAvgX()==avgX&&sc.getAvgY()==avgY){
                 sc.setText();
             }

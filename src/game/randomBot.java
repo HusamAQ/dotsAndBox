@@ -1,16 +1,11 @@
 package game;
 
-import game.ELine;
-import game.Graph;
-import game.Vertex;
-import game.scoreBox;
-
 import java.awt.*;
 import java.util.ArrayList;
 
-public class randomBot {
+public class RandomBot {
     // places edges randomly except will always complete a box and won't set up boxes for the other player
-    public randomBot(){}
+    public RandomBot(){}
     // places the edge
     public void placeRandomEdge() {
         boolean stop=false;
@@ -74,7 +69,7 @@ public class randomBot {
     // returns the edge that creates the box's index in availableLines
     public int checkForBox(){
         // for each box in counterBoxes
-        for(scoreBox box: Graph.getCounterBoxes()){
+        for(ScoreBox box: Graph.getCounterBoxes()){
             int a = Graph.getMatrix()[box.getVertices().get(0).getID()][box.getVertices().get(1).getID()];
             int b = Graph.getMatrix()[box.getVertices().get(0).getID()][box.getVertices().get(2).getID()];
             int c = Graph.getMatrix()[box.getVertices().get(1).getID()][box.getVertices().get(3).getID()];

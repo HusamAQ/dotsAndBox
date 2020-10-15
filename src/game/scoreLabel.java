@@ -8,12 +8,12 @@ import javax.swing.border.CompoundBorder;
 
 import java.awt.*;
 
-public class scoreLabel extends JLabel {
+public class ScoreLabel extends JLabel {
     // the score counters
 
     // if num==1, it's for player 1, if num==2 it's for player 2
     private int num;
-    public scoreLabel(int num){
+    public ScoreLabel(int num){
         setBorder(BorderFactory.createStrokeBorder(new BasicStroke(5.0f)));
         setBackground(Color.LIGHT_GRAY);
         setOpaque(true);
