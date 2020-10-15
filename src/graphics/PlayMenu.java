@@ -83,6 +83,7 @@ public class PlayMenu implements Menu{
 			Graph.setPlayer1Name(player1name.getText());
 			Graph.setPlayer2Name(player2name.getText());
 			Graph.setActivateRandom(botActive);
+			base.getFrame().setVisible(false);
 //			System.out.println(customSize);
 		}});
 	}
