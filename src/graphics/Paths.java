@@ -7,7 +7,7 @@ public interface Paths {
 
 	public static final String BACKGROUND_MAIN="resources\\MainBackground2.png";
 	public static final String BACKGROUND_PLAY="resources\\PlayBG.png";
-	public static final String BACKGROUND_RULES="resources\\GeneralBackground.png";
+	public static final String BACKGROUND_RULES="resources\\RulesBG.png";
 	public static final String BACKGROUND_CREDITS="resources\\CreditBGpng.png";
 
 	public static final String BUTTON_PLAY="resources\\Play.png";
