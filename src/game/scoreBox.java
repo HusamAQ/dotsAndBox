@@ -53,6 +53,7 @@ public class scoreBox extends JLabel {
         this.setFont(new Font("TimesRoman",Font.BOLD,30));
         if(Graph.getPlayer1Turn()){
             this.setForeground(Color.RED);
+            // if it's set to initials it displays the first initial of the player name
             if(Graph.getInitials()){
                 setText(Character.toString(Graph.getPlayer1Name().charAt(0)));
 

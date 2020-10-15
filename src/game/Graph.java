@@ -7,6 +7,9 @@ import java.util.List;
 
 public class Graph {
     // Overarching game class
+    // Stores all the information about the game
+
+    // The randomBot
 	private static randomBot randBot = new randomBot();
 	public  static randomBot getRandomBot() {return randBot;}
     // chooses whether randBot will be player 1 or 2
@@ -28,7 +31,7 @@ public class Graph {
     // List of lines (edges) that haven't been activated yet
     private static ArrayList<ELine> availableLines;
 	public  static ArrayList<ELine> getAvailableLines(){return availableLines;}
-    // Height and width of the dots
+    // Height and width of the dots (e.g 3x3, 4x4, 5x3)
     private static int height;
     private static int width;
     public static int getHeight(){return height;}
@@ -63,7 +66,7 @@ public class Graph {
     
     public  static void setPlayer1Score(int s){player1Score=s;}
     public  static void setPlayer2Score(int s){player2Score=s;}
-    // All of the boxes, so if a box is completed this displays, can be either initials or the score counter
+    // All of the possible boxes, if a box is completed the scoreBox displays, can be either initials or the score counter
     private static ArrayList<scoreBox> counterBoxes;
     public  static ArrayList<scoreBox> getCounterBoxes(){return counterBoxes;}
     
@@ -71,7 +74,7 @@ public class Graph {
     private static gameOver screen;
     public  static gameOver getScreen(){return screen;}
     
-    // initials or score counter in ScoreBox
+    // Takes the first initial in ScoreBox if selected
     private static String player1Name = "Gerald";
     public static void setPlayer1Name(String s){
         player1Name=s;
@@ -88,7 +91,7 @@ public class Graph {
     public  static String getPlayer1Name(){return player1Name;}
     public  static String getPlayer2Name(){return player2Name;}
     public  static boolean getInitials(){return initials;}
-    
+    // JFrame is inherited so it can be passed down to gameOver
     private JFrame frame;
     
     public Graph(int h, int w, JFrame screen){
@@ -156,8 +159,9 @@ public class Graph {
         int[][] matrixCopy = new int[matrix.length][matrix[0].length];
         for(int r=0;r<matrix.length;r++){
             for(int q=0;q<matrix[0].length;q++){
-                // If a space in the matrix == 1, then it creates and edge and adds it to the edge list, it then sets it so the inverse isn't added
-                // e.g it adds the edge 0--1 but not 1--0
+                // If a space in the matrix == 1, then it creates and edge and adds it to the edge list,
+                // Then it then sets it so the inverse isn't added
+                // e.g it adds the edge 0--1 but not the inverse 1--0
                 if(matrixCopy[r][q]!=3) {
                     matrixCopy[r][q] = matrix[r][q];
                 }
@@ -204,6 +208,7 @@ public class Graph {
                 horizontal=true;
             }
             else{
+                //else it's vertical
                 horizontal=false;
             }
         }

@@ -8,8 +8,9 @@ import javax.swing.plaf.LayerUI;
 
 public class GameBoard{
     // Overall launcher for the game
+    // Graphical frame
     private JFrame frame;
-    // Graph is the background of the game
+    // Graph is the background engine of the game
     private Graph graph;
     // paintBoard is the JPanel for the edges, score counter and score boxes
     private paintBoard panel;
@@ -36,6 +37,7 @@ public class GameBoard{
             }
         }
     }
+    // overloaded constructor in case you want to call GameBoard without the player having gone through the settings yet
     public GameBoard(int h, int w){
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

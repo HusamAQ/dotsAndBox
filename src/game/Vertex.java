@@ -15,7 +15,7 @@ public class Vertex {
     // 3 4 5
     // 6 7 8
     private int id;
-    // the vertices that it can create an edge with
+    // reference to the vertices that it can create an edge with
     private Vertex leftVertex, rightVertex, upVertex, downVertex;
     private int height, width;
     

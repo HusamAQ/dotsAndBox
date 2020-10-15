@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 
 
 public class gameOver{
+    // This is the game over screen class
+
     // JFrame for the current game, so it can close it down
     private JFrame frame;
     // game over screen.
@@ -33,6 +35,7 @@ public class gameOver{
         otherText.setFont(new Font("TimesRoman",Font.PLAIN,(int)(Math.sqrt(Paths.FRAME_HEIGHT*Paths.FRAME_WIDTH)/10)));
         JLabel wonCounter = new JLabel();
         wonCounter.setFont(new Font("TimesRoman",Font.PLAIN,(int)(Math.sqrt(Paths.FRAME_HEIGHT*Paths.FRAME_WIDTH)/20)));
+        // sets score counters
         if(Graph.getPlayer1Score()>Graph.getPlayer2Score()){
             text.setForeground(Color.RED);
             otherText.setForeground(Color.RED);
