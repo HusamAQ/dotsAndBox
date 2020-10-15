@@ -12,8 +12,8 @@ public class GameBoard{
     private JFrame frame;
     // Graph is the background engine of the game
     private Graph graph;
-    // paintBoard is the JPanel for the edges, score counter and score boxes
-    private paintBoard panel;
+    // PaintBoard is the JPanel for the edges, score counter and score boxes
+    private PaintBoard panel;
     public GameBoard(){
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -22,15 +22,15 @@ public class GameBoard{
 		ImageIcon img = new ImageIcon(Paths.TOP_ICON);
 		frame.setIconImage(img.getImage());
         graph.createGraph();
-        panel = new paintBoard();
-        // dotDrawer draws the dots over the edges, I used layerUI because it draws over JLabels.
-        LayerUI<JComponent> layerUI = new dotDrawer();
+        panel = new PaintBoard();
+        // DotDrawer draws the dots over the edges, I used layerUI because it draws over JLabels.
+        LayerUI<JComponent> layerUI = new DotDrawer();
         JLayer<JComponent> jlayer = new JLayer<JComponent>(panel,layerUI);
         frame.setSize(Paths.FRAME_WIDTH,Paths.FRAME_HEIGHT);
         frame.setResizable(false);
         frame.add(jlayer);
         frame.setVisible(true);
-        // activate randomBot
+        // activate RandomBot
         if(Graph.getActivateRandom()){
             if(Graph.getRandBotPlayer1()){
                 Graph.getRandomBot().placeRandomEdge();
@@ -46,15 +46,15 @@ public class GameBoard{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         graph = new Graph(h,w,frame);
         graph.createGraph();
-        panel = new paintBoard();
-        // dotDrawer draws the dots over the edges, I used layerUI because it draws over JLabels.
-        LayerUI<JComponent> layerUI = new dotDrawer();
+        panel = new PaintBoard();
+        // DotDrawer draws the dots over the edges, I used layerUI because it draws over JLabels.
+        LayerUI<JComponent> layerUI = new DotDrawer();
         JLayer<JComponent> jlayer = new JLayer<JComponent>(panel,layerUI);
         frame.setSize(Paths.FRAME_WIDTH,Paths.FRAME_HEIGHT);
         frame.setResizable(false);
         frame.add(jlayer);
         frame.setVisible(true);
-        // activate randomBot
+        // activate RandomBot
         if(Graph.getActivateRandom()){
             if(Graph.getRandBotPlayer1()){
                 Graph.getRandomBot().placeRandomEdge();

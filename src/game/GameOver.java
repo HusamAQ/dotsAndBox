@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class gameOver{
+public class GameOver {
     // This is the game over screen class
 
     // JFrame for the current game, so it can close it down
@@ -17,7 +17,7 @@ public class gameOver{
     private JFrame next;
     private JPanel panel;
 
-    public gameOver(JFrame frame){
+    public GameOver(JFrame frame){
         this.frame=frame;
     }
     // turns it on

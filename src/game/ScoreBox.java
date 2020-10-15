@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import static game.Graph.*;
 
-public class scoreBox extends JLabel {
+public class ScoreBox extends JLabel {
     // the icons that pop up when a box is completed
     // the average x and y position for each of the vertices.
 	private int avgX;
@@ -16,7 +16,7 @@ public class scoreBox extends JLabel {
 	private boolean activated;
 	private ArrayList<Vertex> vertices;
     
-    public scoreBox(ArrayList<Vertex> box){
+    public ScoreBox(ArrayList<Vertex> box){
         activated=false;
         // calculates the avgX and avgY
         avgX=0;

@@ -2,16 +2,15 @@ package game;
 
 import javax.swing.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Graph {
     // Overarching game class
     // Stores all the information about the game
 
-    // The randomBot
-	private static randomBot randBot = new randomBot();
-	public  static randomBot getRandomBot() {return randBot;}
+    // The RandomBot
+	private static RandomBot randBot = new RandomBot();
+	public  static RandomBot getRandomBot() {return randBot;}
     // chooses whether randBot will be player 1 or 2
 	private static boolean randBotPlayer1 = false;
 	public  static boolean getRandBotPlayer1() {return randBotPlayer1;}
@@ -47,10 +46,10 @@ public class Graph {
     public  static void setGamesWon1(int x){gamesWon1=x;}
     public  static void setGamesWon2(int x){gamesWon2=x;}
     // The JLabels for displaying the score
-    private  static scoreLabel score1;
-    private static scoreLabel score2;
-    public  static scoreLabel getScore1(){return score1;}
-    public  static scoreLabel getScore2(){return score2;}
+    private  static ScoreLabel score1;
+    private static ScoreLabel score2;
+    public  static ScoreLabel getScore1(){return score1;}
+    public  static ScoreLabel getScore2(){return score2;}
     // tracking whether it's player 1's turn or not
     private static boolean player1Turn;
     public  static boolean getPlayer1Turn() {
@@ -66,13 +65,13 @@ public class Graph {
     
     public  static void setPlayer1Score(int s){player1Score=s;}
     public  static void setPlayer2Score(int s){player2Score=s;}
-    // All of the possible boxes, if a box is completed the scoreBox displays, can be either initials or the score counter
-    private static ArrayList<scoreBox> counterBoxes;
-    public  static ArrayList<scoreBox> getCounterBoxes(){return counterBoxes;}
+    // All of the possible boxes, if a box is completed the ScoreBox displays, can be either initials or the score counter
+    private static ArrayList<ScoreBox> counterBoxes;
+    public  static ArrayList<ScoreBox> getCounterBoxes(){return counterBoxes;}
     
     // Game over screen
-    private static gameOver screen;
-    public  static gameOver getScreen(){return screen;}
+    private static GameOver screen;
+    public  static GameOver getScreen(){return screen;}
     
     // Takes the first initial in ScoreBox if selected
     private static String player1Name = "Gerald";
@@ -91,7 +90,7 @@ public class Graph {
     public  static String getPlayer1Name(){return player1Name;}
     public  static String getPlayer2Name(){return player2Name;}
     public  static boolean getInitials(){return initials;}
-    // JFrame is inherited so it can be passed down to gameOver
+    // JFrame is inherited so it can be passed down to GameOver
     private JFrame frame;
     
     public Graph(int h, int w, JFrame screen){
@@ -104,10 +103,10 @@ public class Graph {
         player1Turn=true;
         player1Score=0;
         player2Score=0;
-        screen = new gameOver(frame);
+        screen = new GameOver(frame);
         counterBoxes= new ArrayList<>();
-        score1=new scoreLabel(1);
-        score2=new scoreLabel(2);
+        score1=new ScoreLabel(1);
+        score2=new ScoreLabel(2);
         vertexList= new ArrayList<>();
         // Creates every vertex and sets it's ID and position
         for(int w=0;w<height*width;w++){
@@ -183,7 +182,7 @@ public class Graph {
                     box.add(vertexList.get(counter + 1));
                     box.add(vertexList.get(counter + width));
                     box.add(vertexList.get(counter + width + 1));
-                    counterBoxes.add(new scoreBox(box));
+                    counterBoxes.add(new ScoreBox(box));
                 }
                 counter++;
             }
