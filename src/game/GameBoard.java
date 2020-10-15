@@ -18,6 +18,9 @@ public class GameBoard{
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         graph = new Graph(Graph.getHeight(),Graph.getWidth(),frame);
+        frame.setTitle("Dots & Boxes");
+		ImageIcon img = new ImageIcon(Paths.TOP_ICON);
+		frame.setIconImage(img.getImage());
         graph.createGraph();
         panel = new PaintBoard();
         // DotDrawer draws the dots over the edges, I used layerUI because it draws over JLabels.
