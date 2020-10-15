@@ -5,11 +5,9 @@ import javax.swing.plaf.LayerUI;
 import java.awt.*;
 
 public class dotDrawer extends LayerUI<JComponent> {
-    // Layers the dots over the JPanel/JLabels
-	private Graph graph;
-    public dotDrawer(Graph g){
-        graph=g;
-    }
+    // Normally Graphics2d only draws underneath the JPanels
+    // This layers the dots over the JPanel/JLabels
+    public dotDrawer(){ }
     @Override
     public void paint(Graphics g, JComponent c){
         super.paint(g,c);

@@ -15,9 +15,6 @@ public class ELine extends JLabel {
 
     // Whether the line has been clicked or not
 	private boolean activated = false;
-    // the bottom left x and y coordinates of the line
-	private int startX;
-	private int startY;
     // the vertices
     public ArrayList<Vertex> vertices;
     // whether it's horizontal
@@ -29,10 +26,10 @@ public class ELine extends JLabel {
         }else{
             horizontal=false;
         }
-        startX=x;
-        startY=y;
         // the line starts off invisible, e.g White
         setBackground(Color.WHITE);
+        // x and y is the the bottom left x and y coordinates of the line
+        // w and h is the width and height
         setBounds(x,y,w,h);
         setOpaque(true);
         // the mouseListener
@@ -91,10 +88,6 @@ public class ELine extends JLabel {
                         if(checkFinished()){
                             Graph.getScreen().toggle();
                         }
-                        // if it's the random box's turn and it creates a box, it will have another turn.
-                        if(Graph.getActivateRandom()&&Graph.getRandBotPlayer1()==Graph.getPlayer1Turn()){
-                        	Graph.getRandomBot().placeRandomEdge();
-                        }
                     } else {
                         // switches turn. If randomBot is active switches to their turn.
                         if (Graph.getPlayer1Turn()) {
@@ -122,7 +115,9 @@ public class ELine extends JLabel {
         }
         return true;
     }
-    // checks to find the matching box in counterBoxes through their average x and y coordinates, then displays it.
+    // gets an arrayList of 4 vertices and finds the matching scoreBox in counterBoxes through their average x and y coordinates, then displays it.
+    // for when a box is completed
+    // it uses average x and y coordinates because then no matter the order of the arrayList, if they have the same average x and y then they are the same box.
     public void checkMatching(ArrayList<Vertex> box){
         int avgX=0;
         int avgY=0;
@@ -138,7 +133,8 @@ public class ELine extends JLabel {
             }
         }
     }
-    // checks whether an edge creates a box, through the adjacency matrix
+    // checks whether placing this edge creates a box, through the adjacency matrix
+    // adds each box the line does create to an arrayList of 4 vertices, then returns an arrayList of those arrayLists.
     public ArrayList<ArrayList<Vertex>> checkBox(){
         ArrayList<ArrayList<Vertex>> listOfBoxes = new ArrayList<>();
         if(horizontal){

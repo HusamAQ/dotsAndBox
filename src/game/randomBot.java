@@ -112,9 +112,6 @@ public class randomBot {
                 return p;
             }
         }
-        for(ELine l: Graph.getAvailableLines()){
-            System.out.println(l.vertices.get(0).getID()+" -- "+l.vertices.get(1).getID());
-        }
         return -1;
     }
     // removes every edge which sets up a box for the other player

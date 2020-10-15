@@ -15,16 +15,12 @@ public class Vertex {
     // 3 4 5
     // 6 7 8
     private int id;
-    // the vertices that it can create an edge with
+    // reference to the vertices that it can create an edge with
     private Vertex leftVertex, rightVertex, upVertex, downVertex;
     private int height, width;
     
     public Vertex(int id){
         this.id=id;
-    }
-    
-    public void setID(int id) {
-    	this.id=id;
     }
     
     public int getID() {
@@ -69,14 +65,6 @@ public class Vertex {
         int heightM=(Paths.FRAME_HEIGHT-150)/(Gheight-1);
         width=50+(id%Gwidth)*widthM;
         height=100+(id/Gwidth)*heightM;
-    }
-    
-    public void setHeight(int h) {
-    	height=h;
-    }
-    
-    public void setWidth(int w) {
-    	width=w;
     }
     
     public int getHeight() {

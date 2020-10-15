@@ -38,22 +38,10 @@ public class scoreBox extends JLabel {
     	return avgY;
     }
     
-    public void setAvgX(int x) {
-    	avgX=x;
-    }
-    
-    public void setAvgY(int y) {
-    	avgY=y;
-    }
-    
     public boolean getActivated() {
     	return activated;
     }
-    
-    public void setActivated(boolean ac) {
-    	activated=ac;
-    }
-    
+
     public ArrayList<Vertex> getVertices(){
     	return this.vertices;
     }
@@ -65,6 +53,7 @@ public class scoreBox extends JLabel {
         this.setFont(new Font("TimesRoman",Font.BOLD,30));
         if(Graph.getPlayer1Turn()){
             this.setForeground(Color.RED);
+            // if it's set to initials it displays the first initial of the player name
             if(Graph.getInitials()){
                 setText(Character.toString(Graph.getPlayer1Name().charAt(0)));
 
