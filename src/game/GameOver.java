@@ -64,6 +64,7 @@ public class GameOver {
             }else{
                 text.setForeground(Color.WHITE);
                 otherText.setForeground(Color.WHITE);
+                otherText.setFont(new Font("TimesRoman",Font.PLAIN,(int)(Math.sqrt(Paths.FRAME_HEIGHT*Paths.FRAME_WIDTH)/(0.322*3+ 8.33))));
                 otherText.setText("TIE");
             }
         }
