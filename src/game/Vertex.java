@@ -17,7 +17,7 @@ public class Vertex {
     private int id;
     // reference to the vertices that it can create an edge with
     private Vertex leftVertex, rightVertex, upVertex, downVertex;
-    private int height, width;
+    private int x, y;
     
     public Vertex(int id){
         this.id=id;
@@ -63,16 +63,16 @@ public class Vertex {
     public void setPosition(int Gwidth, int Gheight){
         int widthM=(Paths.FRAME_WIDTH-100)/(Gwidth-1);
         int heightM=(Paths.FRAME_HEIGHT-150)/(Gheight-1);
-        width=50+(id%Gwidth)*widthM;
-        height=100+(id/Gwidth)*heightM;
+        x=50+(id%Gwidth)*widthM;
+        y=100+(id/Gwidth)*heightM;
     }
     
     public int getHeight() {
-    	return height;
+    	return y;
     }
     
     public int getWidth() {
-    	return width;
+    	return x;
     }
 
     public String toString(){
