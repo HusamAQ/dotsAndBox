@@ -5,7 +5,7 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-
+//This is a class that acts as a JPanel with a background that is an image.
 public class Background extends JPanel{
 	private Image bg;
 	

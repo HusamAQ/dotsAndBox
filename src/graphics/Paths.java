@@ -1,8 +1,6 @@
 package graphics;
 
-
-//MAKE SURE TO CHANGE THIS TO UR RESPECTIVE FILE PATH ON YOUR COMPUTER!!
-//AND WHEN YOU COMMIT DO NOT COMMIT THIS BECAUSE IT RUINS THE GRAPHICS FOR THE REST OF THE GROUP
+// This is an interface which contains all of the paths needed to display the graphics of the game
 public interface Paths {
 	public static final String TOP_ICON="resources\\MainBackground2.png";
 

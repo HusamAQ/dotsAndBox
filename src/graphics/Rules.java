@@ -2,7 +2,7 @@ package graphics;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
+//Rules Menu
 public class Rules implements Menu{
 	private static Menu instance=null;;
 

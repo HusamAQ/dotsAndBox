@@ -2,7 +2,7 @@ package graphics;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
+//Credits Menu
 public class Credits implements Menu{
 	private static Menu instance=null;;
 	
