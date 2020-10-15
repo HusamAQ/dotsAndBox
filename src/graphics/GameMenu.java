@@ -11,40 +11,23 @@ public class GameMenu implements Menu{
 	private MenuBasic base;
 	
 	public GameMenu(MenuBasic base) {
-		this.base=base;
-		this.mainPanel=new JPanel();
-		this.leftPanel=new JPanel();
-		this.rightPanel=new JPanel();
 		
-		setUpPanels();
 	}
 	
 	public GameMenu(MenuBasic base, String p1, String p2) {
-		this.base=base;
 		
-		this.p1=p1;
-		this.p2=p2;
-		
-		this.mainPanel=new JPanel();
-		this.leftPanel=new JPanel();
-		this.rightPanel=new JPanel();
-		
-		setUpPanels();
 	}
 	
-	private void setUpPanels() {
-		this.mainPanel.setLayout(null);
-		setUpLeft();
-		setUpRight();
-	}
+	private void setUpPanels() {}
+		
 	
 
 	private void setUpLeft() {
-		//TODO Side panel which will display details like score and players names
+		
 	}
 
 	private void setUpRight() {
-		//TODO this will be the game board.
+
 	}
 
 	@Override

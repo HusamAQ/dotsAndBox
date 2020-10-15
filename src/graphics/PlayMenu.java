@@ -16,19 +16,18 @@ import java.text.NumberFormat;
 
 public class PlayMenu implements Menu{
 	private static Menu instance=null;
-	
+	//Components of the Panel
 	private JPanel playMenuPanel;
 	private JButton back,play,human,bot,size1,size2,size3,custom;
 	private JTextField player1name, player2name;
 	private JFormattedTextField boardW, boardH;
 	private JCheckBox initials;
-	
+	//reference to original frame
 	private MenuBasic base;
-	
+	//Game Settings
 	private boolean botActive=false;
 	private boolean showInitials=false;
 	private boolean customSize=false;
-	private boolean sizeChosen=false;
 	private int size=1;
 
 
@@ -63,7 +62,7 @@ public class PlayMenu implements Menu{
 	public JPanel getPanel() {
 		return this.playMenuPanel;
 	}
-	
+	//adds a component to the panel
 	private void add(Component obj) {
 		this.playMenuPanel.add(obj);
 	}
@@ -71,23 +70,35 @@ public class PlayMenu implements Menu{
 		play = Button(Paths.BUTTON_START);
 		play.setLocation(475,573);
 		play.addActionListener(new ActionListener(){ public void actionPerformed(ActionEvent e){
+			//Creates the game with the given settings
 			if(customSize){
-				Graph.setWidth(Integer.parseInt(boardW.getText()));
-				Graph.setHeight(Integer.parseInt(boardH.getText()));
+				Graph.setWidth(Math.abs(Integer.parseInt(boardW.getText())));
+				Graph.setHeight(Math.abs(Integer.parseInt(boardH.getText())));
 			}
-			if(!sizeChosen){
-				Graph.setWidth(3);
-				Graph.setHeight(3);
+			else{
+				switch (size){
+				case 1:
+					Graph.setWidth(3);
+					Graph.setHeight(3);
+					break;
+				case 2:
+					Graph.setWidth(4);
+					Graph.setHeight(4);
+					break;
+				case 3:
+					Graph.setWidth(5);
+					Graph.setHeight(5);
+					break;
+				}
 			}
 			new GameBoard();
 			Graph.setPlayer1Name(player1name.getText());
 			Graph.setPlayer2Name(player2name.getText());
 			Graph.setActivateRandom(botActive);
 			base.getFrame().setVisible(false);
-//			System.out.println(customSize);
 		}});
 	}
-
+//Sets up the player buttons and options
 	private void setUpPlayer(){
 		human=Button(Paths.BUTTON_HUMAN_SELECTED);
 		bot=Button(Paths.BUTTON_BOT);
@@ -125,7 +136,7 @@ public class PlayMenu implements Menu{
 		initials.addItemListener(new ItemListener() {public void itemStateChanged(ItemEvent e) {showInitials=!showInitials;
 		Graph.setInitials(showInitials);}});
 	}
-
+//Sets up the board options
 	private void setUpBoard(){
 		size1=Button(Paths.BUTTON_SIZE1_SELECTED);
 		size2=Button(Paths.BUTTON_SIZE2);
@@ -157,7 +168,7 @@ public class PlayMenu implements Menu{
 		size3.addActionListener(new ActionListener(){ public void actionPerformed(ActionEvent e){setActiveSize(3);}});
 		custom.addActionListener(new ActionListener(){ public void actionPerformed(ActionEvent e){setActiveSize(4);}});
 	}
-	
+	//Gives a button with an image
 	private JButton Button(String path) {
 		ImageIcon icon = new ImageIcon(path);
 		JButton button=new JButton(icon);
@@ -167,37 +178,21 @@ public class PlayMenu implements Menu{
 		button.setSize(Paths.BUTTONS_WIDTH_PLAY,Paths.BUTTONS_HEIGHT_PLAY);
 		return button;
 	}
-	
+	//changes the current choice of active board size 
 	private void setActiveSize(int s) {
 		if(s==size) return;
 		switch (size){
 		case 1:
 			setIcon(size1, Paths.BUTTON_SIZE1);
-			sizeChosen=true;
-			customSize=false;
-			Graph.setHeight(3);
-			Graph.setWidth(3);
 			break;
 		case 2:
 			setIcon(size2, Paths.BUTTON_SIZE2);
-			sizeChosen=true;
-			customSize=false;
-			Graph.setHeight(4);
-			Graph.setWidth(4);
 			break;
 		case 3:
 			setIcon(size3, Paths.BUTTON_SIZE3);
-			sizeChosen=true;
-			customSize=false;
-			Graph.setHeight(5);
-			Graph.setWidth(5);
 			break;
 		case 4:
 			setIcon(custom, Paths.BUTTON_CUSTOM);
-			sizeChosen=true;
-			customSize=true;
-			boardW.setEditable(false);
-			boardH.setEditable(false);
 			break;
 		}
 		
@@ -205,20 +200,14 @@ public class PlayMenu implements Menu{
 		case 1:
 			setIcon(size1, Paths.BUTTON_SIZE1_SELECTED);
 			customSize=false;
-			Graph.setHeight(3);
-			Graph.setWidth(3);
 			break;
 		case 2:
 			setIcon(size2, Paths.BUTTON_SIZE2_SELECTED);
 			customSize=false;
-			Graph.setHeight(4);
-			Graph.setWidth(4);
 			break;
 		case 3:
 			setIcon(size3, Paths.BUTTON_SIZE3_SELECTED);
 			customSize=false;
-			Graph.setHeight(5);
-			Graph.setWidth(5);
 			break;
 		case 4:
 			setIcon(custom, Paths.BUTTON_CUSTOM_SELECTED);
@@ -229,7 +218,7 @@ public class PlayMenu implements Menu{
 		}
 		size=s;
 	}
-	
+	//changes the icon of an image
 	private void setIcon(JButton button, String path) {
 		ImageIcon icon = new ImageIcon(path);
 		button.setIcon(icon);

@@ -3,7 +3,7 @@ package graphics;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
+//This is the main class of the GUI, it stores and allows for communication between all the other menus.
 public class MenuBasic {
 	private JFrame frame;
 	private JPanel panel;
@@ -13,6 +13,7 @@ public class MenuBasic {
 	private Rules rules;
 	private Credits credits;
 	
+	//Sets up the frame
 	public MenuBasic() {
 		setUpMenus();
 		
@@ -29,7 +30,7 @@ public class MenuBasic {
 		
 		frame.setVisible(true);
 	}
-	
+	//Changes which menu is currently present
 	public void setVisiblePanel(JPanel newPanel) {
 		frame.remove(panel);
 		this.panel=newPanel;
@@ -49,14 +50,12 @@ public class MenuBasic {
 		frame.setVisible(false);
 		frame.setVisible(true);
 	}
-	
+	//Sets up the menu and their settings.
 	private void setUpMenus() {
 		main=(MainMenu) MainMenu.getInstance();
 		play=(PlayMenu) PlayMenu.getInstance();
 		rules=(Rules) Rules.getInstance();
 		credits=(Credits) Credits.getInstance();
-		
-		
 		
 		main.setUpActionListeners(this, play, rules, credits);
 		play.setUpActionListeners(this, main);
