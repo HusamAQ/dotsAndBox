@@ -1,14 +1,25 @@
 package game;
 
+import game.ELine;
+import game.Graph;
+import game.Vertex;
+import game.scoreBox;
+
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
-public class RandomBot {
+
+import static game.Graph.*;
+import static game.gameThread.checkBox;
+import static game.gameThread.checkMatching;
+
+public class randomBot {
+
     // places edges randomly except will always complete a box and won't set up boxes for the other player
-    public RandomBot(){}
+    public randomBot(){}
     // places the edge
     public void placeRandomEdge() {
-        boolean stop=false;
         // chosen is the index in availableLines of the edge it will choose to place
         int chosen;
         // checks to see if it can create a box
@@ -19,57 +30,50 @@ public class RandomBot {
         }else{
             // if not, selects a random edge that doesn't set up a box for the other player.
             // if that's not possible it just selects a random edge
-            chosen= checkFor3s(Graph.getAvailableLines());
+            chosen= checkFor3s();
+            if(chosen==0){
+              //  System.out.println(Graph.getAvailableLines().get(chosen).toString());
+            }
+            if(!checkPick(chosen)){
+              //  System.out.println(Graph.getAvailableLines().get(chosen).toString());
+                chosen= checkFor3s();
+            //    System.out.println(Graph.getAvailableLines().get(chosen).toString());
+
+            }
         }
-        // effectively mirrors the actionListener in ELine.
-        Graph.getAvailableLines().get(chosen).setActivated(true);
-        Graph.getAvailableLines().get(chosen).setBackground(Color.BLACK);
-        Graph.getAvailableLines().get(chosen).repaint();
-        Graph.matrix[Graph.getAvailableLines().get(chosen).vertices.get(0).getID()][Graph.getAvailableLines().get(chosen).vertices.get(1).getID()] = 2;
-        Graph.matrix[Graph.getAvailableLines().get(chosen).vertices.get(1).getID()][Graph.getAvailableLines().get(chosen).vertices.get(0).getID()] = 2;
-        ArrayList<ArrayList<Vertex>> boxes = Graph.getAvailableLines().get(chosen).checkBox();
+        ELine line = Graph.getAvailableLines().get(chosen);
+        line.setActivated(true);
+        // make it black
+        line.setBackground(Color.RED);
+        line.repaint();
+        // set the adjacency matrix to 2, 2==is a line, 1==is a possible line
+        Graph.matrix[line.vertices.get(0).getID()][line.vertices.get(1).getID()] = 2;
+        Graph.matrix[line.vertices.get(1).getID()][line.vertices.get(0).getID()] = 2;
+        // gets an arrayList of each box the ELine creates. The box is an arrayList of 4 vertices.
+        ArrayList<ArrayList<Vertex>> boxes = checkBox(line);
         if (boxes != null) {
             for (ArrayList<Vertex> box : boxes) {
-            	Graph.getAvailableLines().get(chosen).checkMatching(box);
+                q.punishQForLosingBoxes();
+                // looks through the counterBoxes arrayList and sets the matching one visible.
+                checkMatching(box);
+                // updates the score board
                 if (Graph.getPlayer1Turn()) {
-                	Graph.setPlayer1Score(Graph.getPlayer1Score()+1);
+                    Graph.setPlayer1Score(Graph.getPlayer1Score()+1);
                     Graph.getScore1().setScore();
-                    } else {
-                        Graph.setPlayer2Score(Graph.getPlayer2Score()+1);
-                        Graph.getScore2().setScore();
-                    }
-                }
-                if(Graph.getAvailableLines().get(chosen).checkFinished()){
-                    Graph.getScreen().toggle();
-                    stop=true;
-                }
-                // if it completes a box, it gets to go again
-                if(Graph.getRandBotPlayer1()==Graph.getPlayer1Turn()&&!stop){
-                    stop=true;
-                    // removes the edge from availableLines
-                    if(Graph.getAvailableLines().size()>0&&!(Graph.getAvailableLines().size()==1&&chosen>0)) {
-                    	Graph.getAvailableLines().remove(chosen);
-                    }
-                    Graph.getRandomBot().placeRandomEdge();
-                }
-            } else {
-                if (Graph.getPlayer1Turn()) {
-                	Graph.setPlayer1Turn(false);
                 } else {
-                	Graph.setPlayer1Turn(true);
+                    Graph.setPlayer2Score(Graph.getPlayer2Score()+1);
+                    Graph.getScore2().setScore();
                 }
             }
-        // removes the edge from availableLines so long as it hasn't already removed the edge in the same method call.
-        // e.g makes sure that repeated placeRandomEdge() calls won't remove double the edges when it completes a series of boxes
-        if(Graph.getAvailableLines().size()>0&&!(Graph.getAvailableLines().size()-1<chosen)&&!stop) {
-        	Graph.getAvailableLines().remove(chosen);
+        } else {
+            Graph.numOfMoves=0;
         }
     }
     // checks to see if it can create a box
     // returns the edge that creates the box's index in availableLines
     public int checkForBox(){
         // for each box in counterBoxes
-        for(ScoreBox box: Graph.getCounterBoxes()){
+        for(scoreBox box: Graph.getCounterBoxes()){
             int a = Graph.getMatrix()[box.getVertices().get(0).getID()][box.getVertices().get(1).getID()];
             int b = Graph.getMatrix()[box.getVertices().get(0).getID()][box.getVertices().get(2).getID()];
             int c = Graph.getMatrix()[box.getVertices().get(1).getID()][box.getVertices().get(3).getID()];
@@ -107,14 +111,20 @@ public class RandomBot {
                 return p;
             }
         }
+        /*
+        for(ELine l: Graph.getAvailableLines()){
+            System.out.println(l.vertices.get(0).getID()+" -- "+l.vertices.get(1).getID());
+        }
+
+         */
         return -1;
     }
     // removes every edge which sets up a box for the other player
-    public int checkFor3s(ArrayList<ELine> avail){
+    public int checkFor3s(){
         ArrayList<Integer> av = new ArrayList<>();
         // goes through each availableLine
-        for(int q=0;q<avail.size();q++){
-            ELine edge = avail.get(q);
+        for(int q=0;q<getAvailableLines().size();q++){
+            ELine edge = getAvailableLines().get(q);
             boolean noBox=true;
             // if the edge is vertical, it can only have a box to the right and left of it.
             if(!edge.getHorizontal()){
@@ -153,14 +163,22 @@ public class RandomBot {
                 av.add(q);
             }
         }
-        if(av.size()>0){
+        if(av.size()!=0){
             // if there are edges in av, it returns a random entry in av
             // all entries in av are indexes from availableLine
+           // System.out.println("NO BOX: "+av.size());
             int ret = av.get((int)(Math.random()*av.size()));
             return ret;
         }else{
             // if not it just returns a random index from availableLine
-            return (int)(Math.random()*avail.size());
+            return (int)(Math.random()*getAvailableLines().size());
         }
+    }
+    public boolean checkPick(int c){
+        if(availableLines.get(c).isActivated()){
+            availableLines.remove(c);
+            return false;
+        }
+        return true;
     }
 }

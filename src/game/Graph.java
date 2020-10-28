@@ -1,25 +1,49 @@
 package game;
 
+import game.Q.QLearning;
+import game.Q.QLearning2;
+import neural.Base;
+
 import javax.swing.*;
+import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Graph {
-    // Overarching game class
-    // Stores all the information about the game
+    public static int getNumOfMoves() {
+        return numOfMoves;
+    }
 
-    // The RandomBot
-	private static RandomBot randBot = new RandomBot();
-	public  static RandomBot getRandomBot() {return randBot;}
+    public static void setNumOfMoves(int numOfMoves) {
+        Graph.numOfMoves = numOfMoves;
+    }
+
+    public static int numOfMoves;
+
+    public static QLearning q;
+    public static int sleep = 0;
+    static boolean allWaysReplay=true;
+    static boolean qPlay=true;
+    public static boolean qPlayer1=false;
+    static boolean qPlayers=false;
+    public static QLearning2 q2;
+    // Overarching game class
+    public static Base neural = new Base();
+    static boolean neu=false;
+    public static boolean neuPlayer1=true;
+	private static randomBot randBot = new randomBot();
+	public  static randomBot getRandomBot() {return randBot;}
     // chooses whether randBot will be player 1 or 2
-	private static boolean randBotPlayer1 = false;
+	private static boolean randBotPlayer1 = true;
 	public  static boolean getRandBotPlayer1() {return randBotPlayer1;}
 	// chooses whether randBot is active
-	private static boolean activateRandom;
+	private static boolean activateRandom=true;
     public static void setActivateRandom(boolean activateRandom) { Graph.activateRandom = activateRandom; }
     public  static boolean getActivateRandom() {return activateRandom;}
 	// Adjacency matrix
-    static int[][] matrix;
+    public static int[][] matrix;
 	public  static int[][] getMatrix(){return matrix;}
     // List of dots
     private static List<Vertex> vertexList;
@@ -28,9 +52,9 @@ public class Graph {
     private static List<Edge> edgeList;
 	public  static List<Edge> getEdgeList(){return edgeList;}
     // List of lines (edges) that haven't been activated yet
-    private static ArrayList<ELine> availableLines;
+    public static ArrayList<ELine> availableLines;
 	public  static ArrayList<ELine> getAvailableLines(){return availableLines;}
-    // Height and width of the dots (e.g 3x3, 4x4, 5x3)
+    // Height and width of the dots
     private static int height;
     private static int width;
     public static int getHeight(){return height;}
@@ -46,34 +70,34 @@ public class Graph {
     public  static void setGamesWon1(int x){gamesWon1=x;}
     public  static void setGamesWon2(int x){gamesWon2=x;}
     // The JLabels for displaying the score
-    private  static ScoreLabel score1;
-    private static ScoreLabel score2;
-    public  static ScoreLabel getScore1(){return score1;}
-    public  static ScoreLabel getScore2(){return score2;}
+    private  static scoreLabel score1;
+    private static scoreLabel score2;
+    public  static scoreLabel getScore1(){return score1;}
+    public  static scoreLabel getScore2(){return score2;}
     // tracking whether it's player 1's turn or not
-    private static boolean player1Turn;
+    public static boolean player1Turn;
     public  static boolean getPlayer1Turn() {
     	return player1Turn;
     }
     
     public static void setPlayer1Turn(boolean b) {player1Turn =b;}
     // tracking the score in a game
-    private static int player1Score = 0;
-    private static int player2Score = 0;
+    public static int player1Score = 0;
+    public static int player2Score = 0;
     public  static int getPlayer1Score(){return player1Score;}
     public  static int getPlayer2Score(){return player2Score;}
     
     public  static void setPlayer1Score(int s){player1Score=s;}
     public  static void setPlayer2Score(int s){player2Score=s;}
-    // All of the possible boxes, if a box is completed the ScoreBox displays, can be either initials or the score counter
-    private static ArrayList<ScoreBox> counterBoxes;
-    public  static ArrayList<ScoreBox> getCounterBoxes(){return counterBoxes;}
+    // All of the boxes, so if a box is completed this displays, can be either initials or the score counter
+    private static ArrayList<scoreBox> counterBoxes;
+    public  static ArrayList<scoreBox> getCounterBoxes(){return counterBoxes;}
     
     // Game over screen
-    private static GameOver screen;
-    public  static GameOver getScreen(){return screen;}
+    private static gameOver screen;
+    public  static gameOver getScreen(){return screen;}
     
-    // Takes the first initial in ScoreBox if selected
+    // initials or score counter in ScoreBox
     private static String player1Name = "Gerald";
     public static void setPlayer1Name(String s){
         player1Name=s;
@@ -90,7 +114,7 @@ public class Graph {
     public  static String getPlayer1Name(){return player1Name;}
     public  static String getPlayer2Name(){return player2Name;}
     public  static boolean getInitials(){return initials;}
-    // JFrame is inherited so it can be passed down to GameOver
+    
     private JFrame frame;
     
     public Graph(int h, int w, JFrame screen){
@@ -99,14 +123,15 @@ public class Graph {
         frame=screen;
     }
     // Sets up the game
-    public void createGraph(){
+    public void createGraph() throws IOException {
+        numOfMoves=1;
         player1Turn=true;
         player1Score=0;
         player2Score=0;
-        screen = new GameOver(frame);
+        screen = new gameOver(frame);
         counterBoxes= new ArrayList<>();
-        score1=new ScoreLabel(1);
-        score2=new ScoreLabel(2);
+        score1=new scoreLabel(1);
+        score2=new scoreLabel(2);
         vertexList= new ArrayList<>();
         // Creates every vertex and sets it's ID and position
         for(int w=0;w<height*width;w++){
@@ -158,21 +183,22 @@ public class Graph {
         int[][] matrixCopy = new int[matrix.length][matrix[0].length];
         for(int r=0;r<matrix.length;r++){
             for(int q=0;q<matrix[0].length;q++){
-                // If a space in the matrix == 1, then it creates and edge and adds it to the edge list,
-                // Then it then sets it so the inverse isn't added
-                // e.g it adds the edge 0--1 but not the inverse 1--0
+                // If a space in the matrix == 1, then it creates and edge and adds it to the edge list, it then sets it so the inverse isn't added
+                // e.g it adds the edge 0--1 but not 1--0
                 if(matrixCopy[r][q]!=3) {
                     matrixCopy[r][q] = matrix[r][q];
                 }
                 if(matrixCopy[r][q]==1){
                     Edge ne = new Edge(vertexList.get(r), vertexList.get(q));
                     ne.createLine();
+                    ne.line.setEdgeListIndex(edgeList.size());
                     availableLines.add(ne.line);
                     edgeList.add(ne);
                     matrixCopy[q][r]=3;
                 }
             }
         }
+    //    System.out.println(edgeList.size());
         // creates each available box and adds it to the counterBoxes list. This is for displaying what pops up when you complete a box
         for(int r=0;r<height;r++){
             for(int c=0;c<width;c++){
@@ -182,13 +208,32 @@ public class Graph {
                     box.add(vertexList.get(counter + 1));
                     box.add(vertexList.get(counter + width));
                     box.add(vertexList.get(counter + width + 1));
-                    counterBoxes.add(new ScoreBox(box));
+                    counterBoxes.add(new scoreBox(box));
                 }
                 counter++;
             }
         }
+       // neural.init();
+        if(qPlay) {
+            q = new QLearning();
+        }
+        if(qPlayers){
+            q = new QLearning();
+            q2 = new QLearning2();
+        }
     }
-
+    public static ArrayList<ELine> availCheck(ArrayList<ELine> av){
+      //  System.out.println("AV CHECK:");
+        boolean stop=false;
+        for(int q=av.size()-1;q>=0;q--){
+            if(av.get(q).isActivated()&&!stop){
+                stop=true;
+              //  System.out.println("REMOVE: "+av.get(q).vertices.get(0).id+" -- "+av.get(q).vertices.get(1).id);
+                av.remove(q);
+            }
+        }
+        return av;
+    }
     public class Edge {
         // overall edge class
 
@@ -207,13 +252,24 @@ public class Graph {
                 horizontal=true;
             }
             else{
-                //else it's vertical
                 horizontal=false;
             }
         }
-
+        
+        public ArrayList<Vertex> getVertices(){
+        	return this.vertices;
+        }
+        
         public ELine getEline() {
         	return this.line;
+        }
+        
+        public void setVertices(ArrayList<Vertex> v){
+        	this.vertices=v;
+        }
+        
+        public void setEline(ELine l) {
+        	this.line=l;
         }
         
         // Creates the ELine

@@ -1,11 +1,19 @@
 package game;
 
+import graphics.Paths;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
-public class PaintBoard extends JPanel {
+
+import static game.Graph.*;
+
+public class paintBoard extends JPanel {
     // Base JPanel
-    public PaintBoard(){
+    private Graph graph;
+    public paintBoard(Graph gr){
+        graph=gr;
         this.setLayout(null);
         this.setBackground(Color.WHITE);
         // adds the edges to the JPanel
@@ -16,8 +24,15 @@ public class PaintBoard extends JPanel {
         this.add(Graph.getScore1());
         this.add(Graph.getScore2());
         // adds the counter boxes to the JPanel
-        for(ScoreBox box: Graph.getCounterBoxes()){
+        for(scoreBox box: Graph.getCounterBoxes()){
             this.add(box);
         }
+    }
+    // i cant remember if this is useful or not
+    @Override
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D)g;
+        g2.setColor(Color.BLACK);
     }
 }
