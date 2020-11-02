@@ -11,7 +11,7 @@ public class gameThread extends Thread{
         try{
             while(!checkFinished()) {
                 if(allWaysReplay){
-                    sleep(50);
+                    sleep(25);
                 }
                 if(sleep>0) {
                     sleep(500*sleep);
@@ -22,7 +22,7 @@ public class gameThread extends Thread{
                         sleep(250*sleep);
                     }
                     if(allWaysReplay){
-                        sleep(20);
+                        sleep(10);
                     }
                     Graph.getRandomBot().placeRandomEdge();
                 }
@@ -31,7 +31,7 @@ public class gameThread extends Thread{
                         sleep(250*sleep);
                     }
                     if(allWaysReplay){
-                        sleep(20);
+                        sleep(10);
                     }
                     Graph.q.turn();
                 }

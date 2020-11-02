@@ -17,11 +17,13 @@ import static game.Graph.*;
 import static game.gameThread.checkMatching;
 
 public class QLearning {
+    boolean text=false;
 
     public ArrayList<int[]> saveInd = new ArrayList<>();
+    ArrayList<int[]> saveRew = new ArrayList<>();
     public double[][] qTable;
     ArrayList<ArrayList<ELine>> allStates = new ArrayList<>();
-    double episilon=0.3;
+    double episilon=0.2;
     public int stateID;
     public int actionID;
     int availIndex;
@@ -29,7 +31,7 @@ public class QLearning {
     double lr=0.5;
     double gamma=0.8;
     double reward;
-    double winReward = 20;
+    double winReward = 10;
     public QLearning() throws IOException {
         for(int q=1;q<Graph.getAvailableLines().size();q++) {
             SimpleCombinationGenerator<ELine> t = new SimpleCombinationGenerator<>(Graph.getAvailableLines(), q);
@@ -123,8 +125,8 @@ public class QLearning {
 
         for (int a = 0; a < qTable.length; a++) {
             for (int b = 0; b < qTable[0].length; b++) {
-                //qTable[a][b] = Math.random() * 50 - 25;
-                qTable[a][b] = 0;
+                qTable[a][b] = Math.random() * 0.05 - 0.025;
+                // qTable[a][b] = 0;
             }
         }
 
@@ -185,7 +187,13 @@ public class QLearning {
           //  System.out.println("Chosen");
             double max = -1*Double.MAX_VALUE;
             for(int k=0;k<qTable.length;k++){
+                if(text){
+                    System.out.println("sA1: " + Graph.getEdgeList().get(k).getEline().toString() + " = " + qTable[k][stateID]);
+                }
                 if(qTable[k][stateID]>max){
+                    if(text) {
+                        System.out.println("MAX");
+                    }
                     max = qTable[k][stateID];
                     actionID=k;
                 }
@@ -220,6 +228,7 @@ public class QLearning {
         ArrayList<ArrayList<Vertex>> boxes = gameThread.checkBox(line);
         if (boxes != null) {
             for (ArrayList<Vertex> box : boxes) {
+                rewardQForGettingBoxes();
                 // looks through the counterBoxes arrayList and sets the matching one visible.
                 checkMatching(box);
                 // updates the score board
@@ -238,33 +247,74 @@ public class QLearning {
     public void punishQ(){
         reward=-100;
        // System.out.println("Punish: qTable["+actionID+"]["+stateID+"] = "+qTable[actionID][stateID]);
-        qTable[actionID][stateID] = qTable[actionID][stateID] + (lr*(reward+(0 - qTable[actionID][stateID])));
-      //  System.out.println("Punished: qTable["+actionID+"]["+stateID+"] = "+qTable[actionID][stateID]);
+        qTable[actionID][stateID] = qTable[actionID][stateID] + (lr*(reward+(0)));
+     //   System.out.println("Punished: qTable["+actionID+"]["+stateID+"] = "+qTable[actionID][stateID]);
     }
 
+    public void rewardQForGettingBoxes(){
+        reward=5;
+        if(text) {
+            System.out.println("BoxReward: qTable[" + actionID + "][" + stateID + "] = " + qTable[actionID][stateID]);
+        }
+        qTable[actionID][stateID] = qTable[actionID][stateID] + (lr*(reward));
+        if(text) {
+            System.out.println("BoxReward: qTable[" + actionID + "][" + stateID + "] = " + qTable[actionID][stateID]);
+        }
+        int[] stored= new int[2];
+        stored[0]=actionID;
+        stored[1]=stateID;
+        saveRew.add(stored);
+    }
+    public void unRewardQ(){
+        for(int[] s:saveRew){
+            reward=-2;
+            if(text) {
+                System.out.println("UnReward: qTable[" + s[0] + "][" + s[1] + "] = " + qTable[s[0]][s[1]]);
+            }
+                qTable[s[0]][s[1]] = qTable[s[0]][s[1]] + (lr*(reward));
+            if(text) {
+                System.out.println("UnReward: qTable[" + s[0] + "][" + s[1] + "] = " + qTable[s[0]][s[1]]);
+            }
+        }
+    }
+    public void resetSaveRew(){
+        saveRew= new ArrayList<>();
+    }
+
+
     public void punishQForLosingBoxes(){
-        reward=-10;
-     //    System.out.println("BoxPunish: qTable["+actionID+"]["+stateID+"] = "+qTable[actionID][stateID]);
-        qTable[actionID][stateID] = qTable[actionID][stateID] + (lr*(reward+( - qTable[actionID][stateID])));
-       //    System.out.println("BoxPunished: qTable["+actionID+"]["+stateID+"] = "+qTable[actionID][stateID]);
-           int[] stored= new int[2];
-           stored[0]=actionID;
-           stored[1]=stateID;
-           saveInd.add(stored);
+        reward=-5;
+        if(text) {
+            System.out.println("BoxPunish: qTable[" + actionID + "][" + stateID + "] = " + qTable[actionID][stateID]);
+        }
+        qTable[actionID][stateID] = qTable[actionID][stateID] + (lr*(reward));
+        if(text) {
+            System.out.println("BoxPunished: qTable[" + actionID + "][" + stateID + "] = " + qTable[actionID][stateID]);
+        }
+        int[] stored= new int[2];
+        stored[0]=actionID;
+        stored[1]=stateID;
+        saveInd.add(stored);
     }
     public void unPunishQ(){
         for(int[] s:saveInd){
-            reward=20;
-           // System.out.println("UnPunish: qTable["+s[0]+"]["+s[1]+"] = "+qTable[s[0]][s[1]]);
-            qTable[s[0]][s[1]] = qTable[s[0]][s[1]] + (lr*(reward+( - qTable[s[0]][s[1]])));
-          //  System.out.println("UnPunish: qTable["+s[0]+"]["+s[1]+"] = "+qTable[s[0]][s[1]]);
+            reward=5;
+            if(text) {
+                System.out.println("UnPunish: qTable[" + s[0] + "][" + s[1] + "] = " + qTable[s[0]][s[1]]);
+            }
+            qTable[s[0]][s[1]] = qTable[s[0]][s[1]] + (lr*(reward));
+            if(text) {
+                System.out.println("UnPunish: qTable[" + s[0] + "][" + s[1] + "] = " + qTable[s[0]][s[1]]);
+            }
         }
     }
     public void resetSaveInd(){
     saveInd= new ArrayList<>();
     }
     public void updateQ(){
-     //   System.out.println("update: qTable["+actionID+"]["+stateID+"] = "+qTable[actionID][stateID]);
+        if(text) {
+            System.out.println("update: qTable[" + actionID + "][" + stateID + "] = " + qTable[actionID][stateID]);
+        }
         if(player1Score+player2Score==4){
             if(qPlayer1) {
                 if (player1Score > player2Score) {
@@ -295,18 +345,23 @@ public class QLearning {
         }
       //  System.out.println("Matrix: "+Arrays.deepToString(matrixClone));
         if(qPlayer1) {
-            qTable[actionID][stateID] = qTable[actionID][stateID] + (lr*(reward+(gamma*estimateFuture(actionID,stateID,true, matrixClone,player1Score,player2Score,0) - qTable[actionID][stateID])));
+            qTable[actionID][stateID] = qTable[actionID][stateID] + (lr*(reward+(gamma*estimateFuture(actionID,stateID,true, matrixClone,player1Score,player2Score,0))));
         }else {
-            qTable[actionID][stateID] = qTable[actionID][stateID] + (lr*(reward+(gamma*estimateFuture(actionID,stateID,true, matrixClone,player2Score,player1Score,0) - qTable[actionID][stateID])));
+            qTable[actionID][stateID] = qTable[actionID][stateID] + (lr*(reward+(gamma*estimateFuture(actionID,stateID,true, matrixClone,player2Score,player1Score,0))));
         }
-       // System.out.println("update2: qTable["+actionID+"]["+stateID+"] = "+qTable[actionID][stateID]);
+        if(text) {
+            System.out.println("update2: qTable[" + actionID + "][" + stateID + "] = " + qTable[actionID][stateID]);
+        }
     }
     public double estimateFuture(int actionID, int stateID, boolean turn,int[][] matri, int tplayerScore,int totherPlayerScore,int counter){
         counter++;
         ArrayList<ELine> state = allStates.get(stateID);
-     //   System.out.println("State: "+Arrays.deepToString(state.toArray()));
         ELine action = Graph.getEdgeList().get(actionID).getEline();
-      //  System.out.println("Action: "+action.toString()+" StateID: "+stateID+" turn: "+turn+" playerScore: "+tplayerScore+" otherPlayerScore: "+totherPlayerScore+" counter: "+counter);
+        if(text) {
+            System.out.println("State: " + Arrays.deepToString(state.toArray()));
+            System.out.println("Action: " + action.toString() + " StateID: " + stateID + " turn: " + turn + " playerScore: " + tplayerScore + " otherPlayerScore: " + totherPlayerScore + " counter: " + counter);
+            System.out.println("QTABLE: " + qTable[actionID][stateID]);
+        }
         for(int t = state.size()-1;t>=0;t--){
             if(action.compareTo(state.get(t))==0){
                 state.remove(t);
@@ -332,14 +387,14 @@ public class QLearning {
             }
         }
         if(state.size()==0){
-           // System.out.println("playerScore: "+tplayerScore+"   player2Score:"+totherPlayerScore);
-           // System.out.println("Matrix: "+Arrays.deepToString(matri));
+    //        System.out.println("playerScore: "+tplayerScore+"   player2Score:"+totherPlayerScore);
+         //   System.out.println("Matrix: "+Arrays.deepToString(matri));
             if(tplayerScore>totherPlayerScore) {
             //    System.out.println("10 * "+gamma+"^"+counter+" = "+10*Math.pow(gamma,counter));
                 return winReward*Math.pow(gamma,counter);
             }
             if(tplayerScore<totherPlayerScore) {
-              //  System.out.println("-10 * "+gamma+"^"+counter+" = "+-10*Math.pow(gamma,counter));
+             //   System.out.println("-10 * "+gamma+"^"+counter+" = "+-10*Math.pow(gamma,counter));
                 return -1*winReward * Math.pow(gamma, counter);
             }
             return 0;
@@ -362,7 +417,13 @@ public class QLearning {
         double max = -1*Double.MAX_VALUE;
         for(int k=0;k<qTable.length;k++){
             if(checkLegal(stateID,k)){
+                if(text) {
+                    System.out.println("sA: " + Graph.getEdgeList().get(k).getEline().toString() + " = " + qTable[k][stateID]);
+                }
                 if(qTable[k][stateID]>=max) {
+                    if(text) {
+                        System.out.println("MAX");
+                    }
                     max=qTable[k][stateID];
                     index = k;
                 }

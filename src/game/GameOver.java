@@ -13,6 +13,7 @@ import java.io.IOException;
 
 
 public class gameOver{
+    File winR = new File("winR.txt");
     // JFrame for the current game, so it can close it down
     private JFrame frame;
     // game over screen.
@@ -30,12 +31,17 @@ public class gameOver{
         gamesPlayed++;
         if(Graph.qPlay) {
        //     System.out.println(Graph.availableLines.size()+" av size");
-            Graph.q.updateQ();
+           // Graph.q.updateQ();
             Graph.q.writeToFile();
             if (Graph.getPlayer2Score() > Graph.getPlayer1Score()) {
                 Graph.q.unPunishQ();
             }
+            if (Graph.getPlayer2Score() < Graph.getPlayer1Score()) {
+                Graph.q.unRewardQ();
+            }
+            Graph.q.resetSaveRew();
             Graph.q.resetSaveInd();
+           // Graph.q.printQTable();
         }
         if(Graph.qPlayers){
             Graph.q.updateQ();
@@ -61,6 +67,9 @@ public class gameOver{
             }
             System.out.println("1: "+Graph.getGamesWon1()+" 2: "+ Graph.getGamesWon2());
             winRaten= 100.0 * ((double)(Graph.getGamesWon2()) / (double)(gamesPlayed));
+            FileWriter writer = new FileWriter("winR.txt",true);
+            writer.write(Double.toString(winRaten)+'\n');
+            writer.close();
             if(Graph.getGamesWon2()!=0) {
                 System.out.println("WIN PERCENTAGE: " +winRaten +" | DRAW PERCENTAGE: "+ 100.0*((double)(drawCounter)/(double)(gamesPlayed)));
             }

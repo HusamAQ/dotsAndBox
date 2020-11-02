@@ -15,7 +15,7 @@ import static game.gameThread.checkBox;
 import static game.gameThread.checkMatching;
 
 public class randomBot {
-
+    double epsilon = 0.2;
     // places edges randomly except will always complete a box and won't set up boxes for the other player
     public randomBot(){}
     // places the edge
@@ -24,22 +24,23 @@ public class randomBot {
         int chosen;
         // checks to see if it can create a box
         int c=checkForBox();
-        if(c!=-1){
-            // if it can, it sets that to the index
-            chosen=c;
-        }else{
-            // if not, selects a random edge that doesn't set up a box for the other player.
-            // if that's not possible it just selects a random edge
-            chosen= checkFor3s();
-            if(chosen==0){
-              //  System.out.println(Graph.getAvailableLines().get(chosen).toString());
-            }
-            if(!checkPick(chosen)){
-              //  System.out.println(Graph.getAvailableLines().get(chosen).toString());
-                chosen= checkFor3s();
-            //    System.out.println(Graph.getAvailableLines().get(chosen).toString());
+        if(Math.random()>epsilon) {
+            if (c != -1) {
+                // if it can, it sets that to the index
+                chosen = c;
+            } else {
+                // if not, selects a random edge that doesn't set up a box for the other player.
+                // if that's not possible it just selects a random edge
+                chosen = checkFor3s();
+                if (!checkPick(chosen)) {
+                    //  System.out.println(Graph.getAvailableLines().get(chosen).toString());
+                    chosen = checkFor3s();
+                    //    System.out.println(Graph.getAvailableLines().get(chosen).toString());
 
+                }
             }
+        }else{
+            chosen=(int)(Math.random()*Graph.getAvailableLines().size());
         }
         ELine line = Graph.getAvailableLines().get(chosen);
         line.setActivated(true);
