@@ -23,11 +23,7 @@ public class MCTSNode {
 		lastIDgiven++;
 		state=matrix;
 		this.score=score;
-		generateChildren();
 	}
-	
-	//TODO this method should generate all the children of this node.
-	private void generateChildren() {}
 
 	public void setParent(MCTSNode parent) {this.parent=parent;}
 	
@@ -48,8 +44,8 @@ public class MCTSNode {
 	
 	public ArrayList<MCTSNode> getChildren(){return this.children;}
 	
-	public boolean equalsState(int[][] matrix) {
-		if(matrix==state) return true;
+	public boolean equalsState(int[][] matrix, int score) {
+		if(matrix==state && this.score == score) return true;
 		return false;
 	}
 	
