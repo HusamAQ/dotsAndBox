@@ -57,7 +57,7 @@ public class MCTSNode {
 		if(other == null) return false;
 		if(other.getClass().getName() != "MCTSNode") return false;
 		MCTSNode o = (MCTSNode) other;
-		if(o.getState()==state) return true;
+		if(o.getState()==state && o.getScore()==score) return true;
 		return false;
 	}
 }
