@@ -13,7 +13,7 @@ public class State {
 		this.botsTurn=botsTurn;
 	};
 	
-	public int[][] getMatrix(){return this.state;}
+	public int[][] getBoard(){return this.state;}
 	
 	public int getScore1() {return score1;}
 
@@ -22,4 +22,12 @@ public class State {
 	public boolean getBotTurn() {return botsTurn;}
 	
 	public int getScoreTotal() {return (score2-score1);}
+	
+	public boolean equals(Object other) {
+		if(other == null) return false;
+		if(other.getClass().getName() != "State") return false;
+		State o = (State) other;
+		if(o.getBotTurn()==botsTurn && o.getScoreTotal()==(score2-score1) && o.getBoard()==state) return true;
+		return false;
+	}
 }
