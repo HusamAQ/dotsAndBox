@@ -9,20 +9,15 @@ public class MCTSNode {
 	private int visited=0;
 	private int won=0;
 	
-	private int score;
-	
-	private int[][] state;
+	private State state;
 	
 	private MCTSNode parent;
 	
 	private ArrayList<MCTSNode> children= new ArrayList<MCTSNode>();
 	
 	
-	public MCTSNode(int[][] matrix, int score) {
-		id=lastIDgiven;
-		lastIDgiven++;
-		state=matrix;
-		this.score=score;
+	public MCTSNode(State s) {
+		this.state=s;
 	}
 
 	public void setParent(MCTSNode parent) {this.parent=parent;}
@@ -38,22 +33,15 @@ public class MCTSNode {
 	
 	public int getWon() {return this.won;}
 	
-	public int getScore() {return this.score;}
-	
-	public int[][] getState() {return this.state;}
+	public State getState() {return this.state;}
 	
 	public ArrayList<MCTSNode> getChildren(){return this.children;}
-	
-	public boolean equalsState(int[][] matrix, int score) {
-		if(matrix==state && this.score == score) return true;
-		return false;
-	}
 	
 	public boolean equals(Object other) {
 		if(other == null) return false;
 		if(other.getClass().getName() != "MCTSNode") return false;
 		MCTSNode o = (MCTSNode) other;
-		if(o.getState()==state && o.getScore()==score) return true;
+		if(o.getState().equals(state)) return true;
 		return false;
 	}
 }
