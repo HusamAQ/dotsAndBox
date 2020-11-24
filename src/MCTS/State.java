@@ -152,7 +152,7 @@ public class State {
 		if(other == null) return false;
 		if(other.getClass().getName() != "State") return false;
 		State o = (State) other;
-		if(o.getBotTurn()==botsTurn && o.getScoreTotal()==(score2-score1) && o.getBoard()==state) return true;
+		if(o.getBotTurn()==botsTurn && o.getScoreTotal()==(score2-score1) && o.getBoard()==state && o.getAvailLines()== this.inputAvailLines) return true;
 		return false;
 	}
 }
