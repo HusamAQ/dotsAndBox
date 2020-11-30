@@ -19,6 +19,7 @@ public class State {
 	private static ArrayList<ArrayList<ELine>> states = new ArrayList<>();
 	private static ArrayList<Integer> playerScores= new ArrayList<>();
 	private static ArrayList<Integer> otherPlayerScores= new ArrayList<>();
+	private static ArrayList<int[][]> boards = new ArrayList<>();
 	
 	public State(int[][] matrix, int score1, int score2, boolean botsTurn) {
 		this.state=matrix;
@@ -49,10 +50,11 @@ public class State {
 	public ArrayList<ELine> getAvailLines(){return this.inputAvailLines;}
 	
 	public static void getStates(State state) {
-		ArrayList<State> states = new ArrayList<State>();
+//		ArrayList<State> states = new ArrayList<State>();
 		states = new ArrayList<>();
 		playerScores= new ArrayList<>();
 		otherPlayerScores= new ArrayList<>();
+		boards = new ArrayList<>();
 		
 		possibleStatesAndScores(state.getAvailLines(), state.getBoard(),state.getScore1(), state.getScore2());
 	}
@@ -61,6 +63,8 @@ public class State {
 	    for(int a=0;a<inputAvailLines.size();a++){
 	        possUtil(a,inputAvailLines,true,inputMatrix,inputPlayerScore,inputOtherPlayerScore);
 	    }
+//	    matrix[action.vertices.get(0).id][action.vertices.get(1).id] = 2;
+//	    matrix[action.vertices.get(1).id][action.vertices.get(0).id] = 2
 	}
 
 	private static void possUtil(int t, ArrayList<ELine> state, boolean turn,int[][] matrix, int playerScore,int otherPlayerScore){
@@ -83,11 +87,13 @@ public class State {
 	        states.add(state);
 	        playerScores.add(playerScore);
 	        otherPlayerScores.add(otherPlayerScore);
+	        boards.add(matrix);
 	        for (int a = 0; a < state.size(); a++) {
 	            possUtil(a, state, turn, matrix, playerScore, otherPlayerScore);
 	        }
 	    }
 	}
+	
 	private static int checkBox(ELine line,int[][] matrix){
 	    ArrayList<ArrayList<Vertex>> listOfBoxes = new ArrayList<>();
 	    if(line.getHorizontal()){
