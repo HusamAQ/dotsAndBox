@@ -65,28 +65,6 @@ public class State {
 		otherPlayerScores= new ArrayList<>();
 		boards = new ArrayList<>();
 		
-		/*
-		int[][] matrix=state.getBoard();
-		// creates a copy of the matrix to create the list of edges
-        int[][] matrixCopy = new int[matrix.length][matrix[0].length];
-        for(int r=0;r<matrix.length;r++){
-            for(int q=0;q<matrix[0].length;q++){
-                // If a space in the matrix == 1, then it creates and edge and adds it to the edge list,
-                // Then it then sets it so the inverse isn't added
-                // e.g it adds the edge 0--1 but not the inverse 1--0
-                if(matrixCopy[r][q]!=3) {
-                    matrixCopy[r][q] = matrix[r][q];
-                }
-                if(matrixCopy[r][q]==1){
-                    Edge ne = new Edge(vertexList.get(r), vertexList.get(q));
-                    ne.createLine();
-                    availableLines.add(ne.line);
-                    edgeList.add(ne);
-                    matrixCopy[q][r]=3;
-                }
-            }
-        }*/
-		
 		possibleStatesAndScores(state.getAvailLines(), state.getBoard(),state.getScore1(), state.getScore2(), state.getBotTurn());
 		boolean turn=state.getBotTurn();
 		for(int i=0; i<states.size();i++) {

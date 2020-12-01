@@ -7,6 +7,8 @@ public class MCTSNode {
 	private int visited=0;
 	private int won=0;
 	
+	private double c = Math.sqrt(2);
+	
 	private State state;
 	
 	private MCTSNode parent=null;
@@ -30,8 +32,7 @@ public class MCTSNode {
 	public double getValue(int N) {
 		if(visited==0 || won==0) return 0;
 		double value=0;
-		value= (won/visited)+ 2* Math.sqrt((Math.log(N)/won));
-		
+		value= (won/visited)+ c*Math.sqrt((Math.log(N)/won));
 		
 		return value;
 		}

@@ -53,7 +53,7 @@ public class MCTSTree {
      * This method return the node with the highest value
      * @return MCTSNode next, with the node that represents our next best possible state
      */
-    public MCTSNode getBestMove() {
+    private MCTSNode getBestMove() {
     	double best=0;
     	int n=numberOfMoves()*runs;
     	MCTSNode next=null;
@@ -78,7 +78,6 @@ public class MCTSTree {
      * Method that simulates a game by choosing random moves
      */
     private void selection() {
-    	//Getting random child
     	MCTSNode currentNode = root;
     	
     	while(currentNode.hasChildren()) {
