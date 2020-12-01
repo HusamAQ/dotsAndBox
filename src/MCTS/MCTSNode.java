@@ -3,15 +3,13 @@ package MCTS;
 import java.util.ArrayList;
 
 public class MCTSNode {
-	private int id;
-	private static int lastIDgiven =0;
 	
 	private int visited=0;
 	private int won=0;
 	
 	private State state;
 	
-	private MCTSNode parent;
+	private MCTSNode parent=null;
 	
 	private ArrayList<MCTSNode> children= new ArrayList<MCTSNode>();
 	
@@ -22,13 +20,22 @@ public class MCTSNode {
 
 	public void setParent(MCTSNode parent) {this.parent=parent;}
 	
+	public void addChild(MCTSNode baby) {
+		children.add(baby);
+		baby.setParent(this);
+	}
+	
 	public MCTSNode getParent() {return this.parent;}
 	
-	//TODO this function should return the current value of a node in the MCTS.
-	public double getValue() {return 0;}
-	
-	public int getID() {return this.id;}
-	
+	public double getValue(int N) {
+		if(visited==0 || won==0) return 0;
+		double value=0;
+		value= (won/visited)+ 2* Math.sqrt((Math.log(N)/won));
+		
+		
+		return value;
+		}
+		
 	public int getVisited() {return this.visited;}
 	
 	public int getWon() {return this.won;}
@@ -36,6 +43,17 @@ public class MCTSNode {
 	public State getState() {return this.state;}
 	
 	public ArrayList<MCTSNode> getChildren(){return this.children;}
+	
+	public boolean hasChildren() {
+		//If we can still place lines then this node has children
+		if(state.getAvailLines().size()==0) return false;
+		return true;
+	}
+	
+	public void update(boolean win) {
+		visited++;
+		if(win) won++;
+	}
 	
 	public boolean equals(Object other) {
 		if(other == null) return false;

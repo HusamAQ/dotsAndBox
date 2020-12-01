@@ -37,6 +37,15 @@ public class State {
 	};
 
 	
+	public ELine difference(State O) {
+		ArrayList<ELine> otherLines = O.getAvailLines();
+		
+		for(ELine l: inputAvailLines) {
+			if(!otherLines.contains(l)) return l;
+		}
+		return null;
+	}
+	
 	public int[][] getBoard(){return this.state;}
 	
 	public int getScore1() {return score1;}
@@ -49,22 +58,54 @@ public class State {
 	
 	public ArrayList<ELine> getAvailLines(){return this.inputAvailLines;}
 	
-	public static void getStates(State state) {
-//		ArrayList<State> states = new ArrayList<State>();
+	public static ArrayList<State> getStates(State state) {
+		ArrayList<State> statesNew = new ArrayList<State>();
 		states = new ArrayList<>();
 		playerScores= new ArrayList<>();
 		otherPlayerScores= new ArrayList<>();
 		boards = new ArrayList<>();
 		
-		possibleStatesAndScores(state.getAvailLines(), state.getBoard(),state.getScore1(), state.getScore2());
+		/*
+		int[][] matrix=state.getBoard();
+		// creates a copy of the matrix to create the list of edges
+        int[][] matrixCopy = new int[matrix.length][matrix[0].length];
+        for(int r=0;r<matrix.length;r++){
+            for(int q=0;q<matrix[0].length;q++){
+                // If a space in the matrix == 1, then it creates and edge and adds it to the edge list,
+                // Then it then sets it so the inverse isn't added
+                // e.g it adds the edge 0--1 but not the inverse 1--0
+                if(matrixCopy[r][q]!=3) {
+                    matrixCopy[r][q] = matrix[r][q];
+                }
+                if(matrixCopy[r][q]==1){
+                    Edge ne = new Edge(vertexList.get(r), vertexList.get(q));
+                    ne.createLine();
+                    availableLines.add(ne.line);
+                    edgeList.add(ne);
+                    matrixCopy[q][r]=3;
+                }
+            }
+        }*/
+		
+		possibleStatesAndScores(state.getAvailLines(), state.getBoard(),state.getScore1(), state.getScore2(), state.getBotTurn());
+		boolean turn=state.getBotTurn();
+		for(int i=0; i<states.size();i++) {
+			if(turn) {
+				if(state.getScore2()==otherPlayerScores.get(i)) turn=!turn;
+			}
+			else {
+				if(state.getScore1()==playerScores.get(i)) turn=!turn;
+			}
+			
+			statesNew.add(new State(boards.get(i), playerScores.get(i), otherPlayerScores.get(i), turn, states.get(i)));
+		}
+		return statesNew;
 	}
 	
-	private static void possibleStatesAndScores(ArrayList<ELine> inputAvailLines, int[][] inputMatrix,int inputPlayerScore, int inputOtherPlayerScore){
+	private static void possibleStatesAndScores(ArrayList<ELine> inputAvailLines, int[][] inputMatrix,int inputPlayerScore, int inputOtherPlayerScore, boolean botsTurn){
 	    for(int a=0;a<inputAvailLines.size();a++){
-	        possUtil(a,inputAvailLines,true,inputMatrix,inputPlayerScore,inputOtherPlayerScore);
+	        possUtil(a,inputAvailLines,botsTurn,inputMatrix,inputPlayerScore,inputOtherPlayerScore);
 	    }
-//	    matrix[action.vertices.get(0).id][action.vertices.get(1).id] = 2;
-//	    matrix[action.vertices.get(1).id][action.vertices.get(0).id] = 2
 	}
 
 	private static void possUtil(int t, ArrayList<ELine> state, boolean turn,int[][] matrix, int playerScore,int otherPlayerScore){
@@ -152,7 +193,6 @@ public class State {
 	         */
 	    return listOfBoxes.size();
 	}
-
 	
 	public boolean equals(Object other) {
 		if(other == null) return false;
