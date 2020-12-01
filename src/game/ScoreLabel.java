@@ -3,9 +3,6 @@ package game;
 import graphics.Paths;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
-
 import java.awt.*;
 
 public class ScoreLabel extends JLabel {
@@ -21,22 +18,22 @@ public class ScoreLabel extends JLabel {
         this.setFont(new Font("TimesRoman",Font.PLAIN,30));
         setHorizontalAlignment(SwingConstants.CENTER);
         if(num==1) {
-            this.setText(Integer.toString(Graph.getPlayer1Score()));
+            this.setText(Graph.getPlayer1Score()+" : "+Graph.getGamesWon1());
             this.setForeground(Color.RED);
-            this.setBounds(Paths.FRAME_WIDTH / 4, 20, 50, 50);
+            this.setBounds(Paths.FRAME_WIDTH / 4, 20, 80, 70);
 
         }else{
-            this.setText(Integer.toString(Graph.getPlayer2Score()));
+            this.setText(Graph.getPlayer2Score()+" : "+Graph.getGamesWon2());
             this.setForeground(Color.BLUE);
-            this.setBounds(3*Paths.FRAME_WIDTH/4, 20,50,50);
+            this.setBounds(3*Paths.FRAME_WIDTH/4, 20,80,70);
         }
     }
     // updates the score
     public void setScore(){
         if(num==1) {
-            this.setText(Integer.toString(Graph.getPlayer1Score()));
+            this.setText(Graph.getPlayer1Score()+" : "+Graph.getGamesWon1());
         }else{
-            this.setText(Integer.toString(Graph.getPlayer2Score()));
+            this.setText(Graph.getPlayer2Score()+" : "+Graph.getGamesWon2());
         }
     }
 }

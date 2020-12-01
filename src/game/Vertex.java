@@ -2,10 +2,6 @@ package game;
 
 import graphics.Paths;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
-
 public class Vertex {
     // the dots class
 
@@ -14,13 +10,17 @@ public class Vertex {
     // 0 1 2
     // 3 4 5
     // 6 7 8
-    private int id;
-    // reference to the vertices that it can create an edge with
+    public int id;
+    // the vertices that it can create an edge with
     private Vertex leftVertex, rightVertex, upVertex, downVertex;
-    private int x, y;
+    private int height, width;
     
     public Vertex(int id){
         this.id=id;
+    }
+    
+    public void setID(int id) {
+    	this.id=id;
     }
     
     public int getID() {
@@ -63,16 +63,24 @@ public class Vertex {
     public void setPosition(int Gwidth, int Gheight){
         int widthM=(Paths.FRAME_WIDTH-100)/(Gwidth-1);
         int heightM=(Paths.FRAME_HEIGHT-150)/(Gheight-1);
-        x=50+(id%Gwidth)*widthM;
-        y=100+(id/Gwidth)*heightM;
+        width=50+(id%Gwidth)*widthM;
+        height=100+(id/Gwidth)*heightM;
+    }
+    
+    public void setHeight(int h) {
+    	height=h;
+    }
+    
+    public void setWidth(int w) {
+    	width=w;
     }
     
     public int getHeight() {
-    	return y;
+    	return height;
     }
     
     public int getWidth() {
-    	return x;
+    	return width;
     }
 
     public String toString(){
