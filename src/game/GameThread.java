@@ -53,6 +53,35 @@ public class GameThread extends Thread{
         }
         return true;
     }
+    public static void placeEdge(ELine line) throws InterruptedException {
+        line.setActivated(true);
+        // make it black
+        line.setBackground(Color.BLACK);
+        line.repaint();
+        // set the adjacency matrix to 2, 2==is a line, 1==is a possible line
+        Graph.matrix[line.vertices.get(0).getID()][line.vertices.get(1).getID()] = 2;
+        Graph.matrix[line.vertices.get(1).getID()][line.vertices.get(0).getID()] = 2;
+        // gets an arrayList of each box the ELine creates. The box is an arrayList of 4 vertices.
+        ArrayList<ArrayList<Vertex>> boxes = checkBox(line);
+        if (boxes != null) {
+            for (ArrayList<Vertex> box : boxes) {
+                // looks through the counterBoxes arrayList and sets the matching one visible.
+                checkMatching(box);
+                // updates the score board
+                if (Graph.getPlayer1Turn()) {
+                    Graph.setPlayer1Score(Graph.getPlayer1Score()+1);
+                    Graph.getScore1().setScore();
+                } else {
+                    Graph.setPlayer2Score(Graph.getPlayer2Score()+1);
+                    Graph.getScore2().setScore();
+                }
+            }
+            // if every counterBox has been activated, the game is over
+        } else {
+            Graph.setNumOfMoves(0);
+            // switches turn. If randomBot is active switches to their turn.
+        }
+    }
     public static void clickEdge(int index) throws InterruptedException {
         ELine line = Graph.getAvailableLines().get(index);
         line.setActivated(true);
