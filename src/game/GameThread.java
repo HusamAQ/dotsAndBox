@@ -24,8 +24,25 @@ public class GameThread extends Thread{
                     if(allWaysReplay){
                         sleep(15);
                     }
+                    
+                    
                     Graph.getRandomBot().placeRandomEdge();
+//                    Graph.getMCTS().placeEdge();
                 }
+                
+                if (Graph.isMCTS()&& Graph.player1Turn == Graph.isMCTSP1()) {
+                    if(Graph.getSleep()>0) {
+                        sleep(250*Graph.getSleep());
+                    }
+                    if(allWaysReplay){
+                        sleep(15);
+                    }
+                    
+                    
+                    Graph.getMCTS().placeEdge();
+                }
+                
+                
                 if (Graph.getNumOfMoves() < 1) {
                     Graph.setNumOfMoves(1);
                     if (Graph.player1Turn) {
@@ -34,6 +51,7 @@ public class GameThread extends Thread{
                         Graph.player1Turn = true;
                     }
                 }
+                
             }
                 try {
                     Graph.getScreen().toggle();
@@ -83,6 +101,7 @@ public class GameThread extends Thread{
         }
     }
     public static void clickEdge(int index) throws InterruptedException {
+//    	System.out.println("Check finished is: "+checkFinished());
         ELine line = Graph.getAvailableLines().get(index);
         line.setActivated(true);
         // make it black

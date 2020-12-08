@@ -1,13 +1,20 @@
 package MCTS;
+import static game.GameThread.checkBox;
+import static game.GameThread.checkMatching;
+import static game.Graph.availableLines;
+
+import java.awt.Color;
 import java.util.ArrayList;
 
 import game.ELine;
+import game.Graph;
+import game.Vertex;
 
 public class MCTSTree {
     private MCTSNode root;
     private ArrayList<MCTSNode> treeNodes = new ArrayList<MCTSNode>();
     
-    private int runs=100;
+    private int runs=1000000;
 
     /***Constructor method that creates a tree from the first turn of a bot.
      * 
@@ -17,10 +24,23 @@ public class MCTSTree {
      * @param botsTurn indicate if its the bots turn
      * @param inputAvailLines a list that holds all the available lines that can be drawn.
      */
-    public MCTSTree(int[][] matrix, int score1, int score2, boolean botsTurn, ArrayList<ELine> inputAvailLines){
-        root = new MCTSNode(new State(matrix, score1, score2, botsTurn, inputAvailLines));
+    
+    public MCTSTree() {}
+    
+    public void initialize(int[][] matrix, int score1, int score2, boolean botsTurn, ArrayList<ELine> inputAvailLines){
+        root = new MCTSNode(new State((int[][]) matrix.clone(), score1, score2, botsTurn, (ArrayList<ELine>) inputAvailLines.clone()));
         treeNodes.add(root);
         generateChildren(root);
+
+//    	System.out.println("MCTS Active");
+    }
+    
+    public MCTSTree(int[][] matrix, int score1, int score2, boolean botsTurn, ArrayList<ELine> inputAvailLines){
+        root = new MCTSNode(new State((int[][]) matrix.clone(), score1, score2, botsTurn, (ArrayList<ELine>) inputAvailLines.clone()));
+        treeNodes.add(root);
+        generateChildren(root);
+
+//    	System.out.println("MCTS Active");
     }
 
     /***
@@ -29,6 +49,7 @@ public class MCTSTree {
      * @param parent the node we want to generate children for
      */
     private void generateChildren(MCTSNode parent) {
+    	
     	ArrayList<State> chil= State.getStates(parent.getState());
     	for(int i=0; i<chil.size();i++) {
     		MCTSNode baby=new MCTSNode(chil.get(i));
@@ -37,15 +58,72 @@ public class MCTSTree {
     	}
     }
     
+    public void placeEdge() {
+    
+    	ELine line;
+    	 if(Graph.isMCTSP1()) {
+    		 line = (getNextMove((int[][]) Graph.getMatrix().clone(), Graph.getPlayer2Score(), Graph.getPlayer1Score(), true, (ArrayList<ELine>) availableLines.clone()));
+         }
+         else {
+        	 line = (getNextMove((int[][]) Graph.getMatrix().clone(), Graph.getPlayer1Score(), Graph.getPlayer2Score(), true, (ArrayList<ELine>) availableLines.clone()));
+         }
+    	 
+        line.setActivated(true);
+        // make it black
+        line.setBackground(Color.BLACK);
+        line.repaint();
+        // set the adjacency matrix to 2, 2==is a line, 1==is a possible line
+        Graph.matrix[line.vertices.get(0).getID()][line.vertices.get(1).getID()] = 2;
+        Graph.matrix[line.vertices.get(1).getID()][line.vertices.get(0).getID()] = 2;
+        // gets an arrayList of each box the ELine creates. The box is an arrayList of 4 vertices.
+        ArrayList<ArrayList<Vertex>> boxes = checkBox(line);
+        if (boxes != null) {
+//        	System.out.println("boxes isnt null, size: "+boxes.size());
+            for (ArrayList<Vertex> box : boxes) {
+                // looks through the counterBoxes arrayList and sets the matching one visible.
+                checkMatching(box);
+                // updates the score board
+                if (Graph.getPlayer1Turn()) {
+                    Graph.setPlayer1Score(Graph.getPlayer1Score()+1);
+                    Graph.getScore1().setScore();
+                } else {
+                    Graph.setPlayer2Score(Graph.getPlayer2Score()+1);
+                    Graph.getScore2().setScore();
+                }
+//                Graph.setNumOftrueMoves(0);
+            }
+        } else {
+            Graph.setNumOfMoves(0);
+        }
+    }
+    
     public ELine getNextMove(int[][] matrix, int score1, int score2, boolean botsTurn, ArrayList<ELine> inputAvailLines) {
-    	MCTSNode O = new MCTSNode(new State(matrix, score1, score2, botsTurn, inputAvailLines));
-    	root= treeNodes.get(inTree(O));
+//    	System.out.println("We reached here");
+    	MCTSNode O = new MCTSNode(new State((int[][]) Graph.getMatrix().clone(), score1, score2, botsTurn, (ArrayList<ELine>) inputAvailLines.clone()));
+
+//    	System.out.println("I am looking for state");
     	
+    	int c =inTree(O);
+    	if(c==-1) {
+    		root = new MCTSNode(new State((int[][]) Graph.getMatrix().clone(), score1, score2, botsTurn, (ArrayList<ELine>) inputAvailLines.clone()));
+    	}
+    	else {
+    		root= (MCTSNode )treeNodes.get(c);
+    	}
+//    	System.out.println("I am simulating");
     	simulateGames();
+
+//    	System.out.println("I finished simulation, getting best move");
+    	
     	MCTSNode next = getBestMove();
+    	
+
+//    	System.out.println("I got best move!!");
+    	
     	
     	ELine nextEdge = root.getState().difference(next.getState());
     	
+//    	System.out.println("Best move is: "+nextEdge);
     	return nextEdge;
     }
     
@@ -83,8 +161,10 @@ public class MCTSTree {
     	while(currentNode.hasChildren()) {
     		if(currentNode.getChildren().size()==0) {
     			//Generating the tree(expansion)
+    			
     			generateChildren(currentNode);
     		}
+    		
     		currentNode = currentNode.getChildren().get(((int) Math.random() * (root.getChildren().size())));
     	}
     	//Here we have reached an end game and want to know who won the game

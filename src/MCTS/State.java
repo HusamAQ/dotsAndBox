@@ -65,7 +65,14 @@ public class State {
 		otherPlayerScores= new ArrayList<>();
 		boards = new ArrayList<>();
 		
-		possibleStatesAndScores(state.getAvailLines(), state.getBoard(),state.getScore1(), state.getScore2(), state.getBotTurn());
+		ArrayList<ELine> av =(ArrayList<ELine>)state.getAvailLines().clone();
+		int[][] b =(int[][]) state.getBoard().clone();
+		int s1= state.getScore1();
+		int s2=state.getScore2();
+		boolean bt= state.getBotTurn();
+		
+		possibleStatesAndScores(av, b,s1, s2, bt);
+		
 		boolean turn=state.getBotTurn();
 		for(int i=0; i<states.size();i++) {
 			if(turn) {
@@ -75,14 +82,23 @@ public class State {
 				if(state.getScore1()==playerScores.get(i)) turn=!turn;
 			}
 			
-			statesNew.add(new State(boards.get(i), playerScores.get(i), otherPlayerScores.get(i), turn, states.get(i)));
+			statesNew.add(new State((int[][]) boards.get(i).clone(), playerScores.get(i), otherPlayerScores.get(i), turn, (ArrayList<ELine>) states.get(i).clone()));
 		}
 		return statesNew;
 	}
 	
 	private static void possibleStatesAndScores(ArrayList<ELine> inputAvailLines, int[][] inputMatrix,int inputPlayerScore, int inputOtherPlayerScore, boolean botsTurn){
-	    for(int a=0;a<inputAvailLines.size();a++){
-	        possUtil(a,inputAvailLines,botsTurn,inputMatrix,inputPlayerScore,inputOtherPlayerScore);
+		ArrayList<ELine> av;
+		int[][] cb;
+		for(int a=0;a<inputAvailLines.size();a++){
+			cb= new int[inputMatrix.length][inputMatrix[0].length];
+			for(int i=0; i<inputMatrix.length;i++) {
+				for(int j=0; j<inputMatrix[0].length;j++) {
+					cb[i][j]=inputMatrix[i][j];
+				}
+			}
+			
+	        possUtil(a,(ArrayList<ELine>) inputAvailLines.clone(),botsTurn,cb,inputPlayerScore,inputOtherPlayerScore);
 	    }
 	}
 
@@ -107,6 +123,7 @@ public class State {
 	        playerScores.add(playerScore);
 	        otherPlayerScores.add(otherPlayerScore);
 	        boards.add(matrix);
+	        
 	        for (int a = 0; a < state.size(); a++) {
 	            possUtil(a, state, turn, matrix, playerScore, otherPlayerScore);
 	        }

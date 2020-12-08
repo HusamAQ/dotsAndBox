@@ -2,6 +2,9 @@ package game;
 
 
 import javax.swing.*;
+
+import MCTS.MCTSTree;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +29,23 @@ public class Graph {
     // Overarching game class
 	private static RandomBot randBot = new RandomBot();
 	public  static RandomBot getRandomBot() {return randBot;}
+	
+	private static MCTSTree MCTS= new MCTSTree();
+	public  static MCTSTree getMCTS() {return MCTS;}
+	
+	private static boolean MCTSon=true;
+	private static boolean MCTSP1=false;
+	
+	public static boolean isMCTS() {return MCTSon;}
+	
+	public static boolean isMCTSP1() {return MCTSP1;}
+	
+	
     // chooses whether randBot will be player 1 or 2
 	private static boolean randBotPlayer1 = false;
 	public  static boolean getRandBotPlayer1() {return randBotPlayer1;}
 	// chooses whether randBot is active
-	private static boolean activateRandom=true;
+	private static boolean activateRandom=false;
     public static void setActivateRandom(boolean activateRandom) { Graph.activateRandom = activateRandom; }
     public  static boolean getActivateRandom() {return activateRandom;}
 	// Adjacency matrix
@@ -203,6 +218,10 @@ public class Graph {
                 }
                 counter++;
             }
+        }
+        
+        if(MCTSon) {
+        	MCTS.initialize(matrix, 0, 0, MCTSP1, availableLines);
         }
     }
     public static ArrayList<ELine> availCheck(ArrayList<ELine> av){
