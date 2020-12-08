@@ -105,7 +105,7 @@ public class MCTSTree {
     	
     	int c =inTree(O);
     	if(c==-1) {
-    		root = new MCTSNode(new State((int[][]) Graph.getMatrix().clone(), score1, score2, botsTurn, (ArrayList<ELine>) inputAvailLines.clone()));
+    		root = O;
     	}
     	else {
     		root= (MCTSNode )treeNodes.get(c);
