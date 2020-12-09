@@ -14,7 +14,7 @@ public class MinMaxBot extends RandomBot {
     }
 
     // places the edge
-    public void placeRandomEdge() {
+    public static void placeEdge() {
         boolean stop = false;
         // init the game tree
         TreeNode root = TreeGenerator.generateTree(TreeGenerator.copyMatrix(Graph.getMatrix()), TreeGenerator.copyElines(Graph.getAvailableLines()));

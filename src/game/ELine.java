@@ -16,6 +16,14 @@ public class ELine extends JLabel implements Comparable, Serializable {
     // The graphical display of the edges
 
 
+    public ArrayList<Vertex> getVertices() {
+        return vertices;
+    }
+
+    public boolean isHorizontal() {
+        return horizontal;
+    }
+
     // Whether the line has been clicked or not
 	private boolean activated = false;
     // the bottom left x and y coordinates of the line
@@ -34,6 +42,15 @@ public class ELine extends JLabel implements Comparable, Serializable {
     public void setCalculated(boolean calculated) {
         this.calculated = calculated;
     }
+
+    public ELine(boolean act,int edL,ArrayList<Vertex> v,boolean h, boolean c){
+        activated=act;
+        edgeListIndex=edL;
+        vertices=v;
+        horizontal=h;
+        calculated=c;
+    }
+
 
     public ELine(int w,int h,int x,int y,ArrayList<Vertex> v){
         vertices=v;

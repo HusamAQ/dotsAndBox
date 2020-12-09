@@ -71,32 +71,13 @@ public class TreeGenerator {
     }
 
     public static List<ELine> copyElines(List<ELine> origin) {
-        ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-        ObjectOutputStream out = null;
-        try {
-            out = new ObjectOutputStream(byteOut);
-        } catch (IOException e) {
-            e.printStackTrace();
+        ArrayList<ELine> temp = new ArrayList<>();
+        for(int e=0;e<origin.size();e++){
+            ELine a = origin.get(e);
+            ELine t = new ELine(a.isActivated(),a.getEdgeListIndex(),a.getVertices(),a.getHorizontal(),a.isCalculated());
+            temp.add(t);
         }
-        try {
-            out.writeObject(origin);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        ByteArrayInputStream byteIn = new ByteArrayInputStream(byteOut.toByteArray());
-        ObjectInputStream in = null;
-        try {
-            in = new ObjectInputStream(byteIn);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            return (List<ELine>) in.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return temp;
     }
 
     private static int getScore(TreeNode newNode) {

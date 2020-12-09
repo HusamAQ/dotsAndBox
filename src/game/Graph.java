@@ -10,6 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Graph {
+    private static boolean playerPlays=true;
+    private static boolean playerisP1=true;
+
+
     public static int getNumOfMoves() {
         return numOfMoves;
     }
@@ -48,7 +52,7 @@ public class Graph {
 	private static MCTSTree MCTS= new MCTSTree();
 	public  static MCTSTree getMCTS() {return MCTS;}
 	
-	private static boolean MCTSon=true;
+	private static boolean MCTSon=false;
 	private static boolean MCTSP1=false;
 	
 	public static boolean isMCTS() {return MCTSon;}
@@ -60,8 +64,8 @@ public class Graph {
 	public static void setMCTSP1(boolean b) {MCTSP1=b;}
 
 	//Variables for MINIMAX, make sure to use these while implementing
-	private static boolean miniMaxOn=false;
-	private static boolean miniMaxP1=false;
+	private static boolean miniMaxOn=true;
+	private static boolean miniMaxP1=true;
 	public static boolean isMiniMax() {return miniMaxOn;}
 	
 	public static boolean isMiniMaxP1() {return miniMaxP1;}
