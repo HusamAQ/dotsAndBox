@@ -382,7 +382,24 @@ public class PlayMenu implements Menu{
 			setIcon(size3, Paths.BUTTON_SIZE3);
 			break;
 		case 4:
-			setIcon(custom, Paths.BUTTON_CUSTOM);
+			if(botV==4 || botV==5) {
+				setIcon(custom, Paths.BUTTON_CUSTOM);
+				setIcon(bBASE, Paths.BUTTON_BASE);
+				setIcon(bMCTS, Paths.BUTTON_MCTS_SELECTED);
+				setIcon(QTable, Paths.BUTTON_QTABLE);
+				setIcon(DeepQ, Paths.BUTTON_DEEPQ);
+			
+				botActive=true;
+				botV=2;
+				setIcon(bot, Paths.BUTTON_BOT_SELECTED);
+				setIcon(human, Paths.BUTTON_HUMAN);
+				setIcon(miniMax, Paths.BUTTON_MIN);
+				player2name.setEditable(false);
+				player2name.setText("MCTS");
+				
+				player1name.setEditable(true);
+				player1name.setText("Player1");
+			}
 			break;
 		}
 		
