@@ -23,7 +23,11 @@ public interface Paths {
 	public static final String BUTTON_MCTS="resources\\MCTS.png";
 	public static final String BUTTON_BASE="resources\\BASE.png";
 	public static final String BUTTON_MIN="resources\\miniMax.png";
+	public static final String BUTTON_QTABLE="resources\\QTable.png";
+	public static final String BUTTON_DEEPQ="resources\\DeepQ.png";
 	
+	public static final String BUTTON_QTABLE_SELECTED="resources\\SQTable.png";
+	public static final String BUTTON_DEEPQ_SELECTED="resources\\SDeepQ.png";
 	public static final String BUTTON_MIN_SELECTED="resources\\SminiMax.png";
 	public static final String BUTTON_MCTS_SELECTED="resources\\SMCTS.png";
 	public static final String BUTTON_BASE_SELECTED="resources\\SBASE.png";
