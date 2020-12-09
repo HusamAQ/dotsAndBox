@@ -32,7 +32,7 @@ public class Graph {
     // turn on neural network. HAS TO BE PLAYER 1 in a 3x4 map
     private static boolean neuralOn=true;
 
-    static int gamesToPlay=1000;
+
     private static int sleep = 0;
     static boolean allWaysReplay=true;
     // Overarching game class
