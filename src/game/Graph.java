@@ -40,9 +40,11 @@ public class Graph {
     
     public static void setQTable(boolean b) {neuralOn=b;}
     // Overarching game class
-	private static RandomBot randBot = new RandomBot();
-	public  static RandomBot getRandomBot() {return randBot;}
-	
+//	private static RandomBot randBot = new MinMaxBot();
+//	public  static RandomBot getRandomBot() {return randBot;}
+    private static RandomBot randBot = new RandomBot();
+    public  static RandomBot getRandomBot() {return randBot;}
+
 	private static MCTSTree MCTS= new MCTSTree();
 	public  static MCTSTree getMCTS() {return MCTS;}
 	
