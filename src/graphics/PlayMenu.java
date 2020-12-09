@@ -19,7 +19,7 @@ public class PlayMenu implements Menu{
 	private static Menu instance=null;
 	//Components of the Panel
 	private JPanel playMenuPanel;
-	private JButton back,play,human,bot,size1,size2,size3,custom, bMCTS, bBASE;
+	private JButton back,play,human,bot,size1,size2,size3,custom, bMCTS, bBASE, miniMax;
 	private JTextField player1name, player2name;
 	private JFormattedTextField boardW, boardH;
 	private JCheckBox initials;
@@ -31,6 +31,7 @@ public class PlayMenu implements Menu{
 	private boolean showInitials=false;
 	private boolean customSize=false;
 	private int size=1;
+	private int botV=1;
 
 
 	private PlayMenu() {
@@ -47,6 +48,8 @@ public class PlayMenu implements Menu{
 		setUpPlay();
 		setUpPlayer();
 		setUpBoard();
+		setUpBots();
+		
 		add(play);
 		add(human);
 		add(bot);
@@ -62,6 +65,7 @@ public class PlayMenu implements Menu{
 		
 		add(bBASE);
 		add(bMCTS);
+		add(miniMax);
 	}
 	@Override
 	public JPanel getPanel() {
@@ -106,18 +110,28 @@ public class PlayMenu implements Menu{
 			Graph.setPlayer1Name(player1name.getText());
 			Graph.setPlayer2Name(player2name.getText());
 			if(botActive) {
-				if(MCTS) {
+				if(botV==2) {
 					Graph.setMCTS(true);
 					Graph.setActivateRandom(false);
+					Graph.setMiniMax(false);
 				}
-				else {
+				else if(botV==1) {
 					Graph.setActivateRandom(true);
 					Graph.setMCTS(false);
+					Graph.setMiniMax(false);
 				}
+				else if(botV==3) {
+					// TODO set this to be miniMax
+					Graph.setActivateRandom(false);
+					Graph.setMCTS(false);
+					Graph.setMiniMax(true);
+				}
+				
 			}
 			else {
 				Graph.setActivateRandom(false);
 				Graph.setMCTS(false);
+				Graph.setMiniMax(false);
 			}
 			base.getFrame().setVisible(false);
 		}});
@@ -165,20 +179,26 @@ public class PlayMenu implements Menu{
 		initials.setOpaque(false);
 		initials.addItemListener(new ItemListener() {public void itemStateChanged(ItemEvent e) {showInitials=!showInitials;
 		Graph.setInitials(showInitials);}});
-		
+	}
+	
+	private void setUpBots() {
 		bMCTS=Button(Paths.BUTTON_MCTS);
 		bBASE=Button(Paths.BUTTON_BASE);
+		miniMax=Button(Paths.BUTTON_MIN);
 		
-		bBASE.setLocation(326,445);
+		bBASE.setLocation(323,445);
 		bMCTS.setLocation(164,445);
+		miniMax.setLocation(475,445);
+		
 		bBASE.addActionListener(new ActionListener(){ public void actionPerformed(ActionEvent e){
 			setIcon(bBASE, Paths.BUTTON_BASE_SELECTED);
 			setIcon(bMCTS, Paths.BUTTON_MCTS);
 			
 			botActive=true;
-			MCTS=false;
+			botV=1;
 			setIcon(bot, Paths.BUTTON_BOT_SELECTED);
 			setIcon(human, Paths.BUTTON_HUMAN);
+			setIcon(miniMax, Paths.BUTTON_MIN);
 			player2name.setEditable(false);
 			player2name.setText("BaseBot");
 			
@@ -189,15 +209,31 @@ public class PlayMenu implements Menu{
 			setIcon(bMCTS, Paths.BUTTON_MCTS_SELECTED);
 			
 			botActive=true;
-			MCTS=true;
+			botV=2;
 			setIcon(bot, Paths.BUTTON_BOT_SELECTED);
 			setIcon(human, Paths.BUTTON_HUMAN);
+			setIcon(miniMax, Paths.BUTTON_MIN);
 			player2name.setEditable(false);
 			player2name.setText("MCTS");
 			
 			
 		}});
+		miniMax.addActionListener(new ActionListener(){ public void actionPerformed(ActionEvent e){
+			setIcon(bBASE, Paths.BUTTON_BASE);
+			setIcon(bMCTS, Paths.BUTTON_MCTS);
+			
+			botActive=true;
+			botV=3;
+			setIcon(bot, Paths.BUTTON_BOT_SELECTED);
+			setIcon(human, Paths.BUTTON_HUMAN);
+			setIcon(miniMax, Paths.BUTTON_MIN_SELECTED);
+			player2name.setEditable(false);
+			player2name.setText("MiniMax");
+			
+			
+		}});
 	}
+	
 //Sets up the board options
 	private void setUpBoard(){
 		size1=Button(Paths.BUTTON_SIZE1_SELECTED);

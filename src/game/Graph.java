@@ -44,6 +44,18 @@ public class Graph {
 	
 	public static void setMCTSP1(boolean b) {MCTSP1=b;}
 	
+	private static boolean miniMaxOn=false;
+	private static boolean miniMaxP1=false;
+	
+	public static boolean isMiniMax() {return miniMaxOn;}
+	
+	public static boolean isMiniMaxP1() {return miniMaxP1;}
+	
+	public static void setMiniMax(boolean b) {miniMaxOn=b;}
+	
+	public static void setMiniMaxP1(boolean b) {miniMaxP1=b;}
+	
+	
     // chooses whether randBot will be player 1 or 2
 	private static boolean randBotPlayer1 = false;
 	public  static boolean getRandBotPlayer1() {return randBotPlayer1;}
