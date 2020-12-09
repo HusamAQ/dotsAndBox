@@ -19,7 +19,7 @@ public class PlayMenu implements Menu{
 	private static Menu instance=null;
 	//Components of the Panel
 	private JPanel playMenuPanel;
-	private JButton back,play,human,bot,size1,size2,size3,custom;
+	private JButton back,play,human,bot,size1,size2,size3,custom, bMCTS, bBASE;
 	private JTextField player1name, player2name;
 	private JFormattedTextField boardW, boardH;
 	private JCheckBox initials;
@@ -27,6 +27,7 @@ public class PlayMenu implements Menu{
 	private MenuBasic base;
 	//Game Settings
 	private boolean botActive=false;
+	private boolean MCTS=false;
 	private boolean showInitials=false;
 	private boolean customSize=false;
 	private int size=1;
@@ -58,6 +59,9 @@ public class PlayMenu implements Menu{
 		add(boardW);
 		add(boardH);
 		add(initials);
+		
+		add(bBASE);
+		add(bMCTS);
 	}
 	@Override
 	public JPanel getPanel() {
@@ -101,6 +105,20 @@ public class PlayMenu implements Menu{
 			}
 			Graph.setPlayer1Name(player1name.getText());
 			Graph.setPlayer2Name(player2name.getText());
+			if(botActive) {
+				if(MCTS) {
+					Graph.setMCTS(true);
+					Graph.setActivateRandom(false);
+				}
+				else {
+					Graph.setActivateRandom(true);
+					Graph.setMCTS(false);
+				}
+			}
+			else {
+				Graph.setActivateRandom(false);
+				Graph.setMCTS(false);
+			}
 			Graph.setActivateRandom(botActive);
 			base.getFrame().setVisible(false);
 		}});
@@ -117,7 +135,10 @@ public class PlayMenu implements Menu{
 			setIcon(bot, Paths.BUTTON_BOT_SELECTED);
 			setIcon(human, Paths.BUTTON_HUMAN);
 			player2name.setEditable(false);
-			player2name.setText("RandomBot");
+			player2name.setText("BaseBot");
+			
+			setIcon(bBASE, Paths.BUTTON_BASE_SELECTED);
+			setIcon(bMCTS, Paths.BUTTON_MCTS);
 		}});
 		human.addActionListener(new ActionListener(){ public void actionPerformed(ActionEvent e){
 			botActive=false;
@@ -125,6 +146,9 @@ public class PlayMenu implements Menu{
 			setIcon(human, Paths.BUTTON_HUMAN_SELECTED);
 			player2name.setEditable(true);
 			player2name.setText("Player 2");
+			
+			setIcon(bBASE, Paths.BUTTON_BASE);
+			setIcon(bMCTS, Paths.BUTTON_MCTS);
 		}});
 		
 		player1name=new JTextField("Player 1");
@@ -142,6 +166,38 @@ public class PlayMenu implements Menu{
 		initials.setOpaque(false);
 		initials.addItemListener(new ItemListener() {public void itemStateChanged(ItemEvent e) {showInitials=!showInitials;
 		Graph.setInitials(showInitials);}});
+		
+		bMCTS=Button(Paths.BUTTON_MCTS);
+		bBASE=Button(Paths.BUTTON_BASE);
+		
+		bBASE.setLocation(326,445);
+		bMCTS.setLocation(164,445);
+		bBASE.addActionListener(new ActionListener(){ public void actionPerformed(ActionEvent e){
+			setIcon(bBASE, Paths.BUTTON_BASE_SELECTED);
+			setIcon(bMCTS, Paths.BUTTON_MCTS);
+			
+			botActive=true;
+			MCTS=false;
+			setIcon(bot, Paths.BUTTON_BOT_SELECTED);
+			setIcon(human, Paths.BUTTON_HUMAN);
+			player2name.setEditable(false);
+			player2name.setText("BaseBot");
+			
+			
+		}});
+		bMCTS.addActionListener(new ActionListener(){ public void actionPerformed(ActionEvent e){
+			setIcon(bBASE, Paths.BUTTON_BASE);
+			setIcon(bMCTS, Paths.BUTTON_MCTS_SELECTED);
+			
+			botActive=true;
+			MCTS=true;
+			setIcon(bot, Paths.BUTTON_BOT_SELECTED);
+			setIcon(human, Paths.BUTTON_HUMAN);
+			player2name.setEditable(false);
+			player2name.setText("MCTS");
+			
+			
+		}});
 	}
 //Sets up the board options
 	private void setUpBoard(){

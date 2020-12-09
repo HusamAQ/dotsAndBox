@@ -20,6 +20,12 @@ public interface Paths {
 	public static final String BUTTON_HUMAN="resources\\HumanButton.png";
 	public static final String BUTTON_BOT="resources\\BotButton.png";
 
+	public static final String BUTTON_MCTS="resources\\MCTS.png";
+	public static final String BUTTON_BASE="resources\\BASE.png";
+	
+	public static final String BUTTON_MCTS_SELECTED="resources\\SMCTS.png";
+	public static final String BUTTON_BASE_SELECTED="resources\\SBASE.png";
+	
 	public static final String BUTTON_SIZE1="resources\\SizeButton1.png";
 	public static final String BUTTON_SIZE2="resources\\SizeButton2.png";
 	public static final String BUTTON_SIZE3="resources\\SizeButton3.png";

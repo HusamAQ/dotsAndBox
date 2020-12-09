@@ -33,19 +33,22 @@ public class Graph {
 	private static MCTSTree MCTS= new MCTSTree();
 	public  static MCTSTree getMCTS() {return MCTS;}
 	
-	private static boolean MCTSon=true;
+	private static boolean MCTSon=false;
 	private static boolean MCTSP1=false;
 	
 	public static boolean isMCTS() {return MCTSon;}
 	
 	public static boolean isMCTSP1() {return MCTSP1;}
 	
+	public static void setMCTS(boolean b) {MCTSon=b;}
+	
+	public static void setMCTSP1(boolean b) {MCTSP1=b;}
 	
     // chooses whether randBot will be player 1 or 2
 	private static boolean randBotPlayer1 = false;
 	public  static boolean getRandBotPlayer1() {return randBotPlayer1;}
 	// chooses whether randBot is active
-	private static boolean activateRandom=false;
+	private static boolean activateRandom=true;
     public static void setActivateRandom(boolean activateRandom) { Graph.activateRandom = activateRandom; }
     public  static boolean getActivateRandom() {return activateRandom;}
 	// Adjacency matrix
