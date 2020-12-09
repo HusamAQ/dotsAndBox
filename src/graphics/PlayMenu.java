@@ -116,28 +116,37 @@ public class PlayMenu implements Menu{
 					Graph.setMCTS(true);
 					Graph.setActivateRandom(false);
 					Graph.setMiniMax(false);
+					Graph.setDeepQ(false);
+					Graph.setQTable(false);
 				}
 				else if(botV==1) {
 					Graph.setActivateRandom(true);
 					Graph.setMCTS(false);
 					Graph.setMiniMax(false);
+					Graph.setDeepQ(false);
+					Graph.setQTable(false);
 				}
 				else if(botV==3) {
 					Graph.setActivateRandom(false);
 					Graph.setMCTS(false);
 					Graph.setMiniMax(true);
+					Graph.setDeepQ(false);
+					Graph.setQTable(false);
 				}
 				else if(botV==4) {
 					// TODO set this to be QTable
 					Graph.setActivateRandom(false);
 					Graph.setMCTS(false);
-					Graph.setMiniMax(true);
+					Graph.setMiniMax(false);
+					Graph.setDeepQ(false);
+					Graph.setQTable(true);
 				}
 				else if(botV==5) {
-					// TODO set this to be DeepQ
 					Graph.setActivateRandom(false);
 					Graph.setMCTS(false);
-					Graph.setMiniMax(true);
+					Graph.setMiniMax(false);
+					Graph.setDeepQ(true);
+					Graph.setQTable(false);
 				}
 				
 			}

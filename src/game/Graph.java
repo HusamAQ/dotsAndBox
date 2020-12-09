@@ -26,6 +26,19 @@ public class Graph {
 
     private static int sleep = 0;
     static boolean allWaysReplay=false;
+    //Make sure to use the variables bellow in order for everything to work with the GUI
+    //DeepQ boolean
+    private static boolean neuralOn=false;
+    
+    public static boolean getDeepQ() {return neuralOn;}
+    
+    public static void setDeepQ(boolean b) {neuralOn=b;}
+    //QTable boolean
+    private static boolean qTableOn=false;
+    
+    public static boolean getQTable() {return neuralOn;}
+    
+    public static void setQTable(boolean b) {neuralOn=b;}
     // Overarching game class
 	private static RandomBot randBot = new RandomBot();
 	public  static RandomBot getRandomBot() {return randBot;}
@@ -43,10 +56,10 @@ public class Graph {
 	public static void setMCTS(boolean b) {MCTSon=b;}
 	
 	public static void setMCTSP1(boolean b) {MCTSP1=b;}
-	
+
+	//Variables for MINIMAX, make sure to use these while implementing
 	private static boolean miniMaxOn=false;
 	private static boolean miniMaxP1=false;
-	
 	public static boolean isMiniMax() {return miniMaxOn;}
 	
 	public static boolean isMiniMaxP1() {return miniMaxP1;}
