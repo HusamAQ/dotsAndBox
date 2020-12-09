@@ -29,7 +29,7 @@ public class GameThread extends Thread{
                     Graph.getRandomBot().placeRandomEdge();
 //                    Graph.getMCTS().placeEdge();
                 }
-                if(Graph.isMiniMax()&&Graph.isMiniMaxP1()== player1Turn){
+                if(Graph.isMiniMax() && Graph.isMiniMaxP1()== player1Turn){
                     MinMaxBot.placeEdge();
                 }
                 if (Graph.isMCTS()&& Graph.player1Turn == Graph.isMCTSP1()) {

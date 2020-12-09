@@ -111,13 +111,17 @@ public class PlayMenu implements Menu{
 			}
 			Graph.setPlayer1Name(player1name.getText());
 			Graph.setPlayer2Name(player2name.getText());
+			Graph.setPlayerPlays(true);
 			if(botActive) {
+				Graph.setBothPlayers(false);
+				Graph.setPlayerisP1(false);
 				if(botV==2) {
 					Graph.setMCTS(true);
 					Graph.setActivateRandom(false);
 					Graph.setMiniMax(false);
 					Graph.setDeepQ(false);
 					Graph.setQTable(false);
+					Graph.setPlayerisP1(true);
 				}
 				else if(botV==1) {
 					Graph.setActivateRandom(true);
@@ -125,6 +129,7 @@ public class PlayMenu implements Menu{
 					Graph.setMiniMax(false);
 					Graph.setDeepQ(false);
 					Graph.setQTable(false);
+					Graph.setPlayerisP1(true);
 				}
 				else if(botV==3) {
 					Graph.setActivateRandom(false);
@@ -154,6 +159,9 @@ public class PlayMenu implements Menu{
 				Graph.setActivateRandom(false);
 				Graph.setMCTS(false);
 				Graph.setMiniMax(false);
+				Graph.setBothPlayers(true);
+				Graph.setPlayerisP1(true);
+
 			}
 			base.getFrame().setVisible(false);
 		}});
