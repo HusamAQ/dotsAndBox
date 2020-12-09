@@ -33,7 +33,7 @@ public class Graph {
 	private static MCTSTree MCTS= new MCTSTree();
 	public  static MCTSTree getMCTS() {return MCTS;}
 	
-	private static boolean MCTSon=false;
+	private static boolean MCTSon=true;
 	private static boolean MCTSP1=false;
 	
 	public static boolean isMCTS() {return MCTSon;}
@@ -48,7 +48,7 @@ public class Graph {
 	private static boolean randBotPlayer1 = false;
 	public  static boolean getRandBotPlayer1() {return randBotPlayer1;}
 	// chooses whether randBot is active
-	private static boolean activateRandom=true;
+	private static boolean activateRandom=false;
     public static void setActivateRandom(boolean activateRandom) { Graph.activateRandom = activateRandom; }
     public  static boolean getActivateRandom() {return activateRandom;}
 	// Adjacency matrix

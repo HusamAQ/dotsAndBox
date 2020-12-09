@@ -119,7 +119,6 @@ public class PlayMenu implements Menu{
 				Graph.setActivateRandom(false);
 				Graph.setMCTS(false);
 			}
-			Graph.setActivateRandom(botActive);
 			base.getFrame().setVisible(false);
 		}});
 	}
