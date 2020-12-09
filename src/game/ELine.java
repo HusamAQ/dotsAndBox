@@ -64,49 +64,53 @@ public class ELine extends JLabel implements Comparable, Serializable {
         setBounds(x,y,w,h);
         setOpaque(true);
         // the mouseListener
-        addMouseListener(new MouseAdapter() {
-            // when the player hovers over a line it displays it in their colour
-            @Override
-            public void mouseEntered(MouseEvent e){
-                if(!activated) {
-                    if (Graph.getPlayer1Turn()) {
-                        setBackground(Color.RED);
-                    } else {
-                        setBackground(Color.BLUE);
-                    }
-                }
-            }
-            @Override
-            public void mouseExited(MouseEvent e){
-                if(!activated) {
-                    setBackground(Color.WHITE);
-                }
-            }
-            // when clicked
-            @Override
-            public void mousePressed(MouseEvent e) {
-                //  if the line has not been activated before
-                if(!activated) {
-                    int index=-1;
-                    for(int p = availableLines.size()-1; p>=0; p--){
-                        if(availableLines.get(p).vertices.get(0).getID()==vertices.get(0).getID()&&availableLines.get(p).vertices.get(1).getID()==vertices.get(1).getID()){
-                            index=p;
+        if(Graph.isBothPlayers()||(Graph.isPlayerPlays()&&Graph.isPlayerisP1()==Graph.player1Turn)){
+            addMouseListener(new MouseAdapter() {
+                // when the player hovers over a line it displays it in their colour
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    if (!activated) {
+                        if (Graph.getPlayer1Turn()) {
+                            setBackground(Color.RED);
+                        } else {
+                            setBackground(Color.BLUE);
                         }
                     }
-                    if(index==-1){
-                        for(ELine x:availableLines){
-                            System.out.print(x.toString()+" | ");
-                        }
-                        System.out.println();
-                    }
-                    try {
-                        clickEdge(index);
-                    } catch (InterruptedException interruptedException) {
-                        interruptedException.printStackTrace();
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    if (!activated) {
+                        setBackground(Color.WHITE);
                     }
                 }
-            }
-        });
+
+                // when clicked
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    //  if the line has not been activated before
+                    if (!activated) {
+                        int index = -1;
+                        for (int p = availableLines.size() - 1; p >= 0; p--) {
+                            if (availableLines.get(p).vertices.get(0).getID() == vertices.get(0).getID() && availableLines.get(p).vertices.get(1).getID() == vertices.get(1).getID()) {
+                                index = p;
+                            }
+                        }
+                        if (index == -1) {
+                            for (ELine x : availableLines) {
+                                System.out.print(x.toString() + " | ");
+                            }
+                            System.out.println();
+                        }
+                        try {
+                            clickEdge(index);
+                        } catch (InterruptedException interruptedException) {
+                            interruptedException.printStackTrace();
+                        }
+                    }
+                }
+            });
+        }
     }
 
 

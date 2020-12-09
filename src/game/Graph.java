@@ -10,8 +10,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Graph {
+    public static boolean isPlayerPlays() {
+        return playerPlays;
+    }
+
+    public static void setPlayerPlays(boolean playerPlays) {
+        Graph.playerPlays = playerPlays;
+    }
+
+    public static boolean isPlayerisP1() {
+        return playerisP1;
+    }
+
+    public static void setPlayerisP1(boolean playerisP1) {
+        Graph.playerisP1 = playerisP1;
+    }
+
+    public static boolean isBothPlayers() {
+        return bothPlayers;
+    }
+
+    public static void setBothPlayers(boolean bothPlayers) {
+        Graph.bothPlayers = bothPlayers;
+    }
+
     private static boolean playerPlays=true;
     private static boolean playerisP1=true;
+
+    private static boolean bothPlayers=false;
 
 
     public static int getNumOfMoves() {
@@ -65,7 +91,7 @@ public class Graph {
 
 	//Variables for MINIMAX, make sure to use these while implementing
 	private static boolean miniMaxOn=true;
-	private static boolean miniMaxP1=true;
+	private static boolean miniMaxP1=false;
 	public static boolean isMiniMax() {return miniMaxOn;}
 	
 	public static boolean isMiniMaxP1() {return miniMaxP1;}
