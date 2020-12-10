@@ -101,6 +101,58 @@ public class PlayMenu implements Menu{
 					Graph.setHeight(5);
 					break;
 				}
+				
+				if(botActive) {
+					Graph.setBothPlayers(false);
+					Graph.setPlayerisP1(false);
+					if(botV==2) {
+						Graph.setMCTS(true);
+						Graph.setActivateRandom(false);
+						Graph.setMiniMax(false);
+						Graph.setDeepQ(false);
+						Graph.setQTable(false);
+						Graph.setPlayerisP1(true);
+					}
+					else if(botV==1) {
+						Graph.setActivateRandom(true);
+						Graph.setMCTS(false);
+						Graph.setMiniMax(false);
+						Graph.setDeepQ(false);
+						Graph.setQTable(false);
+						Graph.setPlayerisP1(true);
+					}
+					else if(botV==3) {
+						Graph.setActivateRandom(false);
+						Graph.setMCTS(false);
+						Graph.setMiniMax(true);
+						Graph.setDeepQ(false);
+						Graph.setQTable(false);
+					}
+					else if(botV==4) {
+						// TODO set this to be QTable
+						Graph.setActivateRandom(false);
+						Graph.setMCTS(false);
+						Graph.setMiniMax(false);
+						Graph.setDeepQ(false);
+						Graph.setQTable(true);
+					}
+					else if(botV==5) {
+						Graph.setActivateRandom(false);
+						Graph.setMCTS(false);
+						Graph.setMiniMax(false);
+						Graph.setDeepQ(true);
+						Graph.setQTable(false);
+					}
+					
+				}
+				else {
+					Graph.setActivateRandom(false);
+					Graph.setMCTS(false);
+					Graph.setMiniMax(false);
+					Graph.setBothPlayers(true);
+					Graph.setPlayerisP1(true);
+
+				}
 			}
 			try {
 				new GameBoard();
@@ -112,57 +164,7 @@ public class PlayMenu implements Menu{
 			Graph.setPlayer1Name(player1name.getText());
 			Graph.setPlayer2Name(player2name.getText());
 			Graph.setPlayerPlays(true);
-			if(botActive) {
-				Graph.setBothPlayers(false);
-				Graph.setPlayerisP1(false);
-				if(botV==2) {
-					Graph.setMCTS(true);
-					Graph.setActivateRandom(false);
-					Graph.setMiniMax(false);
-					Graph.setDeepQ(false);
-					Graph.setQTable(false);
-					Graph.setPlayerisP1(true);
-				}
-				else if(botV==1) {
-					Graph.setActivateRandom(true);
-					Graph.setMCTS(false);
-					Graph.setMiniMax(false);
-					Graph.setDeepQ(false);
-					Graph.setQTable(false);
-					Graph.setPlayerisP1(true);
-				}
-				else if(botV==3) {
-					Graph.setActivateRandom(false);
-					Graph.setMCTS(false);
-					Graph.setMiniMax(true);
-					Graph.setDeepQ(false);
-					Graph.setQTable(false);
-				}
-				else if(botV==4) {
-					// TODO set this to be QTable
-					Graph.setActivateRandom(false);
-					Graph.setMCTS(false);
-					Graph.setMiniMax(false);
-					Graph.setDeepQ(false);
-					Graph.setQTable(true);
-				}
-				else if(botV==5) {
-					Graph.setActivateRandom(false);
-					Graph.setMCTS(false);
-					Graph.setMiniMax(false);
-					Graph.setDeepQ(true);
-					Graph.setQTable(false);
-				}
-				
-			}
-			else {
-				Graph.setActivateRandom(false);
-				Graph.setMCTS(false);
-				Graph.setMiniMax(false);
-				Graph.setBothPlayers(true);
-				Graph.setPlayerisP1(true);
-
-			}
+			
 			base.getFrame().setVisible(false);
 		}});
 	}
