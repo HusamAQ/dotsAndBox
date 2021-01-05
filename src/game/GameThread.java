@@ -29,9 +29,20 @@ public class GameThread extends Thread{
                     Graph.getRandomBot().placeRandomEdge();
 //                    Graph.getMCTS().placeEdge();
                 }
-                if(Graph.isMiniMax() && Graph.isMiniMaxP1()== player1Turn){
-                    MinMaxBot.placeEdge();
+                if(Graph.isMiniMax()&&Graph.isMiniMaxP1()== player1Turn){
+                    long start =System.nanoTime();
+                    Node state;
+                    if(Graph.isMiniMaxP1()) {
+                        state = new Node(Node.matrixCopy(Graph.getMatrix()), Graph.getPlayer1Score(), Graph.getPlayer2Score(), Node.avCopy(Graph.getAvailableLines()), true, false, false, null);
+                    }else{
+                        state = new Node(Node.matrixCopy(Graph.getMatrix()), Graph.getPlayer2Score(), Graph.getPlayer1Score(), Node.avCopy(Graph.getAvailableLines()), true, false, false, null);
+
+                    }
+                    placeEdge(t.minMaxFunction(state,3,true).move);
+                    long stop = System.nanoTime();
+                    System.out.println("MM: "+((stop-start)/1000000));
                 }
+
                 if (Graph.isMCTS()&& Graph.player1Turn == Graph.isMCTSP1()) {
                     if(Graph.getSleep()>0) {
                         sleep(250*Graph.getSleep());

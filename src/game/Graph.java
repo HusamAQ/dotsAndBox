@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Graph {
+    static minMax t = new minMax();
+
+
     public static boolean isPlayerPlays() {
         return playerPlays;
     }
