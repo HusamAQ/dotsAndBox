@@ -1,9 +1,9 @@
 package MCTS;
 
-import java.util.ArrayList;
-
 import game.ELine;
 import game.Vertex;
+
+import java.util.ArrayList;
 
 public class State {
 
@@ -65,16 +65,29 @@ public class State {
 		otherPlayerScores= new ArrayList<>();
 		boards = new ArrayList<>();
 		
-		ArrayList<ELine> av =(ArrayList<ELine>)state.getAvailLines().clone();
-		int[][] b =(int[][]) state.getBoard().clone();
+		ArrayList<ELine> av =new ArrayList<ELine>();
+		ArrayList<ELine> avO = state.getAvailLines();
+		for(int i=0; i<avO.size();i++) {
+			av.add(avO.get(i));
+		}
+		int[][] bb =state.getBoard();
+		int[][] b= new int[bb.length][bb[0].length];
+		
+		for(int i=0; i<bb.length; i++) {
+			for(int j=0; j<bb[0].length;j++) {
+				b[i][j]=bb[i][j];
+			}
+		}
+		
+		
 		int s1= state.getScore1();
 		int s2=state.getScore2();
 		boolean bt= state.getBotTurn();
 		
 		possibleStatesAndScores(av, b,s1, s2, bt);
-		
-		boolean turn=state.getBotTurn();
+		boolean turn;
 		for(int i=0; i<states.size();i++) {
+			turn=state.getBotTurn();
 			if(turn) {
 				if(state.getScore2()==otherPlayerScores.get(i)) turn=!turn;
 			}
@@ -82,13 +95,14 @@ public class State {
 				if(state.getScore1()==playerScores.get(i)) turn=!turn;
 			}
 			
-			statesNew.add(new State((int[][]) boards.get(i).clone(), playerScores.get(i), otherPlayerScores.get(i), turn, (ArrayList<ELine>) states.get(i).clone()));
+			statesNew.add(new State((int[][]) boards.get(i).clone(), playerScores.get(i), otherPlayerScores.get(i), turn, (ArrayList<ELine>) states.get(i)));
 		}
+		
 		return statesNew;
 	}
 	
 	private static void possibleStatesAndScores(ArrayList<ELine> inputAvailLines, int[][] inputMatrix,int inputPlayerScore, int inputOtherPlayerScore, boolean botsTurn){
-		ArrayList<ELine> av;
+//		ArrayList<ELine> av;
 		int[][] cb;
 		for(int a=0;a<inputAvailLines.size();a++){
 			cb= new int[inputMatrix.length][inputMatrix[0].length];
@@ -108,6 +122,7 @@ public class State {
 	        matrix[action.vertices.get(0).getID()][action.vertices.get(1).getID()] = 2;
 	        matrix[action.vertices.get(1).getID()][action.vertices.get(0).getID()] = 2;
 	        int tem = checkBox(action, matrix);
+//	        System.out.println("boxes "+tem);
 	        if (tem > 0) {
 	            for (int l = 0; l < tem; l++) {
 	                if (turn) {

@@ -31,10 +31,11 @@ public class MCTSNode {
 	
 	public double getValue(int N) {
 		if(visited==0 || won==0) return 0;
+//		System.out.println("N: "+N+" won: "+won+" visited: "+visited);
 		double value=0;
 		value= (won/visited)+ c*Math.sqrt((Math.log(N)/won));
-		
-		return value;
+//		return value;
+		return (won/visited);
 		}
 		
 	public int getVisited() {return this.visited;}

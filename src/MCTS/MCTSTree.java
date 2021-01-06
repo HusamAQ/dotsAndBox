@@ -1,14 +1,15 @@
 package MCTS;
-import static game.GameThread.checkBox;
-import static game.GameThread.checkMatching;
-import static game.Graph.availableLines;
-
-import java.awt.Color;
-import java.util.ArrayList;
 
 import game.ELine;
 import game.Graph;
 import game.Vertex;
+
+import java.awt.*;
+import java.util.ArrayList;
+
+import static game.GameThread.checkBox;
+import static game.GameThread.checkMatching;
+import static game.Graph.availableLines;
 
 public class MCTSTree {
     private MCTSNode root;
@@ -49,10 +50,10 @@ public class MCTSTree {
      * @param parent the node we want to generate children for
      */
     private void generateChildren(MCTSNode parent) {
-    	
     	ArrayList<State> chil= State.getStates(parent.getState());
     	for(int i=0; i<chil.size();i++) {
     		MCTSNode baby=new MCTSNode(chil.get(i));
+//    		System.out.println(baby.getState().getScore1()+"__"+baby.getState().getScore2()+"_a_");
     		parent.addChild(baby);
     		treeNodes.add(baby);
     	}
@@ -137,9 +138,11 @@ public class MCTSTree {
     	MCTSNode next=null;
     	for(int i=0; i<root.getChildren().size(); i++) {
     		double c=root.getChildren().get(i).getValue(n);
+
+//        	System.out.println(root.getChildren().get(i).getWon());
     		if(c > best) best=c; next=root.getChildren().get(i);
     	}
-    	
+    	System.out.println("Best is: "+best);
     	return next;
     }
     
@@ -164,8 +167,9 @@ public class MCTSTree {
     			
     			generateChildren(currentNode);
     		}
-    		
-    		currentNode = currentNode.getChildren().get(((int) Math.random() * (root.getChildren().size())));
+    		int ra= (int) (Math.random() * (currentNode.getChildren().size()));
+//    		System.out.println("Size: "+root.getChildren().size()+" Choice:"+ra+" rand "+Math.random());
+    		currentNode = currentNode.getChildren().get(ra);
     	}
     	//Here we have reached an end game and want to know who won the game
     	boolean win = simulation(currentNode);
@@ -178,8 +182,9 @@ public class MCTSTree {
      * @return true if bot is winning, false otherwise
      */
     private boolean simulation(MCTSNode currentNode) {
+    	System.out.println(currentNode.getState().getScoreTotal());
     	if(currentNode.getState().getScoreTotal()>0) return true;
-    	return false;
+    	else return false;
     }
     
     /***
@@ -205,6 +210,7 @@ public class MCTSTree {
     	MCTSNode n = root;
     	while(n.getParent()!=null) {
     		if(n.getState().getBotTurn()) x++;
+    		n=n.getParent();
     	}
     	return x;
     }
@@ -219,7 +225,7 @@ public class MCTSTree {
     }
     
     private void removeExcept(MCTSNode past) {
-    	if(!past.hasChildren()) treeNodes.remove(inTree(past));
+//    	if(!past.hasChildren()) treeNodes.remove(inTree(past));
     	for(MCTSNode p: past.getChildren()) if(p==root) removeExcept(past);
     }
 
