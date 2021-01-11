@@ -140,7 +140,7 @@ public class State {
 	        boards.add(matrix);
 	        
 	        for (int a = 0; a < state.size(); a++) {
-	            possUtil(a, state, turn, matrix, playerScore, otherPlayerScore);
+//	            possUtil(a, state, turn, matrix, playerScore, otherPlayerScore);
 	        }
 	    }
 	}

@@ -24,18 +24,21 @@ public class MCTSNode {
 	
 	public void addChild(MCTSNode baby) {
 		children.add(baby);
-		baby.setParent(this);
+//		baby.setParent(this);
 	}
 	
 	public MCTSNode getParent() {return this.parent;}
 	
 	public double getValue(int N) {
 		if(visited==0 || won==0) return 0;
-//		System.out.println("N: "+N+" won: "+won+" visited: "+visited);
-		double value=0;
-		value= (won/visited)+ c*Math.sqrt((Math.log(N)/won));
-//		return value;
-		return (won/visited);
+//		System.out.println("N: "+N+" won: "+won+" visited: "+visited+" ratio is: "+(((double) won)/(((double) visited))));
+		double x= (double) won;
+		double y= (double) visited;
+		double value= x/y;
+//		System.out.println("Value is "+value);
+		value= (x/y)+ c*Math.sqrt((Math.log(N)/x));
+		return value;
+//		return (won/visited);
 		}
 		
 	public int getVisited() {return this.visited;}
@@ -54,7 +57,10 @@ public class MCTSNode {
 	
 	public void update(boolean win) {
 		visited++;
-		if(win) won++;
+		if(win) {
+			won++;
+			}
+//		System.out.println("Result is: "+win+" and Visited: "+visited+" Won: "+won);
 	}
 	
 	public boolean equals(Object other) {

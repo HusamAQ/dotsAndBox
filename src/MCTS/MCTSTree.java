@@ -14,8 +14,10 @@ import static game.Graph.availableLines;
 public class MCTSTree {
     private MCTSNode root;
     private ArrayList<MCTSNode> treeNodes = new ArrayList<MCTSNode>();
+    private ArrayList<MCTSNode> path = new ArrayList<MCTSNode>();
     
-    private int runs=1000000;
+    private int runs=1000;
+    private int numberOfSims=0;
 
     /***Constructor method that creates a tree from the first turn of a bot.
      * 
@@ -55,12 +57,13 @@ public class MCTSTree {
     		MCTSNode baby=new MCTSNode(chil.get(i));
 //    		System.out.println(baby.getState().getScore1()+"__"+baby.getState().getScore2()+"_a_");
     		parent.addChild(baby);
+    		baby.setParent(parent);
     		treeNodes.add(baby);
     	}
     }
     
     public void placeEdge() {
-    
+    	numberOfSims++;
     	ELine line;
     	 if(Graph.isMCTSP1()) {
     		 line = (getNextMove((int[][]) Graph.getMatrix().clone(), Graph.getPlayer2Score(), Graph.getPlayer1Score(), true, (ArrayList<ELine>) availableLines.clone()));
@@ -96,6 +99,7 @@ public class MCTSTree {
         } else {
             Graph.setNumOfMoves(0);
         }
+        System.out.println("Tree size is: "+treeNodes.size());
     }
     
     public ELine getNextMove(int[][] matrix, int score1, int score2, boolean botsTurn, ArrayList<ELine> inputAvailLines) {
@@ -133,16 +137,16 @@ public class MCTSTree {
      * @return MCTSNode next, with the node that represents our next best possible state
      */
     private MCTSNode getBestMove() {
-    	double best=0;
-    	int n=numberOfMoves()*runs;
+    	double best=-1;
+    	int n=numberOfSims*runs;
     	MCTSNode next=null;
     	for(int i=0; i<root.getChildren().size(); i++) {
     		double c=root.getChildren().get(i).getValue(n);
-
+//    		System.out.println("C is "+c);
 //        	System.out.println(root.getChildren().get(i).getWon());
     		if(c > best) best=c; next=root.getChildren().get(i);
     	}
-    	System.out.println("Best is: "+best);
+//    	System.out.println("Best is: "+best);
     	return next;
     }
     
@@ -151,6 +155,7 @@ public class MCTSTree {
      */
     public void simulateGames() {
     	for(int i=0; i<runs; i++) {
+    		path = new ArrayList<MCTSNode>();
     		selection();
     	}
     }
@@ -160,19 +165,21 @@ public class MCTSTree {
      */
     private void selection() {
     	MCTSNode currentNode = root;
-    	
+    	path.add(currentNode);
     	while(currentNode.hasChildren()) {
     		if(currentNode.getChildren().size()==0) {
     			//Generating the tree(expansion)
-    			
     			generateChildren(currentNode);
     		}
     		int ra= (int) (Math.random() * (currentNode.getChildren().size()));
+//    		System.out.println(currentNode.getChildren().size());
 //    		System.out.println("Size: "+root.getChildren().size()+" Choice:"+ra+" rand "+Math.random());
     		currentNode = currentNode.getChildren().get(ra);
+    		path.add(currentNode);
     	}
     	//Here we have reached an end game and want to know who won the game
     	boolean win = simulation(currentNode);
+//    	System.out.println(win);
     	backTrack(currentNode, win);
     }
     
@@ -182,8 +189,8 @@ public class MCTSTree {
      * @return true if bot is winning, false otherwise
      */
     private boolean simulation(MCTSNode currentNode) {
-    	System.out.println(currentNode.getState().getScoreTotal());
-    	if(currentNode.getState().getScoreTotal()>0) return true;
+//    	System.out.println(currentNode.getState().getScoreTotal());
+    	if(currentNode.getState().getScoreTotal()>=0) return true;
     	else return false;
     }
     
@@ -194,9 +201,14 @@ public class MCTSTree {
      * @param win
      */
     private void backTrack(MCTSNode currentNode, boolean win) {
-    	while(currentNode != root) {
+//    	int i=0;
+    	/*while(currentNode != root) {
+    		System.out.println("Update "+(++i)+" Score is "+currentNode.getState().getScore1()+" - "+currentNode.getState().getScore2());
     		currentNode.update(win);
     		currentNode=currentNode.getParent();
+    	}*/
+    	for(int i=0;i<path.size();i++) {
+    		path.get(i).update(win);
     	}
     }
     
@@ -206,7 +218,7 @@ public class MCTSTree {
      * @return
      */
     private int numberOfMoves() {
-    	int x=0;
+    	int x=1;
     	MCTSNode n = root;
     	while(n.getParent()!=null) {
     		if(n.getState().getBotTurn()) x++;
