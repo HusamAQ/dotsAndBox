@@ -16,7 +16,7 @@ public class MCTSTree {
     private ArrayList<MCTSNode> treeNodes = new ArrayList<MCTSNode>();
     private ArrayList<MCTSNode> path = new ArrayList<MCTSNode>();
     
-    private int runs=1000;
+    private int runs=100;
     private int numberOfSims=0;
 
     /***Constructor method that creates a tree from the first turn of a bot.
@@ -115,6 +115,8 @@ public class MCTSTree {
     	else {
     		root= (MCTSNode )treeNodes.get(c);
     	}
+    	
+    	updateTree();
 //    	System.out.println("I am simulating");
     	simulateGames();
 
@@ -132,6 +134,17 @@ public class MCTSTree {
     	return nextEdge;
     }
     
+    public void updateTree() {
+    	treeNodes = new ArrayList<>();
+    	addNodes(root);
+    }
+    
+    private void addNodes(MCTSNode n) {
+    	treeNodes.add(n);
+    	for(MCTSNode baby: n.getChildren()) {
+    		addNodes(baby);
+    	}
+    }
     /***
      * This method return the node with the highest value
      * @return MCTSNode next, with the node that represents our next best possible state
@@ -217,16 +230,7 @@ public class MCTSTree {
      * 
      * @return
      */
-    private int numberOfMoves() {
-    	int x=1;
-    	MCTSNode n = root;
-    	while(n.getParent()!=null) {
-    		if(n.getState().getBotTurn()) x++;
-    		n=n.getParent();
-    	}
-    	return x;
-    }
-    
+
     private int inTree(MCTSNode O){
         for(int i =0; i < treeNodes.size();i++){
             if(treeNodes.get(i).equals(O)){
@@ -234,11 +238,6 @@ public class MCTSTree {
             }
         }
         return -1;
-    }
-    
-    private void removeExcept(MCTSNode past) {
-//    	if(!past.hasChildren()) treeNodes.remove(inTree(past));
-    	for(MCTSNode p: past.getChildren()) if(p==root) removeExcept(past);
     }
 
 }
