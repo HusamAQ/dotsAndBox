@@ -16,7 +16,7 @@ public class MCTSTree {
     private ArrayList<MCTSNode> treeNodes = new ArrayList<MCTSNode>();
     private ArrayList<MCTSNode> path = new ArrayList<MCTSNode>();
     
-    private int runs=100;
+    private int runs=10000;
     private int numberOfSims=0;
 
     /***Constructor method that creates a tree from the first turn of a bot.
@@ -167,6 +167,15 @@ public class MCTSTree {
      *Method to simulate (runs) number of possible games.
      */
     public void simulateGames() {
+    	//Time limit to moves
+    	/*long start =System.nanoTime();
+    	long end=0;
+    	while((end-start)/1000000 <1000) {
+    		path = new ArrayList<MCTSNode>();
+    		selection();
+    		end=System.nanoTime();
+    	}*/
+    	//number limit to simulations
     	for(int i=0; i<runs; i++) {
     		path = new ArrayList<MCTSNode>();
     		selection();
