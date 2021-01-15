@@ -4,12 +4,30 @@ package game;
 import javax.swing.*;
 
 import MCTS.MCTSTree;
+import minMax.MinMax;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Graph {
+
+    public static int minMaxNodesExpansion=100000;
+
+    public static boolean GASim=false;
+
+    public static void setSims(int sims) {
+        Graph.sims = sims;
+    }
+
+    public static int sims;
+
+    static boolean bothMinMax=false;
+    // public static int minMaxDepth = 5;
+    public static int actualMinMaxDepth;
+
+    static MinMax t = new MinMax();
+
     public static boolean isPlayerPlays() {
         return playerPlays;
     }
@@ -54,7 +72,7 @@ public class Graph {
         return sleep;
     }
 
-    private static int sleep = 0;
+    public static int sleep = 0;
     static boolean allWaysReplay=false;
     //Make sure to use the variables bellow in order for everything to work with the GUI
     //DeepQ boolean
@@ -188,6 +206,19 @@ public class Graph {
         width=w;
         frame=screen;
     }
+
+    public static void setRandBotPlayer1(boolean b) {
+        randBotPlayer1=b;
+    }
+
+    public static void setAllWaysReplay(boolean b) {
+        allWaysReplay=b;
+    }
+
+    public static void setT(MinMax q) {
+        t=q;
+    }
+
     // Sets up the game
     public void createGraph() throws IOException {
         numOfMoves=1;
