@@ -120,7 +120,7 @@ public class PlayMenu implements Menu{
 					 * 3==minimac
 					 * 4==qtable
 					 * 5==deepQ
-					 * 5==Base+
+					 * 6==Base+
 					 * 
 					 */
 					Graph.setBothPlayers(false);
