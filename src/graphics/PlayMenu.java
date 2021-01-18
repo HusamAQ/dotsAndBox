@@ -19,17 +19,17 @@ public class PlayMenu implements Menu{
 	private static Menu instance=null;
 	//Components of the Panel
 	private JPanel playMenuPanel;
-	private JButton back,play,human,bot,size1,size2,size3,custom, bMCTS, bBASE, miniMax, QTable, DeepQ;
+	private JButton back,play,human,bot,size1,size2,size3,custom, bMCTS, bBASE, miniMax, QTable, DeepQ, basePlus, playAs;
 	private JTextField player1name, player2name;
-	private JFormattedTextField boardW, boardH;
+	private JFormattedTextField boardW, boardH, nodeLimit;
 	private JCheckBox initials;
 	//reference to original frame
 	private MenuBasic base;
 	//Game Settings
 	private boolean botActive=false;
-	private boolean MCTS=false;
 	private boolean showInitials=false;
 	private boolean customSize=false;
+	private boolean playerAs1=true;
 	private int size=1;
 	private int botV=1;
 
@@ -49,6 +49,7 @@ public class PlayMenu implements Menu{
 		setUpPlayer();
 		setUpBoard();
 		setUpBots();
+		setUpPlayAs();
 		
 		add(play);
 		add(human);
@@ -68,6 +69,10 @@ public class PlayMenu implements Menu{
 		add(miniMax);
 		add(QTable);
 		add(DeepQ);
+		add(basePlus);
+		
+		add(playAs);
+		add(nodeLimit);
 	}
 	@Override
 	public JPanel getPanel() {
@@ -103,6 +108,21 @@ public class PlayMenu implements Menu{
 				}
 				
 				if(botActive) {
+					//TODO Add basebot+ and minimax node limit
+					/* nodeLimit is a Formatted text field, make sure the number isnt negative because it can accept any integer (positive or negative)
+					 * 
+					 * playerAs1 is a boolean to indicate if the human is playing as player 1 (true) or player 2(False) for deepQ and QTable its automatically set to player2
+					 *In case of human vs human it doesnt matter
+					 * 
+					 * botV
+					 * 1==basebot
+					 * 2==mcts
+					 * 3==minimac
+					 * 4==qtable
+					 * 5==deepQ
+					 * 5==Base+
+					 * 
+					 */
 					Graph.setBothPlayers(false);
 					Graph.setPlayerisP1(false);
 					if(botV==2) {
@@ -129,7 +149,6 @@ public class PlayMenu implements Menu{
 						Graph.setQTable(false);
 					}
 					else if(botV==4) {
-						// TODO set this to be QTable
 						Graph.setActivateRandom(false);
 						Graph.setMCTS(false);
 						Graph.setMiniMax(false);
@@ -173,8 +192,8 @@ public class PlayMenu implements Menu{
 		human=Button(Paths.BUTTON_HUMAN_SELECTED);
 		bot=Button(Paths.BUTTON_BOT);
 		
-		bot.setLocation(336,128);
-		human.setLocation(164,128);
+		bot.setLocation(336,128-55);
+		human.setLocation(164,128-55);
 		bot.addActionListener(new ActionListener(){ public void actionPerformed(ActionEvent e){
 			botActive=true;
 			setIcon(bot, Paths.BUTTON_BOT_SELECTED);
@@ -184,6 +203,11 @@ public class PlayMenu implements Menu{
 			
 			setIcon(bBASE, Paths.BUTTON_BASE_SELECTED);
 			setIcon(bMCTS, Paths.BUTTON_MCTS);
+			setIcon(miniMax, Paths.BUTTON_MIN);
+			setIcon(QTable, Paths.BUTTON_QTABLE);
+			setIcon(DeepQ, Paths.BUTTON_DEEPQ);
+			setIcon(basePlus, Paths.BUTTON_BASE_PLUS);
+			nodeLimit.setEditable(false);
 		}});
 		human.addActionListener(new ActionListener(){ public void actionPerformed(ActionEvent e){
 			botActive=false;
@@ -192,8 +216,15 @@ public class PlayMenu implements Menu{
 			player2name.setEditable(true);
 			player2name.setText("Player 2");
 			
+			setActiveSize(1);
+			
 			setIcon(bBASE, Paths.BUTTON_BASE);
 			setIcon(bMCTS, Paths.BUTTON_MCTS);
+			setIcon(miniMax, Paths.BUTTON_MIN);
+			setIcon(QTable, Paths.BUTTON_QTABLE);
+			setIcon(DeepQ, Paths.BUTTON_DEEPQ);
+			setIcon(basePlus, Paths.BUTTON_BASE_PLUS);
+			nodeLimit.setEditable(false);
 		}});
 		
 		player1name=new JTextField("Player 1");
@@ -202,12 +233,12 @@ public class PlayMenu implements Menu{
 		player1name.setSize(Paths.BUTTONS_WIDTH_PLAY,30);
 		player2name.setSize(Paths.BUTTONS_WIDTH_PLAY,30);
 
-		player1name.setLocation(178,202);
-		player2name.setLocation(178,255);
+		player1name.setLocation(178,202-55);
+		player2name.setLocation(178,255-55);
 		
 		initials= new JCheckBox();
 		initials.setSize(30, 30);
-		initials.setLocation(178,302);
+		initials.setLocation(178,302-55);
 		initials.setOpaque(false);
 		initials.addItemListener(new ItemListener() {public void itemStateChanged(ItemEvent e) {showInitials=!showInitials;
 		Graph.setInitials(showInitials);}});
@@ -219,13 +250,15 @@ public class PlayMenu implements Menu{
 		miniMax=Button(Paths.BUTTON_MIN);
 		DeepQ=Button(Paths.BUTTON_DEEPQ);
 		QTable=Button(Paths.BUTTON_QTABLE);
+		basePlus = Button(Paths.BUTTON_BASE_PLUS);
 		
-		bBASE.setLocation(323,445);
-		bMCTS.setLocation(164,445);
-		miniMax.setLocation(475,445);
+		bBASE.setLocation(323,445-55);
+		bMCTS.setLocation(164,445-55);
+		miniMax.setLocation(475,445-55);
 		
-		QTable.setLocation(323,495);
-		DeepQ.setLocation(164,495);
+		QTable.setLocation(323,495-55);
+		DeepQ.setLocation(164,495-55);
+		basePlus.setLocation(479,495-55);
 		
 		bBASE.addActionListener(new ActionListener(){ public void actionPerformed(ActionEvent e){
 			setIcon(bBASE, Paths.BUTTON_BASE_SELECTED);
@@ -233,6 +266,7 @@ public class PlayMenu implements Menu{
 			setIcon(miniMax, Paths.BUTTON_MIN);
 			setIcon(QTable, Paths.BUTTON_QTABLE);
 			setIcon(DeepQ, Paths.BUTTON_DEEPQ);
+			setIcon(basePlus, Paths.BUTTON_BASE_PLUS);
 			
 			botActive=true;
 			botV=1;
@@ -242,15 +276,17 @@ public class PlayMenu implements Menu{
 			player2name.setText("BaseBot");
 			
 			player1name.setEditable(true);
-			player1name.setText("Player1");
+			player1name.setText("Player");
 			
 			setActiveSize(1);
+			nodeLimit.setEditable(false);
 		}});
 		bMCTS.addActionListener(new ActionListener(){ public void actionPerformed(ActionEvent e){
 			setIcon(bBASE, Paths.BUTTON_BASE);
 			setIcon(bMCTS, Paths.BUTTON_MCTS_SELECTED);
 			setIcon(QTable, Paths.BUTTON_QTABLE);
 			setIcon(DeepQ, Paths.BUTTON_DEEPQ);
+			setIcon(basePlus, Paths.BUTTON_BASE_PLUS);
 			
 			botActive=true;
 			botV=2;
@@ -261,15 +297,17 @@ public class PlayMenu implements Menu{
 			player2name.setText("MCTS");
 			
 			player1name.setEditable(true);
-			player1name.setText("Player1");
+			player1name.setText("Player");
 			
 			setActiveSize(1);
+			nodeLimit.setEditable(false);
 		}});
 		miniMax.addActionListener(new ActionListener(){ public void actionPerformed(ActionEvent e){
 			setIcon(bBASE, Paths.BUTTON_BASE);
 			setIcon(bMCTS, Paths.BUTTON_MCTS);
 			setIcon(QTable, Paths.BUTTON_QTABLE);
 			setIcon(DeepQ, Paths.BUTTON_DEEPQ);
+			setIcon(basePlus, Paths.BUTTON_BASE_PLUS);
 			
 			botActive=true;
 			botV=3;
@@ -280,9 +318,10 @@ public class PlayMenu implements Menu{
 			player2name.setText("MiniMax");
 			
 			player1name.setEditable(true);
-			player1name.setText("Player1");
-			
+			player1name.setText("Player");
+			 
 			setActiveSize(1);
+			nodeLimit.setEditable(true);
 		}});
 		QTable.addActionListener(new ActionListener(){ public void actionPerformed(ActionEvent e){
 			setIcon(bBASE, Paths.BUTTON_BASE);
@@ -290,6 +329,7 @@ public class PlayMenu implements Menu{
 			setIcon(miniMax, Paths.BUTTON_MIN);
 			setIcon(QTable, Paths.BUTTON_QTABLE_SELECTED);
 			setIcon(DeepQ, Paths.BUTTON_DEEPQ);
+			setIcon(basePlus, Paths.BUTTON_BASE_PLUS);
 			
 			botActive=true;
 			botV=4;
@@ -299,15 +339,19 @@ public class PlayMenu implements Menu{
 			player1name.setText("QTable");
 			
 			player2name.setEditable(true);
-			player2name.setText("Player2");
+			player2name.setText("Player");
 			
 			setActiveSize(4);
 			
 			boardW.setValue(3);
 			boardH.setValue(3);
 			
+			setPlayerAs(false);
+			
 			boardW.setEditable(false);
 			boardH.setEditable(false);
+			
+			nodeLimit.setEditable(false);
 		}});
 		DeepQ.addActionListener(new ActionListener(){ public void actionPerformed(ActionEvent e){
 			setIcon(bBASE, Paths.BUTTON_BASE);
@@ -315,6 +359,7 @@ public class PlayMenu implements Menu{
 			setIcon(miniMax, Paths.BUTTON_MIN);
 			setIcon(QTable, Paths.BUTTON_QTABLE);
 			setIcon(DeepQ, Paths.BUTTON_DEEPQ_SELECTED);
+			setIcon(basePlus, Paths.BUTTON_BASE_PLUS);
 			
 			botActive=true;
 			botV=5;
@@ -324,18 +369,94 @@ public class PlayMenu implements Menu{
 			player1name.setText("DeepQ");
 			
 			player2name.setEditable(true);
-			player2name.setText("Player2");
+			player2name.setText("Player");
 			
 			setActiveSize(4);
 			
 			boardW.setValue(3);
 			boardH.setValue(4);
 			
+			setPlayerAs(false);
+			
 			boardW.setEditable(false);
 			boardH.setEditable(false);
+			
+			nodeLimit.setEditable(false);
 		}});
+		basePlus.addActionListener(new ActionListener(){ public void actionPerformed(ActionEvent e){
+			setIcon(bBASE, Paths.BUTTON_BASE);
+			setIcon(bMCTS, Paths.BUTTON_MCTS);
+			setIcon(miniMax, Paths.BUTTON_MIN);
+			setIcon(QTable, Paths.BUTTON_QTABLE);
+			setIcon(DeepQ, Paths.BUTTON_DEEPQ);
+			setIcon(basePlus, Paths.BUTTON_BASE_PLUS_SELECTED);
+			
+			botActive=true;
+			botV=6;
+			setIcon(bot, Paths.BUTTON_BOT_SELECTED);
+			setIcon(human, Paths.BUTTON_HUMAN);
+			player2name.setEditable(false);
+			player2name.setText("BaseBot+");
+			
+			player1name.setEditable(true);
+			player1name.setText("Player");
+			
+			setActiveSize(1);
+			
+			nodeLimit.setEditable(false);
+		}});
+		
 	}
 	
+	private void setUpPlayAs() {
+		playAs=Button(Paths.BUTTON_PLAYER1);
+		
+		playAs.setLocation(164,500);
+		playAs.addActionListener(new ActionListener(){ public void actionPerformed(ActionEvent e){
+			if(botActive) {
+				if(botV==4 || botV==5) {
+					setPlayerAs(false);
+				}
+				else {
+					setPlayerAs(!playerAs1);
+				}
+			}
+		}});
+		
+		nodeLimit= new JFormattedTextField(new NumberFormatter(new DecimalFormat("##;")));
+		
+		nodeLimit.setValue(1000);
+		nodeLimit.setLocation(450,510);
+		nodeLimit.setSize(100, 40);
+		nodeLimit.setEditable(false);
+		
+	}
+	
+	private void setPlayerAs(boolean player1) {
+		if(player1==playerAs1) return;
+		
+		if(player1) {
+			setIcon(playAs, Paths.BUTTON_PLAYER1);
+			String temp=this.player2name.getText();
+			player2name.setText(player1name.getText());
+			player1name.setText(temp);
+			
+			player1name.setEditable(true);
+			player2name.setEditable(false);
+			
+		}
+		else {
+			setIcon(playAs, Paths.BUTTON_PLAYER2);
+			String temp=this.player2name.getText();
+			player2name.setText(player1name.getText());
+			player1name.setText(temp);
+			
+			player2name.setEditable(true);
+			player1name.setEditable(false);
+		}
+		
+		playerAs1=player1;
+	}
 //Sets up the board options
 	private void setUpBoard(){
 		size1=Button(Paths.BUTTON_SIZE1_SELECTED);
@@ -343,21 +464,21 @@ public class PlayMenu implements Menu{
 		size3=Button(Paths.BUTTON_SIZE3);
 		custom=Button(Paths.BUTTON_CUSTOM);
 		
-		size1.setLocation(164,339);
-		size2.setLocation(323,339);
-		size3.setLocation(475,339);
-		custom.setLocation(164,389);
+		size1.setLocation(164,339-55);
+		size2.setLocation(323,339-55);
+		size3.setLocation(475,339-55);
+		custom.setLocation(164,389-55);
 		
 		boardW= new JFormattedTextField(new NumberFormatter(new DecimalFormat("##;")));
 		boardH= new JFormattedTextField(new NumberFormatter(new DecimalFormat("##;")));
 		boardW.setValue(5);
 		boardH.setValue(5);
 		
-		boardW.setLocation(365, 400);
+		boardW.setLocation(365, 400-55);
 		boardW.setSize(40, 40);
 		boardW.setEditable(false);
 		
-		boardH.setLocation(440, 400);
+		boardH.setLocation(440, 400-55);
 		boardH.setSize(40, 40);
 		boardH.setEditable(false);
 		
@@ -392,7 +513,7 @@ public class PlayMenu implements Menu{
 			setIcon(size3, Paths.BUTTON_SIZE3);
 			break;
 		case 4:
-			if(botV==4 || botV==5) {
+			if(botActive && (botV==4 || botV==5)) {
 				setIcon(custom, Paths.BUTTON_CUSTOM);
 				setIcon(bBASE, Paths.BUTTON_BASE);
 				setIcon(bMCTS, Paths.BUTTON_MCTS_SELECTED);
@@ -409,6 +530,12 @@ public class PlayMenu implements Menu{
 				
 				player1name.setEditable(true);
 				player1name.setText("Player1");
+			}
+			else {
+				setIcon(custom, Paths.BUTTON_CUSTOM);
+				boardW.setEditable(false);
+				boardH.setEditable(false);
+				break;
 			}
 			break;
 		}
