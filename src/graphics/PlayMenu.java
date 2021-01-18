@@ -147,6 +147,7 @@ public class PlayMenu implements Menu{
 						Graph.setMiniMax(true);
 						Graph.setDeepQ(false);
 						Graph.setQTable(false);
+						//TODO add NODE LIMIT 
 					}
 					else if(botV==4) {
 						Graph.setActivateRandom(false);
@@ -161,6 +162,15 @@ public class PlayMenu implements Menu{
 						Graph.setMiniMax(false);
 						Graph.setDeepQ(true);
 						Graph.setQTable(false);
+					}
+					else if(botV==6) {
+						Graph.setActivateRandom(false);
+						Graph.setMCTS(false);
+						Graph.setMiniMax(false);
+						Graph.setDeepQ(false);
+						Graph.setQTable(false);
+						
+					//TODO Add basebot+ set true
 					}
 					
 				}
