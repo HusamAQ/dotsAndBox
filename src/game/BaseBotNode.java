@@ -1,14 +1,12 @@
-package minMax;
+package game;
 
-import game.ELine;
-import game.Graph;
-import game.Vertex;
+import minMax.boxType;
 
 import java.util.ArrayList;
 
 
-public class Node {
-    public void setParent(Node parent) {
+public class BaseBotNode {
+    public void setParent(BaseBotNode parent) {
         this.parent = parent;
     }
 
@@ -21,7 +19,7 @@ public class Node {
     }
 
     int depth;
-    Node parent;
+    BaseBotNode parent;
     int[][] matrix;
     int botScore;
     int oScore;
@@ -29,10 +27,10 @@ public class Node {
     boolean botTurn;
     boolean terminal;
     boolean bonusTurn;
-    boolean doubleCross;
     public ELine move;
+    boolean doubleCross;
 
-    Node dummyTurn;
+    BaseBotNode dummyTurn;
 
 
 
@@ -59,47 +57,44 @@ public class Node {
 
         return toReturn;
     }
-    double evaluation(){
-        double a = botScore-oScore;
-        int numberOfChains = numberOfChains();
-        double b;
-        if(numberOfChains==0){
-            b=0;
-        }else{
-            if((Graph.getHeight()*Graph.getWidth()%2!=0&&Graph.isMiniMaxP1())||(Graph.getHeight()*Graph.getWidth()%2==0&&!Graph.isMiniMaxP1())){
-                if(numberOfChains%2!=0){
-                    b=1;
-                }else{
-                    b=-1;
-                }
-            }else{
-                if(numberOfChains%2==0){
-                    b=1;
-                }else{
-                    b=-1;
-                }
-            }
-        }
+    public double evaluation(){
+        double a = 0;
+        double b=0;
         int numberOfLongChains = numberOfLongChains()-numberOfLongLoops();
         double d;
         if(numberOfLongChains==0){
             d=0;
         }else{
             if((Graph.getHeight()*Graph.getWidth()%2!=0&&Graph.isMiniMaxP1())||(Graph.getHeight()*Graph.getWidth()%2==0&&!Graph.isMiniMaxP1())){
-                if(numberOfLongChains%2!=0){
-                    d=1;
+                if(!doubleCross) {
+                    if (numberOfLongChains % 2 != 0) {
+                        d = 1;
+                    } else {
+                        d = -1;
+                    }
                 }else{
-                    d=-1;
+                    if (numberOfLongChains % 2 == 0) {
+                        d = 1;
+                    } else {
+                        d = -1;
+                    }
                 }
             }else{
-                if(numberOfLongChains%2==0){
-                    d=1;
+                if(!doubleCross) {
+                    if (numberOfLongChains % 2 == 0) {
+                        d = 1;
+                    } else {
+                        d = -1;
+                    }
                 }else{
-                    d=-1;
+                    if (numberOfLongChains % 2 != 0) {
+                        d = 1;
+                    } else {
+                        d = -1;
+                    }
                 }
             }
         }
-
         double c;
         ArrayList<ELine> checksFor3s = checkFor3s();
         int checkFor3sSize = checksFor3s.size();
@@ -109,27 +104,129 @@ public class Node {
             c=0;
         }
         double e = 0;
-        if(availLines.size()==0){
-            if(botScore>oScore){
-                e=1;
-            }else{
-                if(botScore<oScore){
-                    e=-1;
-                }else{
-                    if(botScore==oScore){
-                        e=-0.1;
+        double a1 = 1;
+        double b1 = 0;
+        double c1 = -2.5;
+        double d1 = 0.5;
+        double e1 = 0;
+        double v = a1 * a + b1 * b + c1 * c+ d1*d+ e1*e;
+        int box = getBox();
+        if(box==0&&!parent.checkFor3s().contains(move)){
+            v=v-2;
+        }
+        v+=box;
+        if(checkFor3sSize==0&&isShortestChain()){
+            v+=2;
+        }
+        return v;
+    }
+    public int getBox(){
+        ArrayList<ArrayList<Vertex>> temp = checkBox(move,matrix);
+        if(temp!=null) {
+            return temp.size();
+        }
+        return 0;
+    }
+    public boolean isShortestChain(){
+        // double cross: if there's a longer chain available;
+        matrix=parent.matrix;
+        visited= new ArrayList<>();
+        for(int i=0;i<Graph.getHeight()-1;i++){
+            ArrayList<Boolean> row = new ArrayList<>();
+            for(int w=0;w<Graph.getWidth()-1;w++){
+                row.add(false);
+            }
+            visited.add(row);
+        }
+        int w = move.getVertices().get(0).id%Graph.getWidth();
+        int i = move.getVertices().get(1).id/Graph.getWidth();
+        if(i==Graph.getHeight()-1){
+            i--;
+        }
+        if(w==Graph.getWidth()-1){
+            w--;
+        }
+        int num=Integer.MAX_VALUE;
+        int top = matrix[(i * Graph.getWidth()) + w][(i * Graph.getWidth()) + w + 1];
+        int left = matrix[(i * Graph.getWidth()) + w][((i + 1) * Graph.getWidth()) + w];
+        int right = matrix[(i * Graph.getWidth()) + w + 1][((i + 1) * Graph.getWidth()) + w + 1];
+        int bottom = matrix[((i + 1) * Graph.getWidth()) + w][((i + 1) * Graph.getWidth()) + w + 1];
+        //sideways
+        if (top == 2 && bottom == 2 && left == 1 && right == 1) {
+            num=countNumBoxesInChain(i, w, 1, boxType.sideways, visited);
+        }
+        //bottomleft
+        if (left == 2 && bottom == 2 && right == 1 && top == 1) {
+            num=countNumBoxesInChain(i, w, 1, boxType.bottomleft, visited);
+
+        }
+        //topleft
+        if (top == 2 && left == 2 && bottom == 1 && right == 1) {
+            num=countNumBoxesInChain(i, w, 1, boxType.topleft, visited);
+
+        }
+        //bottomright
+        if (left == 1 && bottom == 2 && right == 2 && top == 1) {
+            num=countNumBoxesInChain(i, w, 1, boxType.bottomright, visited);
+
+        }
+        //topright
+        if (top == 2 && left == 1 && bottom == 1 && right == 2) {
+            num=countNumBoxesInChain(i, w, 1, boxType.topright, visited);
+
+        }
+        //longways
+        if (top == 1 && bottom == 1 && left == 2 && right == 2) {
+            num=countNumBoxesInChain(i, w, 1, boxType.longways, visited);
+
+        }
+        for(i=0;i<Graph.getHeight()-1;i++) {
+            for (w = 0; w < Graph.getWidth() - 1; w++) {
+                if (!visited.get(i).get(w)) {
+                    top = matrix[(i * Graph.getWidth()) + w][(i * Graph.getWidth()) + w + 1];
+                    left = matrix[(i * Graph.getWidth()) + w][((i + 1) * Graph.getWidth()) + w];
+                    right = matrix[(i * Graph.getWidth()) + w + 1][((i + 1) * Graph.getWidth()) + w + 1];
+                    bottom = matrix[((i + 1) * Graph.getWidth()) + w][((i + 1) * Graph.getWidth()) + w + 1];
+                    //sideways
+                    if (top == 2 && bottom == 2 && left == 1 && right == 1) {
+                        if (countNumBoxesInChain(i, w, 1, boxType.sideways, visited) < num) {
+                            return false;
+                        }
+                    }
+                    //bottomleft
+                    if (left == 2 && bottom == 2 && right == 1 && top == 1) {
+                        if (countNumBoxesInChain(i, w, 1, boxType.bottomleft, visited) < num) {
+                            return false;
+                        }
+                    }
+                    //topleft
+                    if (top == 2 && left == 2 && bottom == 1 && right == 1) {
+                        if (countNumBoxesInChain(i, w, 1, boxType.topleft, visited) < num) {
+                            return false;
+                        }
+                    }
+                    //bottomright
+                    if (left == 1 && bottom == 2 && right == 2 && top == 1) {
+                        if (countNumBoxesInChain(i, w, 1, boxType.bottomright, visited) < num) {
+                            return false;
+                        }
+                    }
+                    //topright
+                    if (top == 2 && left == 1 && bottom == 1 && right == 2) {
+                        if (countNumBoxesInChain(i, w, 1, boxType.topright, visited) < num) {
+                            return false;
+                        }
+                    }
+                    //longways
+                    if (top == 1 && bottom == 1 && left == 2 && right == 2) {
+                        if (countNumBoxesInChain(i, w, 1, boxType.longways, visited) < num) {
+                            return false;
+                        }
                     }
                 }
             }
         }
-        // multipliers
-        double a1 = MinMax.a;
-        double b1 = MinMax.b;
-        double c1 = MinMax.c;
-        double d1 = MinMax.d;
-        double e1 = MinMax.e;
-        double v = a1 * a + b1 * b + c1 * c+ d1*d+ e1*e;
-        return v;
+        return true;
     }
     public boolean isLongerChainAvailable(){
         // double cross: if there's a longer chain available;
@@ -251,7 +348,6 @@ public class Node {
                     if(left==1&&bottom==2&&right==2&&top==1){
                         int d = countNumBoxesInLoop(i,w,1,boxType.bottomright,loopVisited,true);
                         if(d>=4){
-                            System.out.println("YYYYYYYYYYYYYYY");
                             count++;
                         }
 
@@ -278,6 +374,7 @@ public class Node {
         }
         return count;
     }
+
     public int countNumBoxesInLoop(int h,int w,int num, boxType type,ArrayList<ArrayList<Integer>> visited,boolean first){
         if(first) {
             visited.get(h).set(w, 2);
@@ -782,64 +879,7 @@ public class Node {
     }
 
     static ArrayList<ArrayList<Boolean>> visited;
-    public int numberOfChains(){
-        visited= new ArrayList<>();
-        for(int i=0;i<Graph.getHeight()-1;i++){
-            ArrayList<Boolean> row = new ArrayList<>();
-            for(int w=0;w<Graph.getWidth()-1;w++){
-                row.add(false);
-            }
-            visited.add(row);
-        }
-        int count=0;
-        for(int i=0;i<Graph.getHeight()-1;i++){
-            for(int w=0;w<Graph.getWidth()-1;w++){
-                if(!visited.get(i).get(w)){
-                    int top = matrix[(i*Graph.getWidth())+w][(i*Graph.getWidth())+w+1];
-                    int left = matrix[(i*Graph.getWidth())+w][((i+1)*Graph.getWidth())+w];
-                    int right = matrix[(i*Graph.getWidth())+w+1][((i+1)*Graph.getWidth())+w+1];
-                    int bottom = matrix[((i+1)*Graph.getWidth())+w][((i+1)*Graph.getWidth())+w+1];
-                    //sideways
-                    if(top==2&&bottom==2&&left==1&&right==1){
-                        if(countNumBoxesInChain(i,w,1,boxType.sideways,visited)>=1){
-                            count++;
-                        }
-                    }
-                    //bottomleft
-                    if(left==2&&bottom==2&&right==1&&top==1){
-                        if(countNumBoxesInChain(i,w,1,boxType.bottomleft,visited)>=1){
-                            count++;
-                        }
-                    }
-                    //topleft
-                    if(top==2&&left==2&&bottom==1&&right==1){
-                        if(countNumBoxesInChain(i,w,1,boxType.topleft,visited)>=1){
-                            count++;
-                        }
-                    }
-                    //bottomright
-                    if(left==1&&bottom==2&&right==2&&top==1){
-                        if(countNumBoxesInChain(i,w,1,boxType.bottomright,visited)>=1){
-                            count++;
-                        }
-                    }
-                    //topright
-                    if(top==2&&left==1&&bottom==1&&right==2){
-                        if(countNumBoxesInChain(i,w,1,boxType.topright,visited)>=1){
-                            count++;
-                        }
-                    }
-                    //longways
-                    if (top == 1 && bottom == 1 && left == 2 && right == 2) {
-                        if(countNumBoxesInChain(i,w,1,boxType.longways,visited)>=1){
-                            count++;
-                        }
-                    }
-                }
-            }
-        }
-        return count;
-    }
+
     public int numberOfLongChains(){
         visited= new ArrayList<>();
         for(int i=0;i<Graph.getHeight()-1;i++){
@@ -1182,7 +1222,7 @@ public class Node {
     }
 
 
-    public Node(int[][] m, int bs, int os, ArrayList<ELine> av, boolean p1T, boolean bonusTurn, boolean t, ELine move, boolean dc){
+    public BaseBotNode(int[][] m, int bs, int os, ArrayList<ELine> av, boolean p1T, boolean bonusTurn, boolean t, ELine move, boolean doubleCross){
         matrix=m;
         botScore=bs;
         oScore=os;
@@ -1192,9 +1232,9 @@ public class Node {
         this.bonusTurn=bonusTurn;
         this.move=move;
         dummyTurn=null;
-        this.doubleCross =dc;
+        this.doubleCross=doubleCross;
     }
-    public Node(Node dummy){
+    public BaseBotNode(BaseBotNode dummy){
         this.dummyTurn=dummy;
         botTurn=!dummyTurn.botTurn;
         matrix=dummyTurn.matrix;
@@ -1204,7 +1244,7 @@ public class Node {
         terminal=false;
         bonusTurn=false;
         move=dummyTurn.move;
-        this.doubleCross=false;
+        doubleCross=false;
     }
 
     public static int[][] matrixCopy(int[][] m) {
@@ -1224,11 +1264,11 @@ public class Node {
         return temp;
     }
 
-    Node performMove(ELine line) {
+    public BaseBotNode performMove(ELine line) {
         int score = botScore;
         int oScore = this.oScore;
         boolean turn;
-        boolean doublecros = this.doubleCross;
+        boolean doubleCros=this.doubleCross;
         ArrayList<ELine> cp = avCopy(availLines);
         ArrayList<ELine> al = availCheck(cp,line);
         int[][] newMatrix = matrixCopy(matrix);
@@ -1238,7 +1278,7 @@ public class Node {
         boolean bonTurn = false;
         if (boxes != null) {
             if(boxes.size()>1){
-                doublecros=!doublecros;
+                doubleCros=!doubleCros;
             }
             bonTurn=true;
             for (ArrayList<Vertex> box : boxes) {
@@ -1255,9 +1295,9 @@ public class Node {
             turn = this.botTurn;
         }
         if(al.size()==0){
-            return new Node(newMatrix,score,oScore,al,turn,bonTurn,true,line,doublecros);
+            return new BaseBotNode(newMatrix,score,oScore,al,turn,bonTurn,true,line,doubleCros);
         }
-        return new Node(newMatrix,score,oScore,al,turn,bonTurn,false,line,doublecros);
+        return new BaseBotNode(newMatrix,score,oScore,al,turn,bonTurn,false,line,doubleCros);
     }
 
     public ArrayList<ArrayList<Vertex>> checkBox(ELine line, int[][] GState) {

@@ -9,7 +9,6 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 
 import static game.Graph.*;
-import static game.Graph.t;
 
 public class GameThread extends Thread{
     static int minMaxCounter=0;
@@ -35,48 +34,20 @@ public class GameThread extends Thread{
                     Graph.getRandomBot().placeRandomEdge();
 //                    Graph.getMCTS().placeEdge();
                 }
+                if(isBaseBotPlusOn()&& isBaseBotP1()==Graph.getPlayer1Turn()){
+                    long start =System.nanoTime();
+                    Graph.baseB.getEdge();
+                    long stop = System.nanoTime();
+                    //   System.out.println("B: "+((stop-start)/1000000));
+                }
                 if(bothMinMax){
                     long start =System.nanoTime();
-                    Node state;
-                    if(player1Turn){
-                        state = new Node(Node.matrixCopy(Graph.getMatrix()), Graph.getPlayer1Score(), Graph.getPlayer2Score(), Node.avCopy(Graph.getAvailableLines()), true, false, false, null);
-                    }else{
-                        state = new Node(Node.matrixCopy(Graph.getMatrix()), Graph.getPlayer2Score(), Graph.getPlayer1Score(), Node.avCopy(Graph.getAvailableLines()), true, false, false, null);
-                    }
-                    int minMaxDepth;
-                    if(availableLines.size()<20){
-                        minMaxDepth=Math.max(availableLines.size(),10);
-                    }else{
-                        minMaxDepth=10;
-                    }
-                    boolean contin=true;
-                    long minMaxExpansion;
-                    if(minMaxCounter<3){
-                        minMaxExpansion=(minMaxNodesExpansion/(12/(minMaxCounter*2)));
-                    }else {
-                        minMaxExpansion = minMaxNodesExpansion;
-                    }
-                    while(contin){
-                        minMaxDepth--;
-                        BigInteger num = factorial(BigInteger.valueOf(availableLines.size())).divide(factorial(BigInteger.valueOf(availableLines.size()-minMaxDepth)));
-                        // System.out.println("MinMaxNodes: "+minMaxDepth+" NUM: "+num+" < "+ minMaxNodesExpansion);
-                        if(num.compareTo(BigInteger.valueOf(minMaxExpansion))==-1){
-                            contin=false;
-                        }
-                    }
-                    actualMinMaxDepth=minMaxDepth;
-                    placeEdge(t.alphaBeta(state, minMaxDepth, -1000000, 1000000, true).move);
-                    long stop = System.nanoTime();
-                    System.out.println("MM: "+((stop-start)/1000000));
-                }
-                if(Graph.isMiniMax()&&Graph.isMiniMaxP1()== player1Turn){
                     minMaxCounter++;
-                    long start =System.nanoTime();
                     Node state;
                     if(Graph.isMiniMaxP1()) {
-                        state = new Node(Node.matrixCopy(Graph.getMatrix()), Graph.getPlayer1Score(), Graph.getPlayer2Score(), Node.avCopy(Graph.getAvailableLines()), true, false, false, null);
+                        state = new Node(Node.matrixCopy(Graph.getMatrix()), Graph.getPlayer1Score(), Graph.getPlayer2Score(), Node.avCopy(Graph.getAvailableLines()), true, false, false, null,doubleCross);
                     }else{
-                        state = new Node(Node.matrixCopy(Graph.getMatrix()), Graph.getPlayer2Score(), Graph.getPlayer1Score(), Node.avCopy(Graph.getAvailableLines()), true, false, false, null);
+                        state = new Node(Node.matrixCopy(Graph.getMatrix()), Graph.getPlayer2Score(), Graph.getPlayer1Score(), Node.avCopy(Graph.getAvailableLines()), true, false, false, null,doubleCross);
                     }
                     // placeEdge(t.minMaxFunction(state,3,true).move);
                     int minMaxDepth;
@@ -101,7 +72,44 @@ public class GameThread extends Thread{
                         }
                     }
                     actualMinMaxDepth=minMaxDepth;
-                    //    System.out.println("minMaxDepth: "+minMaxDepth);
+                    //System.out.println("minMaxDepth: "+minMaxDepth);
+                    placeEdge(t.alphaBeta(state, minMaxDepth, -1000000, 1000000, true).move);
+                    long stop = System.nanoTime();
+                    System.out.println("MM: "+((stop-start)/1000000));
+                }
+                if(Graph.isMiniMax()&&Graph.isMiniMaxP1()== player1Turn){
+                    minMaxCounter++;
+                    long start =System.nanoTime();
+                    Node state;
+                    if(Graph.isMiniMaxP1()) {
+                        state = new Node(Node.matrixCopy(Graph.getMatrix()), Graph.getPlayer1Score(), Graph.getPlayer2Score(), Node.avCopy(Graph.getAvailableLines()), true, false, false, null,doubleCross);
+                    }else{
+                        state = new Node(Node.matrixCopy(Graph.getMatrix()), Graph.getPlayer2Score(), Graph.getPlayer1Score(), Node.avCopy(Graph.getAvailableLines()), true, false, false, null,doubleCross);
+                    }
+                    // placeEdge(t.minMaxFunction(state,3,true).move);
+                    int minMaxDepth;
+                    if(availableLines.size()<20){
+                        minMaxDepth=Math.max(availableLines.size(),10);
+                    }else{
+                        minMaxDepth=10;
+                    }
+                    boolean contin=true;
+                    long minMaxExpansion;
+                    if(minMaxCounter<3){
+                        minMaxExpansion=(minMaxNodesExpansion/(12/(minMaxCounter*2)));
+                    }else {
+                        minMaxExpansion = minMaxNodesExpansion;
+                    }
+                    while(contin){
+                        minMaxDepth--;
+                        BigInteger num = factorial(BigInteger.valueOf(availableLines.size())).divide(factorial(BigInteger.valueOf(availableLines.size()-minMaxDepth)));
+                        // System.out.println("MinMaxNodes: "+minMaxDepth+" NUM: "+num+" < "+ minMaxNodesExpansion);
+                        if(num.compareTo(BigInteger.valueOf(minMaxExpansion))==-1){
+                            contin=false;
+                        }
+                    }
+                    actualMinMaxDepth=minMaxDepth;
+                    System.out.println("minMaxDepth: "+minMaxDepth);
                     placeEdge(t.alphaBeta(state, minMaxDepth, -1000000, 1000000, true).move);
                     MinMax.counter =0;
                     long stop = System.nanoTime();
@@ -169,6 +177,9 @@ public class GameThread extends Thread{
         // gets an arrayList of each box the ELine creates. The box is an arrayList of 4 vertices.
         ArrayList<ArrayList<Vertex>> boxes = checkBox(line);
         if (boxes != null) {
+            if(boxes.size()>1){
+                doubleCross=!doubleCross;
+            }
             for (ArrayList<Vertex> box : boxes) {
                 // looks through the counterBoxes arrayList and sets the matching one visible.
                 checkMatching(box);
@@ -200,6 +211,9 @@ public class GameThread extends Thread{
         // gets an arrayList of each box the ELine creates. The box is an arrayList of 4 vertices.
         ArrayList<ArrayList<Vertex>> boxes = checkBox(line);
         if (boxes != null) {
+            if(boxes.size()>1){
+                doubleCross=!doubleCross;
+            }
             for (ArrayList<Vertex> box : boxes) {
                 // looks through the counterBoxes arrayList and sets the matching one visible.
                 checkMatching(box);

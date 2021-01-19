@@ -5,15 +5,13 @@ import game.Graph;
 
 import javax.swing.*;
 import javax.swing.text.NumberFormatter;
-
-import java.awt.Component;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 
 public class PlayMenu implements Menu{
 	private static Menu instance=null;
@@ -86,7 +84,27 @@ public class PlayMenu implements Menu{
 		play = Button(Paths.BUTTON_START);
 		play.setLocation(475,573);
 		play.addActionListener(new ActionListener(){ public void actionPerformed(ActionEvent e){
+			Graph.setPlayerPlays(true);
 			//Creates the game with the given settings
+			Graph.setPlayerisP1(playerAs1);
+			if (Graph.getActivateRandom()) {
+				Graph.setRandBotPlayer1(!playerAs1);
+			}
+			if (Graph.isMCTS()) {
+				Graph.setMCTSP1(!playerAs1);
+			}
+			if(Graph.isMiniMax()){
+				Graph.setMiniMaxP1(!playerAs1);
+				Graph.minMaxNodesExpansion=(Math.abs(Integer.parseInt(nodeLimit.getText())));
+
+			}
+			if(Graph.isBaseBotPlusOn()){
+				Graph.setBaseBotP1(!playerAs1);
+			}
+			if(customSize){
+				Graph.setWidth(Math.abs(Integer.parseInt(boardW.getText())));
+				Graph.setHeight(Math.abs(Integer.parseInt(boardH.getText())));
+			}
 			if(customSize){
 				Graph.setWidth(Math.abs(Integer.parseInt(boardW.getText())));
 				Graph.setHeight(Math.abs(Integer.parseInt(boardH.getText())));
@@ -132,6 +150,7 @@ public class PlayMenu implements Menu{
 						Graph.setDeepQ(false);
 						Graph.setQTable(false);
 						Graph.setPlayerisP1(true);
+						Graph.setIsBaseBotPlusOn(false);
 					}
 					else if(botV==1) {
 						Graph.setActivateRandom(true);
@@ -140,6 +159,7 @@ public class PlayMenu implements Menu{
 						Graph.setDeepQ(false);
 						Graph.setQTable(false);
 						Graph.setPlayerisP1(true);
+						Graph.setIsBaseBotPlusOn(false);
 					}
 					else if(botV==3) {
 						Graph.setActivateRandom(false);
@@ -147,7 +167,7 @@ public class PlayMenu implements Menu{
 						Graph.setMiniMax(true);
 						Graph.setDeepQ(false);
 						Graph.setQTable(false);
-						//TODO add NODE LIMIT 
+						Graph.setIsBaseBotPlusOn(false);
 					}
 					else if(botV==4) {
 						Graph.setActivateRandom(false);
@@ -155,6 +175,7 @@ public class PlayMenu implements Menu{
 						Graph.setMiniMax(false);
 						Graph.setDeepQ(false);
 						Graph.setQTable(true);
+						Graph.setIsBaseBotPlusOn(false);
 					}
 					else if(botV==5) {
 						Graph.setActivateRandom(false);
@@ -162,22 +183,22 @@ public class PlayMenu implements Menu{
 						Graph.setMiniMax(false);
 						Graph.setDeepQ(true);
 						Graph.setQTable(false);
+						Graph.setIsBaseBotPlusOn(false);
 					}
-					else if(botV==6) {
+					else if(botV==6){
 						Graph.setActivateRandom(false);
 						Graph.setMCTS(false);
 						Graph.setMiniMax(false);
 						Graph.setDeepQ(false);
 						Graph.setQTable(false);
-						
-					//TODO Add basebot+ set true
+						Graph.setIsBaseBotPlusOn(true);
 					}
-					
 				}
 				else {
 					Graph.setActivateRandom(false);
 					Graph.setMCTS(false);
 					Graph.setMiniMax(false);
+					Graph.setIsBaseBotPlusOn(false);
 					Graph.setBothPlayers(true);
 					Graph.setPlayerisP1(true);
 

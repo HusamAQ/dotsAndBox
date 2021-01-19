@@ -8,8 +8,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static game.Graph.availableLines;
 import static game.GameThread.clickEdge;
+import static game.Graph.availableLines;
 
 
 public class ELine extends JLabel implements Comparable, Serializable {
@@ -64,16 +64,17 @@ public class ELine extends JLabel implements Comparable, Serializable {
         setBounds(x,y,w,h);
         setOpaque(true);
         // the mouseListener
-        if(Graph.isBothPlayers()||(Graph.isPlayerPlays()&&Graph.isPlayerisP1()==Graph.player1Turn)){
-            addMouseListener(new MouseAdapter() {
+        addMouseListener(new MouseAdapter() {
                 // when the player hovers over a line it displays it in their colour
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    if (!activated) {
-                        if (Graph.getPlayer1Turn()) {
-                            setBackground(Color.RED);
-                        } else {
-                            setBackground(Color.BLUE);
+                    if(Graph.isBothPlayers()||(Graph.isPlayerPlays()&&Graph.isPlayerisP1()==Graph.player1Turn)) {
+                        if (!activated) {
+                            if (Graph.getPlayer1Turn()) {
+                                setBackground(Color.RED);
+                            } else {
+                                setBackground(Color.BLUE);
+                            }
                         }
                     }
                 }
@@ -89,28 +90,30 @@ public class ELine extends JLabel implements Comparable, Serializable {
                 @Override
                 public void mousePressed(MouseEvent e) {
                     //  if the line has not been activated before
-                    if (!activated) {
-                        int index = -1;
-                        for (int p = availableLines.size() - 1; p >= 0; p--) {
-                            if (availableLines.get(p).vertices.get(0).getID() == vertices.get(0).getID() && availableLines.get(p).vertices.get(1).getID() == vertices.get(1).getID()) {
-                                index = p;
+                    if (Graph.isBothPlayers() || (Graph.isPlayerPlays() && Graph.isPlayerisP1() == Graph.player1Turn)) {
+                        if (!activated) {
+                            int index = -1;
+                            for (int p = availableLines.size() - 1; p >= 0; p--) {
+                                if (availableLines.get(p).vertices.get(0).getID() == vertices.get(0).getID() && availableLines.get(p).vertices.get(1).getID() == vertices.get(1).getID()) {
+                                    index = p;
+                                }
                             }
-                        }
-                        if (index == -1) {
-                            for (ELine x : availableLines) {
-                                System.out.print(x.toString() + " | ");
+                            if (index == -1) {
+                                for (ELine x : availableLines) {
+                                    System.out.print(x.toString() + " | ");
+                                }
+                                System.out.println();
                             }
-                            System.out.println();
-                        }
-                        try {
-                            clickEdge(index);
-                        } catch (InterruptedException interruptedException) {
-                            interruptedException.printStackTrace();
+                            try {
+                                clickEdge(index);
+                            } catch (InterruptedException interruptedException) {
+                                interruptedException.printStackTrace();
+                            }
                         }
                     }
                 }
             });
-        }
+
     }
 
 

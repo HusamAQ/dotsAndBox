@@ -1,16 +1,37 @@
 package game;
 
 
-import javax.swing.*;
-
 import MCTS.MCTSTree;
 import minMax.MinMax;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Graph {
+    public static BaseBotPlus baseB = new BaseBotPlus();
+
+    public static boolean isBaseBotPlusOn() {
+        return isBaseBotPlusOn;
+    }
+
+    public static void setIsBaseBotPlusOn(boolean isBaseBotPlusOn) {
+        Graph.isBaseBotPlusOn = isBaseBotPlusOn;
+    }
+
+    public static boolean isBaseBotP1() {
+        return baseBotP1;
+    }
+
+    public static void setBaseBotP1(boolean baseBotP1) {
+        Graph.baseBotP1 = baseBotP1;
+    }
+
+    private static boolean isBaseBotPlusOn=false;
+    private static boolean baseBotP1=true;
+
+    public static boolean doubleCross=false;
 
     public static int minMaxNodesExpansion=100000;
 
@@ -53,7 +74,7 @@ public class Graph {
     }
 
     private static boolean playerPlays=true;
-    private static boolean playerisP1=true;
+    private static boolean playerisP1=false;
 
     private static boolean bothPlayers=false;
 
